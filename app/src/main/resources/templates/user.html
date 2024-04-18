@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Library | User</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Home Library</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Requests</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Settings
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Requests</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Add Bookshelf</a></li>
+                            <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-md-4">
+                <!-- User Avatar -->
+                <img src="user_avatar.jpg" alt="User Avatar" class="img-fluid rounded-circle">
+            </div>
+            <div class="col-md-8">
+                <!-- User Information -->
+                <h2>JohnDoe247</h2>
+                <p>Member since:
+                    <span>January 1, 2022</span>
+                </p>
+                <p><strong>Status: </strong>Currently lost in the pages of Design Patterns: Elements of Reusable
+                    Object-Oriented Software. 📚✨ Exploring new worlds, one chapter at a time. #BookwormLife
+                    #ReadingIsLife</p>
+
+            </div>
+        </div>
+        <hr>
+        <div class="row my-2">
+            <div class="col-md-12">
+                <!-- User Opinions -->
+                <h3>User Reviews</h3>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Nineteen Eighty-Four | George Orwell</h5>
+                        <div class="rating">
+                            <p>
+                                <strong>Rating: </strong>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                            </p>
+                        </div>
+                        <p class="card-text">George Orwell's Nineteen Eighty-Four is a timeless masterpiece that
+                            transcends its publication date, offering readers a chilling glimpse into a dystopian future
+                            that feels eerily plausible even today. Set in a totalitarian society ruled by the
+                            oppressive Party, the novel follows the life of Winston Smith, a disillusioned citizen who
+                            dares to question the fabricated reality imposed upon him.
+
+                            Orwell's prose is as sharp as it is thought-provoking, painting a bleak yet captivating
+                            picture of a world stripped of individuality, truth, and freedom. The themes of
+                            surveillance, propaganda, and governmental control resonate deeply, serving as stark
+                            reminders of the dangers posed by unchecked power and manipulation.
+
+                            What sets Nineteen Eighty-Four apart is its ability to provoke introspection and ignite
+                            discussions about the nature of authority, the fragility of truth, and the importance of
+                            preserving personal autonomy. As readers journey through the pages of this dystopian tale,
+                            they are confronted with uncomfortable truths and forced to confront their own perceptions
+                            of reality.
+
+                            While the novel's bleak outlook may seem daunting, it ultimately serves as a powerful call
+                            to action, urging readers to remain vigilant against encroachments on liberty and to defend
+                            the principles of democracy and individuality.
+
+                            In conclusion, Nineteen Eighty-Four is not merely a work of fiction; it is a cautionary
+                            tale, a mirror reflecting the darkest aspects of human nature, and a timeless reminder of
+                            the importance of vigilance in the face of tyranny. A must-read for anyone seeking to
+                            understand the complexities of power, control, and the enduring struggle for freedom.</p>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Animal Farm | George Orwell</h5>
+                        <div class="rating">
+                            <p>
+                                <strong>Rating: </strong>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                                <span class="star">&#9733;</span>
+                            </p>
+                        </div>
+                        <p class="card-text">George Orwell's Animal Farm stands as a poignant allegory that transcends
+                            its initial context to speak to timeless truths about power, corruption, and the human
+                            condition. Through the lens of a seemingly simple farmyard tale, Orwell delivers a profound
+                            commentary on the nature of political systems and the dynamics of power.
+
+                            The story unfolds on Manor Farm, where the animals, led by the pigs, rise up against their
+                            human oppressors and establish a utopian society based on equality and mutual respect.
+                            However, as time passes, the pigs, led by the cunning and manipulative Napoleon, gradually
+                            betray the principles of the revolution, consolidating power for their own benefit at the
+                            expense of the other animals.
+
+                            Orwell's allegory masterfully captures the complexities of political ideology and the
+                            propensity of those in power to exploit and manipulate the masses. The characters, each
+                            representing different facets of society, are richly drawn and serve as powerful symbols of
+                            human nature's capacity for both idealism and corruption.
+
+                            Animal Farm is a sobering reminder of the dangers of totalitarianism and the fragility of
+                            democratic principles. It serves as a cautionary tale, urging readers to remain vigilant
+                            against the erosion of freedom and the rise of authoritarianism.
+
+                            Through its timeless relevance and universal themes, Animal Farm continues to captivate
+                            readers of all ages, offering valuable insights into the nature of power and the struggle
+                            for justice. A classic work of literature that demands to be read and reread, Animal Farm is
+                            as relevant today as it was when it was first published.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer mt-3 py-3">
+        <div class="container">
+            <span class="text-muted">Copyright © 2024 Home Library</span>
+        </div>
+    </footer>
+
+
+    <script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
