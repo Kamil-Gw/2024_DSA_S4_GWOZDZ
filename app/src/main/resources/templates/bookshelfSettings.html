@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Library | Bookshelf Settings</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Home Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/notifications">Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Settings
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-4">
+    <h1 class="mt-5 mb-4 text-center">Bookshelf Settings</h1>
+    <!-- Create Bookshelf Form -->
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Create Bookshelf</h3>
+                    <form id="createBookshelfForm">
+                        <div class="mb-3 mx-1 row">
+                            <label for="nameInput" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="nameInput" placeholder="Enter bookshelf name" required>
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="descriptionInput" class="form-label">Description</label>
+                            <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Enter description"></textarea>
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="locationInput" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="locationInput" placeholder="Enter location">
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="phoneInput" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phoneInput" placeholder="Enter phone">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="acceptCheckbox">
+                            <label class="form-check-label" for="acceptCheckbox">I agree to share my email and phone with other users</label>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary btn-block mt-3 mx-auto">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-4">
+    <!-- Display Bookshelves -->
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center">Your Bookshelves</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Bookshelf Name</th>
+                    <th>Count of Publications</th>
+                    <th>Localization</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="bookshelfList">
+                <tr>
+                    <td><a href="/bookshelf">JohnDoe's Bookshelf</a></td>
+                    <td>5</td>
+                    <td>123 Main Street, Anytown, USA</td>
+                    <td><button type="button" class="btn btn-danger">Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-3 py-3">
+    <div class="container">
+        <span class="text-muted">Copyright © 2024 Home Library</span>
+    </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

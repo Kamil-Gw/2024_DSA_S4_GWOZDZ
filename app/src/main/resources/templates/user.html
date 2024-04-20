@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">Home Library</a>
+            <a class="navbar-brand" href="/">Home Library</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -19,13 +19,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="/user">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Requests</a>
+                        <a class="nav-link" href="/notifications">Notifications</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -33,12 +33,11 @@
                             Settings
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Requests</a></li>
+                            <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Add Bookshelf</a></li>
+                            <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
                             <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
                         </ul>
                     </li>
@@ -50,7 +49,7 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container my-4">
         <div class="row my-2">
             <div class="col-md-4">
                 <!-- User Avatar -->
@@ -75,7 +74,7 @@
                 <h3>User Reviews</h3>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Nineteen Eighty-Four | George Orwell</h5>
+                        <h5 class="card-title"><a href="/book">1984</a> | <a href="/author">George Orwell</a></h5>
                         <div class="rating">
                             <p>
                                 <strong>Rating: </strong>
@@ -115,7 +114,7 @@
                 </div>
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h5 class="card-title">Animal Farm | George Orwell</h5>
+                        <h5 class="card-title"><a href="/book">Animal Farm</a> | <a href="/author">George Orwell</a></h5>
                         <div class="rating">
                             <p>
                                 <strong>Rating: </strong>

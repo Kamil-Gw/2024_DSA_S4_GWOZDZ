@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home Library | Login</title>
+  <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="/">Home Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/notifications">Notifications</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+             aria-expanded="false">
+            Settings
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+              <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+            <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container my-4">
+    <div class="row">
+        <!-- Introduction Section -->
+        <div class="col-md-6">
+            <h2>Welcome to Home Library</h2>
+            <p>Are you an avid reader constantly on the hunt for your next adventure, or perhaps someone looking to share the joy of reading with others? Look no further! Our community-driven platform is designed to connect book lovers like yourself, fostering a culture of sharing and exploration.</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Login</h3>
+                    <form>
+                        <div class="mb-3 mx-1 row">
+                            <label for="loginInput" class="form-label">Login</label>
+                            <input type="text" class="form-control" id="loginInput" placeholder="Enter your login">
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="passwordInput" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password">
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary mt-3 mx-auto">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a href="/register">Register</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--how does it work section-->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/500" class="img-fluid" alt="How does it work?">
+        </div>
+        <div class="col-md-6">
+            <h2>How it works</h2>
+            <p>Home Library is a platform designed to connect book lovers like yourself. Here's how it works:</p>
+            <ul>
+                <li>Register an account to get started</li>
+                <li>Search for books you're interested in</li>
+                <li>Add books to your bookshelf</li>
+                <li>Share your bookshelf with others</li>
+                <li>Explore other users' bookshelves</li>
+                <li>Connect with other book lovers</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--Join Our Community Today!-->
+<div class="container my-5">
+    <div class="row">
+        <div class="col">
+            <h2>Join Our Community Today!</h2>
+            <p>Ready to embark on a journey of literary exploration? Join our community today and connect with book lovers from around the world!</p>
+            <a href="/register" class="btn btn-primary">Register Now</a>
+        </div>
+    </div>
+
+<footer class="footer mt-3 py-3">
+  <div class="container">
+    <span class="text-muted">Copyright © 2024 Home Library</span>
+  </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

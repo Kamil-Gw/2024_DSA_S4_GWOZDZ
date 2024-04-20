@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Library | Login</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Home Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/notifications">Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Settings
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>Add a Book</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="titleInput" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="titleInput" placeholder="Enter the book title">
+                </div>
+                <div class="mb-3">
+                    <label for="authorInput" class="form-label">Authors</label>
+                    <input type="text" class="form-control" id="authorInput" placeholder="Enter the author(s) of the book">
+                </div>
+                <div class="mb-3">
+                    <label for="yearInput" class="form-label">Year</label>
+                    <input type="number" class="form-control" id="yearInput" placeholder="Enter the publication year">
+                </div>
+                <div class="mb-3">
+                    <label for="stateInput" class="form-label">State</label>
+                    <input type="text" class="form-control" id="stateInput" placeholder="Enter the state of the book">
+                </div>
+                <div class="mb-3">
+                    <label for="libraryInput" class="form-label">Library</label>
+                    <input type="text" class="form-control" id="libraryInput" placeholder="Enter the library name">
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary">Add Book</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-3 py-3">
+    <div class="container">
+        <span class="text-muted">Copyright © 2024 Home Library</span>
+    </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

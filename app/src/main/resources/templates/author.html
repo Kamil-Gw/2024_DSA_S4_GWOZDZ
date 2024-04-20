@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home Library | Author</title>
+  <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="/">Home Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/notifications">Notifications</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+             aria-expanded="false">
+            Settings
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+            <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container my-4">
+    <!-- Author Information -->
+  <div class="row my-2">
+    <div class="col-md-4">
+      <!-- Author Picture -->
+      <img src="author_picture.jpg" alt="Author Picture" class="img-fluid rounded-circle">
+    </div>
+    <div class="col-md-8">
+      <!-- User Information -->
+      <h2>George Orwell</h2>
+      <p><strong>Birth: </strong>1903</p>
+      <p><strong>Book copies: </strong>12</p>
+      <p><strong>Description: </strong>George Orwell, a renowned author, is celebrated for his insightful and thought-provoking literary works. His writing delves into themes of totalitarianism, surveillance, and the complexities of human nature. Orwell's distinctive style combines lucid prose with sharp social commentary, earning him acclaim for novels such as "1984" and "Animal Farm." Through his compelling narratives, Orwell invites readers to contemplate the dynamics of power, truth, and individual freedom in society.</p>
+
+    </div>
+  </div>
+
+    <!-- List of Books -->
+  <div class="row my-2">
+    <div class="col-md-12">
+      <!-- User Opinions -->
+      <h3>List of Books</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Count of copies</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>1984</td>
+          <td>1</td>
+          <td><a href="/book" class="btn btn-primary">Check Availability</a></td>
+        </tr>
+        <tr>
+          <td>Animal Farm</td>
+          <td>3</td>
+          <td><a href="/book" class="btn btn-primary">Check Availability</a></td>
+        </tr>
+        <tr>
+          <td>Homage to Catalonia</td>
+          <td>2</td>
+          <td><a href="/book" class="btn btn-primary">Check Availability</a></td>
+        </tr>
+        <tr>
+          <td>Down and Out in Paris and London</td>
+          <td>4</td>
+          <td><a href="/book" class="btn btn-primary">Check Availability</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer class="footer mt-3 py-3">
+  <div class="container">
+    <span class="text-muted">Copyright © 2024 Home Library</span>
+  </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

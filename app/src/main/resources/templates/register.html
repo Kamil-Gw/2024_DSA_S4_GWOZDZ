@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Library | Register</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Home Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/notifications">Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Settings
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-4">
+    <div class="row my-5">
+        <!-- Registration Form -->
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Register</h3>
+                    <form>
+                        <div class="mb-3 mx-1 row">
+                            <label for="usernameInput" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="usernameInput" placeholder="Enter your username">
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="emailInput" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="passwordInput" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password">
+                        </div>
+                        <div class="mb-3 mx-1 row">
+                            <label for="confirmPasswordInput" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPasswordInput" placeholder="Confirm your password">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="acceptCheckbox">
+                            <label class="form-check-label" for="acceptCheckbox">I accept all regulations and terms</label>
+                        </div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary btn-block mt-3 mx-auto">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a href="/">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-3 py-3">
+    <div class="container">
+        <span class="text-muted">Copyright © 2024 Home Library</span>
+    </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

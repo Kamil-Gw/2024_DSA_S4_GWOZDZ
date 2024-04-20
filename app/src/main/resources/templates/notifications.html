@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Home Library | Bookshelf</title>
+    <title>Home Library | Notifications</title>
     <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
 </head>
 
@@ -51,79 +51,46 @@
 </nav>
 
 
-
 <div class="container my-4">
-    <!-- Bookshelf Information -->
+    <!-- Notifications Section -->
     <div class="row">
         <div class="col-md-12">
-            <h2>JohnDoe's Bookshelf</h2>
-            <p><strong>Owner: </strong><a href="#">JohnDoe</a></p>
-            <p><strong>Publication count: </strong>5</p>
-            <p><strong>Localization: </strong>123 Main Street, Anytown, USA</p>
-            <p><strong>Phone: </strong>(555) 123-4567</p>
-            <p><strong>Email: </strong>info@libraryexample.com</p>
-            <p><strong>Description: </strong>Explore boundless worlds at our library. From timeless classics to contemporary bestsellers, we're your gateway to knowledge and imagination. Discover, learn, and escape within our vast collection of books. Welcome to a haven for readers, learners, and dreamers alike.</p>
-        </div>
-    </div>
-    <hr>
-
-    <!-- Available Books Table -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <h3>Available Books</h3>
+            <h2>Notifications</h2>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Author</th>
-                    <th>State</th>
-                    <th>Availability</th>
+                    <th>From / To</th>
+                    <th>Type</th>
+                    <th>Element</th>
+                    <th>Date</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
+                <!-- Display notifications -->
                 <tr>
-                    <td>The Great Gatsby</td>
-                    <td>F. Scott Fitzgerald</td>
-                    <td>Good</td>
-                    <td>Available</td>
-                    <td><button type="button" class="btn btn-primary">Reserve</button></td>
-                </tr>
-                <tr>
-                    <td>To Kill a Mockingbird</td>
-                    <td>Harper Lee</td>
-                    <td>Excellent</td>
-                    <td>Reserved</td>
-                    <td><button type="button" class="btn btn-primary" disabled>Reserve</button></td>
-                </tr>
-                <tr>
+                    <td>JohnDoe</td>
+                    <td>Borrowing</td>
                     <td>1984</td>
-                    <td>George Orwell</td>
-                    <td>Very good</td>
-                    <td>Borrowed</td>
-                    <td><button type="button" class="btn btn-primary" disabled>Reserve</button></td>
+                    <td>2024-04-18</td>
+                    <td>
+                        <button class="btn btn-success">Accept</button>
+                        <button class="btn btn-danger">Reject</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Harry Potter and the Sorcerer's Stone</td>
-                    <td>J.K. Rowling</td>
-                    <td>Good condition</td>
-                    <td>Available</td>
-                    <td><button type="button" class="btn btn-primary">Reserve</button></td>
+                    <td>Library</td>
+                    <td>Reservation</td>
+                    <td>Do Androids Dream of Electric Sheep?</td>
+                    <td>2024-04-20</td>
+                    <td><button class="btn btn-primary">Cancel</button></td>
                 </tr>
-                <tr>
-                    <td>The Catcher in the Rye</td>
-                    <td>J.D. Salinger</td>
-                    <td>Like new</td>
-                    <td>Available</td>
-                    <td><button type="button" class="btn btn-primary">Reserve</button></td>
-                </tr>
-                <!-- Add more rows for additional books -->
+                <!-- Add more rows for additional notifications -->
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 
 <footer class="footer mt-3 py-3">
     <div class="container">
