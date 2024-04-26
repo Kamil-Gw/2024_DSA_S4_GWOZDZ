@@ -1,7 +1,7 @@
 package homelibrary.main;
 
-import homelibrary.main.model.User;
-import homelibrary.main.repository.UserRepository;
+//import homelibrary.main.model.User;
+//import homelibrary.main.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,16 +14,16 @@ public class MainApplication {
 		SpringApplication.run(MainApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(UserRepository userRepository) {
-		return args -> {
-			User user = new User(
-					"John",
-					"john@doe.com",
-					"password"
-			);
-			userRepository.save(user);
-		};
-	}
+//	@Bean
+//	CommandLineRunner commandLineRunner(UserRepository userRepository) {
+//		return args -> {
+//			User user = new User(
+//					"John",
+//					"john@doe.com",
+//					"password"
+//			);
+//			userRepository.save(user);
+//		};
+//	}
 
 }
