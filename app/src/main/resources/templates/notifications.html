@@ -38,7 +38,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
-                        <li><a class="dropdown-item" href="#">Add Book to Bookshelf</a></li>
+                        <li><a class="dropdown-item" href="/addbook">Add Book to Bookshelf</a></li>
                     </ul>
                 </li>
             </ul>
@@ -59,8 +59,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>From / To</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
                     <th>Type</th>
+                    <th>Status</th>
                     <th>Element</th>
                     <th>Date</th>
                     <th>Action</th>
@@ -70,7 +72,9 @@
                 <!-- Display notifications -->
                 <tr>
                     <td>JohnDoe</td>
-                    <td>Borrowing</td>
+                    <td>You</td>
+                    <td>Borrow Request</td>
+                    <td>Pending</td>
                     <td>1984</td>
                     <td>2024-04-18</td>
                     <td>
@@ -79,11 +83,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Library</td>
+                    <td>You</td>
+                    <td>The Best Library</td>
                     <td>Reservation</td>
+                    <td>Pending</td>
                     <td>Do Androids Dream of Electric Sheep?</td>
                     <td>2024-04-20</td>
-                    <td><button class="btn btn-primary">Cancel</button></td>
+                    <td>
+                        <button class="btn btn-primary">Cancel</button>
+                    </td>
+
                 </tr>
                 <!-- Add more rows for additional notifications -->
                 </tbody>
