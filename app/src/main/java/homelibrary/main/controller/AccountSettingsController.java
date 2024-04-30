@@ -4,9 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AccountSettingsController {
+public class AccountSettingsController
+{
     @GetMapping("/accountsettings")
-    public String accountSettings() {
+    public String accountSettings()
+    {
         return "accountSettings";
     }
 }
