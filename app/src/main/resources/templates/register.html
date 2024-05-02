@@ -55,6 +55,22 @@
     <div class="row my-5">
         <!-- Registration Form -->
         <div class="col-md-6 offset-md-3">
+            <!--    password is not the same alert -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Whoopsie! Looks like your password and its confirmation are playing hide and seek. Let's get them to agree with each other, shall we?
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <!--    username taken alert -->
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Oops! Username already claimed. Looks like someone's got a head start in the username race. Time to put your thinking cap on for a new one!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <!--    username taken alert -->
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                Hey there! It seems like that email is already part of the family. Ready for a warm welcome back? <a href="/login">Let's get you settled in!</a>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title text-center">Register</h3>
