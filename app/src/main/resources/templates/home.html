@@ -1,15 +1,212 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>Home Library | Homepage</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>This is your homepage.</div>
-    </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Library</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Home Library</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/notifications">Notifications</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Settings
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/accountsettings">Account Settings</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/bookshelfsettings">Bookshelf Settings</a></li>
+                        <li><a class="dropdown-item" href="/addbook">Add Book to Bookshelf</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container my-4">
+    <div class="row">
+        <!-- User Panel -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/200" class="card-img-top" alt="User Image">
+                <div class="card-body text-center">
+                    <h5 class="card-title">JohnDoe247</h5>
+                    <p class="card-text"><strong>Email:</strong> johndoe@example.com</p>
+                    <p class="card-text"><strong>User since:</strong> 03.05.2024</p>
+                    <div class="d-grid gap-2 col-8 mx-auto mt-4">
+                        <a href="/accountsettings" class="btn btn-outline-primary">Account Settings</a>
+                        <a href="/logout" class="btn btn-outline-danger">Log out</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-body">
+                    <h5 class="card-title">Your Bookshelves</h5>
+<!--                    table of bookshelves -> name + number of publications-->
+                    <table class="table">
+                        <thead>
+                        <tr class="table-light">
+                            <th scope="col">Bookshelf</th>
+                            <th scope="col">Publications</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a href="/bookshelf" class="text-decoration-none">Fiction</a></td>
+                            <td>122</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/bookshelf" class="text-decoration-none">Non-Fiction</a></td>
+                            <td>42</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/bookshelf" class="text-decoration-none">Science Fiction</a></td>
+                            <td>71830</td>
+                        </tr>
+                        <!-- Add more bookshelves here -->
+                        </tbody>
+                    </table>
+
+                    <div class="mt-3 text-center">
+                        <a href="/bookshelfsettings" class="btn btn-outline-primary">Bookshelf Settings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Panel -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Search</h5>
+<!--                    big search form (google like)-->
+                    <form action="/search" method="get">
+                        <div class="input-group my-3">
+                            <input type="text" class="form-control" placeholder="Search for books, authors, users..."
+                                   aria-label="Search" aria-describedby="button-addon2">
+                            <button class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Your Last Reviews</h5>
+                    <table class="table">
+<!--                        <thead>-->
+<!--                        <tr class="table-primary">-->
+<!--                            <th scope="col">Book</th>-->
+<!--                            <th scope="col">Author</th>-->
+<!--                            <th scope="col">Rating</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+                        <tbody>
+                        <tr>
+                            <td><a href="/book">The Great Gatsby</a></td>
+                            <td><a href="/author">F. Scott Fitzgerald</a></td>
+                            <td>★★★★☆</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/book">The Catcher in the Rye</a></td>
+                            <td><a href="/author">J.D. Salinger</a></td>
+                            <td>★★★☆☆</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/book">1984</a></td>
+                            <td><a href="/author">George Orwell</a></td>
+                            <td>★★★★★</td>
+                        </tr>
+                        <!-- Add more reviews here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Active Notifications <a href="/notifications" class="badge rounded-pill bg-danger text-decoration-none">99+</a></h5>
+
+                    <div class="list-group mt-3">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">You sent reservation request</h5>
+                                <small>2 days ago</small>
+                            </div>
+                            <p class="mb-1">1984 by George Orwell</p>
+                            <small>Check it out now!</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">New Book Added</h5>
+                                <small>3 days ago</small>
+                            </div>
+                            <p class="mb-1">The Great Gatsby by F. Scott Fitzgerald</p>
+                            <small>Check it out now!</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">New Review</h5>
+                                <small>1 week ago</small>
+                            </div>
+                            <p class="mb-1">1984 by George Orwell</p>
+                            <small>Check it out now!</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">You borrowed a book</h5>
+                                <small>1 month ago</small>
+                            </div>
+                            <p class="mb-1">The Catcher in the Rye by J.D. Salinger</p>
+                            <small>Check it out now!</small>
+                        </a>
+                    </div>
+
+<!--                    open all notifications-->
+                    <div class="text-center mt-3">
+                        <a href="/notifications" class="btn btn-outline-success">All Notifications</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer mt-3 py-3">
+    <div class="container">
+        <span class="text-muted">Copyright © 2024 Home Library</span>
+    </div>
+</footer>
+
+
+<script th:src="@{/bootstrap.bundle.min.js}"></script>
+</body>
+
 </html>
