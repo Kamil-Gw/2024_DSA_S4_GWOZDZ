@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Library &middot; Register</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .DefaultBox
+            {
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+                width: 40%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home Library &middot; Registration</h1>
+        <div>
+            <h2>Register</h2>
+            <div class="DefaultBox">
+                <form action="register" method="post">
+                    <table>
+                        <tr>
+                            <th align="right">Username:</th>
+                            <td><input name="username" type="text" required/></td>
+                        </tr>
+                        <tr>
+                            <th align="right">Email:</th>
+                            <td><input name="email" type="text" required/></td>
+                        </tr>
+                        <tr>
+                            <th align="right">Password:</th>
+                            <td><input name="password" type="password" required/></td>
+                        </tr>
+                        <tr>
+                            <th align="right">Confirm:</th>
+                            <td><input name="confirm" type="password" required/></td>
+                        </tr>
+                    </table><br>
+                    <input name="accept" type="checkbox" required/>I accept the regulations and terms.<br>
+                    <input type="submit" value="Register"/>
+                </form><br>
+                <p>If you already have an account, <a href="index.html">log in</a>.</p>
+            </div>
+        </div>
+    </body>
+</html>

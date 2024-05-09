@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Library &middot; Welcome Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            .DefaultBox
+            {
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+                width: 40%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home Library &middot; Welcome!</h1>
+        <h2>Log in</h2>
+        <div class="DefaultBox">
+            <form action="login" method="post">
+                <table>
+                    <tr>
+                        <th align="right">Login:</th>
+                        <td><input name="login" type="text" required/></td>
+                    </tr>
+                    <tr>
+                        <th align="right">Password:</th>
+                        <td><input name="password" type="password" required/></td>
+                    </tr>
+                </table><br>
+                <input type="submit" value="Submit"/>
+            </form><br>
+            <p>If you do not have an account yet, <a href="register.html">register</a>.</p>
+        </div>
+    </body>
+</html>

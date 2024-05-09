@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form with Dropdown and Custom Input</title>
+  <script>
+    function addValue() {
+      const dropdown = document.getElementById('dropdown');
+      const customInput = document.getElementById('customInput');
+      const resultContainer = document.getElementById('result');
+
+      const selectedValue = dropdown.value;
+      const customValue = customInput.value.trim();
+
+      if (selectedValue || customValue) {
+        const values = new Set(resultContainer.textContent.split(', ').concat(selectedValue, customValue));
+        resultContainer.textContent = Array.from(values).join(', ');
+      }
+
+      customInput.value = '';
+    }
+  </script>
+</head>
+<body>
+  <h2>Select Values or Enter Custom Value</h2>
+
+  <select id="dropdown">
+    <option value="">-- Select a value --</option>
+    <option value="value1">Value 1</option>
+    <option value="value2">Value 2</option>
+    <option value="value3">Value 3</option>
+  </select>
+
+  <input type="text" id="customInput" placeholder="Enter custom value">
+  <button onclick="addValue()">Add Value</button>
+
+  <h3>Result:</h3>
+  <p id="result"></p>
+
+</body>
+</html>
