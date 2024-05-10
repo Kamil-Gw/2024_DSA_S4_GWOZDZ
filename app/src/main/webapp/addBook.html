@@ -1,57 +1,147 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>Home Library &middot; Add a Publication</h1>
-        <div>
-            <form action="add" method="post">
-                <table>
-                    <tr>
-                        <th align="right">Title:</th>
-                        <td><input name="title" type="text" required/></td>
-                    </tr>
-                    <tr>
-                        <th align="right">Year of publication:</th>
-                        <td><input name="publication-date" type="date" required/></td>
-                    </tr>
-                    <tr>
-                        <th align="right">Condition:</th>
-                        <td>
-                            <select name="condition">
-                                <option value="like_new">Like new</option>
-                                <option value="excellent">Excellent</option>
-                                <option value="very_good">Very good</option>
-                                <option value="good">Good</option>
-                                <option value="acceptable">Acceptable</option>
-                                <option value="poor">Poor</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th align="right">Publication type:</th>
-                        <td>
-                            <select name="publication-type">
-                                <option value="book">Book</option>
-                                <option value="journal">Journal</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th align="right">ISBN/ISSN:</th>
-                        <td><input name="isbn/issn" type="text" required/></td>
-                    </tr>
-                    <tr>
-                        <!-- @TODO Kamil: ogarnąć wprowadzanie autorów -->
-                        <th align="right">Authors:</th>
-                        <td><input name="authors" type="text" required placeholder="separate with commas, if many" size="25"/></td>
-                    </tr>
-                </table><br>
-                <input type="submit" value="Add"/>
-            </form>
-        </div>
-    </body>
-</html>
+<HTML>
+    <HEAD>
+        <TITLE>Home Library &middot; Adding a Publication</TITLE>
+        <META charset="UTF-8">
+        <META name="viewport" content="width=device-width, initial-scale=1.0">
+            <STYLE>
+                .Full
+                {
+                    width: 400px;
+                }
+                .Right
+                {
+                    width: 150px;
+                }
+                .Textarea
+                {
+                    font-family: "Arial";
+                }
+            </STYLE>
+		<SCRIPT>
+                    var list = [];
+                    function addAuthor()
+                    {
+                        // The textarea for showing the output values.
+                        var outputField = document.getElementById('output');
+                        const outputValue = outputField.value;
+
+                        // The dropdown list.
+                        const selectionList = document.getElementById('selection');
+                        const selectionValue = selectionList.value;
+
+                        if (selectionValue !== '' && !list.includes(selectionValue))
+                        {
+                            if (outputValue === '')
+                            {
+                                outputField.value = selectionValue;
+                            }
+                            else
+                            {
+                                outputField.value = outputValue.concat('; ', selectionValue);
+                            }
+                            list.push(selectionValue);
+                        }
+                        selectionList.value = '';
+
+                        // The custom input.
+                        const customInput = document.getElementById('custom');
+                        const customValue = customInput.value;
+                        if (customValue !== '' && !list.includes(customValue))
+                        {
+                            if (outputValue === '')
+                            {
+                                outputField.value = customValue;
+                            }
+                            else
+                            {
+                                outputField.value = outputValue.concat('; ', customValue);
+                            }
+                            list.push(customValue);
+                        }
+                        customInput.value = '';
+                    }
+		</SCRIPT>
+    </HEAD>
+    <BODY>
+        <H1>Home Library &middot; Add a Publication</H1>
+        <DIV>
+            <FORM action="add" method="post">
+                <TABLE class="Full">
+                    <TR>
+                        <TH align="right">Title:</TH>
+                        <TD>
+                            <INPUT name="title" type="text" class="Right"/>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TH align="right">Date of publication:</TH>
+                        <TD>
+                            <INPUT name="publication-date" type="date" class="Right"/>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TH align="right">Condition:</TH>
+                        <TD>
+                            <SELECT name="condition" class="Right">
+                                <OPTION value="like_new">Like new</OPTION>
+                                <OPTION value="excellent">Excellent</OPTION>
+                                <OPTION value="very_good">Very good</OPTION>
+                                <OPTION value="good">Good</OPTION>
+                                <OPTION value="acceptable">Acceptable</OPTION>
+                                <OPTION value="poor">Poor</OPTION>
+                            </SELECT>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TH align="right">Publication type:</TH>
+                        <TD>
+                            <SELECT name="publication-type" class="Right">
+                                <OPTION value="book">Book</OPTION>
+                                <OPTION value="journal">Journal</OPTION>
+                            </SELECT>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TH align="right">ISBN/ISSN:</TH>
+                        <TD>
+                            <INPUT name="isbn/issn" type="text" class="Right"/>
+                        </TD>
+                    </TR>
+                    <TR>
+                        <TH align="right">Authors:</TH>
+                        <TD>
+                            <TEXTAREA id="output" name="authors" disabled class="Right Textarea"></TEXTAREA>
+                        </TD>
+                    </TR>
+                        <TR>
+                            <TH rowspan="2" align="right">
+                                <BUTTON type="button" onClick="addAuthor()">Add<BR/>an author</BUTTON>
+                            </TH>
+                            <TD>
+                                <INPUT id="custom" type="text" placeholder="Enter Author" class="Right"/>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <!-- (The first cell is merged with one in the upper row.) -->
+                            <TD>
+                                <SELECT id="selection" class="Right">
+                                        <OPTION value="">Select Author</OPTION>
+
+                                        <!-- Dynamically generated by the servlet -->
+                                        <OPTION value="example1">Example1</OPTION>
+                                        <OPTION value="example2">Example2</OPTION>
+
+                                </SELECT>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <TD colspan="2" align="center">
+                                <BUTTON type="submit">Add the publication<BR/>to your collection</BUTTON>
+                            </TD>
+                        </TR>
+                </TABLE>
+            </FORM>
+        </DIV>
+    </BODY>
+</HTML>
