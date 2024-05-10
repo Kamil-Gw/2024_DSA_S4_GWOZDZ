@@ -90,11 +90,11 @@ public class BrowseServlet extends HttpServlet
                                        a.name,
                                        a.surname
                                FROM
-                                       publications p
+                                       app.publications p
                                    JOIN
-                                       authorships pa ON p.id = pa.publication_id
+                                       app.authorships pa ON p.id = pa.publication_id
                                    JOIN
-                                       authors a ON pa.author_id = a.id
+                                       app.authors a ON pa.author_id = a.id
                                WHERE
                                        p.owner_id = %s
                                """.formatted(ownerId);

@@ -67,46 +67,11 @@ public class HomeServlet extends HttpServlet
                         </form>
                     </div>
                     <div class="DefaultBox">
-                        <table>
-                            <tr>
-                                <td>
-                                    <a href="browse"></a>
-                                </td>
-                                <td>to browse your collection.</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <form action="notifications" method="post">
-                                        <input type="submit" value="Click"/>
-                                    </form>
-                                </td>
-                                <td>to view your notifications.</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <form action="bookshelf" method="post">
-                                        <input type="submit" value="Click"/>
-                                    </form>
-                                </td>
-                                <td>to open your bookshelf settings.</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <form action="account" method="post">
-                                        <input type="submit" value="Click"/>
-                                    </form>
-                                </td>
-                                <td>to go to account settings.</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <form action="to-be-named" method="post">
-                                        <input type="submit" value="Click"/>
-                                    </form>
-                                </td>
-                                <td>to add a book to your bookshelf.</td>
-                            </tr>
-                        </table>
+                        <p><a href="browse">Click</a> to browse your collection.</p>
+                        <p><a href="notifications">Click</a> to view your notifications.</p>
+                        <p><a href="bookshelf">Click</a> to open your bookshelf settings.</p>
+                        <p><a href="account">Click</a> to go to account settings.</p>
+                        <p><a href="to-be-named-yet">Click</a> to add a book to your bookshelf.</p>
                     </div>
                 </body
             </html>
