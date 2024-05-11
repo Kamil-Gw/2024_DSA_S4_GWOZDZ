@@ -37,9 +37,9 @@ public class BrowseServlet extends HttpServlet
 
         String ownerId = getOwnerId(request);
         String tableHtml = getTableOfPublications(ownerId);
-        
+
         // ---------------------------- Respond. ---------------------------- //
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter())
         {
@@ -58,14 +58,14 @@ public class BrowseServlet extends HttpServlet
                         """.formatted(tableHtml));
         }
     }
-    
+
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
-    // @TODO Maciek -> przygotować tabelkę
+    // TODO Maciek -> przygotować tabelkę
     private String getTableOfPublications(String ownerId)
     {
         StringBuilder tableHtml = new StringBuilder("<p><b>Your publications:</b></p>");
@@ -82,22 +82,24 @@ public class BrowseServlet extends HttpServlet
                  Statement statement = connection.createStatement())
             {
                 String query = """
-                               SELECT
-                                       p.title,
-                                       EXTRACT (YEAR FROM p.publication_date) AS "year",
-                                       p.isbn,
-                                       p.issn,
-                                       a.name,
-                                       a.surname
-                               FROM
-                                       app.publications p
-                                   JOIN
-                                       app.authorships pa ON p.id = pa.publication_id
-                                   JOIN
-                                       app.authors a ON pa.author_id = a.id
-                               WHERE
-                                       p.owner_id = %s
-                               """.formatted(ownerId);
+                SELECT
+                    p.title,
+                    EXTRACT(YEAR FROM p.publication_date) AS "year",
+                    p.isbn,
+                    p.issn,
+                    STRING_AGG(a.name || ' ' || a.surname, ', ') AS authors
+                FROM
+                    app.publications p
+                    JOIN app.authorships pa ON p.id = pa.publication_id
+                    JOIN app.authors a ON pa.author_id = a.id
+                WHERE
+                    p.owner_id = %s
+                GROUP BY
+                    p.title,
+                    p.publication_date,
+                    p.isbn,
+                    p.issn;
+                """.formatted(ownerId);
                 ResultSet results = statement.executeQuery(query);
                 if (results.next())
                 {
@@ -107,19 +109,25 @@ public class BrowseServlet extends HttpServlet
                                              <th>Title</th>
                                              <th>Year of publication</th>
                                              <th>ISBN/ISSN</th>
-                                             <th></th>
-                                             <th></th>
-                                             <th></th>
+                                             <th>Authors</th>
                                          </tr>
                                      """);
                     do
                     {
                         String title = results.getString("title");
+                        String year = results.getString("year");
+                        String isbn = results.getString("isbn");
+                        String issn = results.getString("issn");
+                        String authors = results.getString("authors");
+                        String isbnissn = (isbn != null) ? isbn : issn;
                         tableHtml.append("""
                                          <tr>
                                             <td>%s</td>
+                                            <td>%s</td>
+                                            <td>%s</td>
+                                            <td>%s</td>
                                          </tr>
-                                         """.formatted(title));
+                                         """.formatted(title, year, isbnissn, authors));
                     }
                     while (results.next());
                     tableHtml.append("</table>");
