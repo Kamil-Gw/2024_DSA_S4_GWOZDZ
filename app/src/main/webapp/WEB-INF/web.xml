@@ -20,6 +20,10 @@
         <servlet-name>AddServlet</servlet-name>
         <servlet-class>homelibrary.servlets.AddServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddingServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.AddingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AddServlet</servlet-name>
         <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddingServlet</servlet-name>
+        <url-pattern>/adding</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

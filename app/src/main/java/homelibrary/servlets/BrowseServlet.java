@@ -52,7 +52,7 @@ public class BrowseServlet extends HttpServlet
                         <body>
                             <h1>Home Library &middot; Your Publications:</h1>
                             %s<br>
-                            <p><a href="addBook.html">Add</a> a book.</p>
+                            <p><a href="add">Add</a> a book.</p>
                         </body>
                         </html>
                         """.formatted(tableHtml));
