@@ -77,7 +77,7 @@ public class AddServlet extends HttpServlet
                             const customValue1 = customInput1.value.trim();
                             const customValue2 = customInput2.value.trim();
                             const customValue = customValue1.concat(' ', customValue2);
-                            if (customValue !== ' ' && !list.includes(customValue))
+                            if (customValue1 !== '' && customValue2 !== '' && !list.includes(customValue))
                             {
                                 if (outputField.value === '')
                                 {

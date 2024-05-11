@@ -8,6 +8,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -28,21 +36,21 @@ public class AddingServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String title = request.getParameter("title");
         String date = request.getParameter("publication-date");
         String condition = request.getParameter("condition");
         String type = request.getParameter("publication-type");
         String isbnIssn = request.getParameter("isbn/issn");
         String[] authorsText = request.getParameter("authors").split("; ");
-        
+
         boolean goodTitle = !title.isBlank();
         boolean goodDate = !date.isBlank();
         boolean goodCondition = !condition.isEmpty();
         boolean goodType = !type.isEmpty();
         boolean goodIsbnIssn = !isbnIssn.isEmpty();
         boolean goodAuthors = !(authorsText.length == 1 && authorsText[0].isBlank());
-        
+
         if (goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors)
         {
             Author[] authorsArray = new Author[authorsText.length];
@@ -57,7 +65,7 @@ public class AddingServlet extends HttpServlet
             try (PrintWriter out = response.getWriter())
             {
                 /* --- Do the adding. --- */
-                
+
                 out.println("<!DOCTYPE html>");
                 out.println("<HTML>");
                 out.println("<HEAD>");
@@ -66,7 +74,7 @@ public class AddingServlet extends HttpServlet
                 out.println("<BODY>");
 
                 out.println(String.format("""
-                            <P>
+                            <P><I>Denug info...</I>
                             title: %1$s<BR/>
                             date: %2$s<BR/>
                             condition: %3$s<BR/>
@@ -74,11 +82,11 @@ public class AddingServlet extends HttpServlet
                             is?n: %5$s<BR/>
                             authors:
                             """,
-                            title,
-                            date,
-                            condition,
-                            type,
-                            isbnIssn));
+                        title,
+                        date,
+                        condition,
+                        type,
+                        isbnIssn));
                 for (var author : authorsArray)
                 {
                     out.println("[%s:%s] ".formatted(author.name, author.surname));
@@ -90,7 +98,8 @@ public class AddingServlet extends HttpServlet
                 out.println("</P>");
                 out.println("</BODY>");
                 out.println("</HTML>");
-                
+
+                //
                 /* --- Dispatch to BrowseServlet. --- */
             }
         }
@@ -125,6 +134,135 @@ public class AddingServlet extends HttpServlet
             RequestDispatcher dispatcher = request.getRequestDispatcher("/add");
             dispatcher.forward(request, response);
         }
+    }
+
+    private Set<Integer> getAuthorsIds(Author[] authors) throws SQLException
+    {
+        Driver driver = new org.postgresql.Driver();
+        DriverManager.registerDriver(driver);
+
+        String dbUrl = DatabaseConnectionData.DATABASE_URL;
+        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+        Set<Integer> ids = new HashSet<>(authors.length);
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
+        {
+            for (var author : authors)
+            {
+                String query = """
+                    SELECT
+                           id
+                    FROM
+                           app.authors
+                    WHERE
+                           "name"='%s'
+                        AND
+                           "surname"='%s'
+                    """.formatted(author.name, author.surname);
+                ResultSet results = statement.executeQuery(query);
+                boolean isThereAlready = results.next();
+                if (isThereAlready)
+                {
+                    Integer id = results.getInt("id");
+                    ids.add(id);
+                }
+                else
+                {
+                    String insert = """
+                        INSERT INTO
+                                authors
+                                (
+                                    "name",
+                                    "surname"
+                                )
+                        VALUES
+                                (
+                                    '%s',
+                                    '%s'
+                                )
+                        """.formatted(author.name, author.surname);
+                    statement.executeUpdate(insert);
+                    results = statement.executeQuery(query);
+                    if (results.next())
+                    {
+                        Integer id = results.getInt("id");
+                        ids.add(id);
+                    }
+                }
+            }
+        }
+        return ids;
+    }
+    
+    private Integer addPublication(String title, String date, String condition,
+        String type, String isbnIssn, String ownerId) throws SQLException
+    {
+        String isbnOrIssn = type.equals("book") ? "isbn" : "issn";
+        String insert = """
+                        INSERT INTO
+                                app.publications
+                                (
+                                    title,
+                                    owner_id,
+                                    publication_date,
+                                    condition,
+                                    publication_type,
+                                    %s
+                                )
+                        VALUES
+                                (
+                                    '%s',
+                                    %s,
+                                    '%s',
+                                    '%s',
+                                    '%s',
+                                    '%s'
+                                )
+                        """.formatted(isbnOrIssn,
+                                title, ownerId, date, condition, type, isbnIssn);
+        
+        String select = """
+                        SELECT
+                                id
+                        FROM
+                                app.publications
+                        WHERE
+                                "title"='%s'
+                            AND "owner_id"='%s'
+                            AND "publication_date"='%s'
+                            AND "condition"='%s'
+                            AND "publication_type"='%s'
+                            AND "%s"='%s'
+                        """.formatted(title, ownerId, date, condition, type,
+                        isbnOrIssn, isbnIssn);
+        
+        Driver driver = new org.postgresql.Driver();
+        DriverManager.registerDriver(driver);
+
+        String dbUrl = DatabaseConnectionData.DATABASE_URL;
+        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+        
+        Integer result = null;
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
+        {
+            statement.executeQuery(insert);
+            ResultSet results = statement.executeQuery(select);
+            if (results.next())
+            {
+                result = results.getInt("id");
+            }
+        }
+        
+        return result;
+    }
+    
+    private void addAuthorships(Integer publicationId, Set<Integer> authorIds)
+    {
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
