@@ -44,17 +44,18 @@ public class BrowseServlet extends HttpServlet
         try (PrintWriter out = response.getWriter())
         {
             out.println("""
-                        <html>
-                        <head>
-                            <title>Home Library &middot; User's Publications</title>
-                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                        </head>
-                        <body>
-                            <h1>Home Library &middot; Your Publications:</h1>
-                            %s<br>
-                            <p><a href="add">Add</a> a book.</p>
-                        </body>
-                        </html>
+                        <HTML>
+                        <HEAD>
+                            <TITLE>Home Library &middot; User's Publications</TITLE>
+                            <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                        </HEAD>
+                        <BODY>
+                            <H1>Home Library &middot; Your Publications:</H1>
+                            %s<BR/>
+                            <P><A href="add">Add</A> a publication.</P>
+                            <P><A href="edit">Edit</A> a publication.</P>
+                        </BODY>
+                        </HTML>
                         """.formatted(tableHtml));
         }
     }

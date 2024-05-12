@@ -24,6 +24,14 @@
         <servlet-name>AddingServlet</servlet-name>
         <servlet-class>homelibrary.servlets.AddingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.EditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EdittingServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.EdittingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>AddingServlet</servlet-name>
         <url-pattern>/adding</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditServlet</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EdittingServlet</servlet-name>
+        <url-pattern>/editting</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
