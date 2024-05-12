@@ -2,7 +2,6 @@ package homelibrary.servlets;
 
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +36,7 @@ public class AddingServlet extends HttpServlet
     {
         response.setContentType("text/html;charset=UTF-8");
 
+        /* Retrieve the data from the form. */
         String title = request.getParameter("title");
         String date = request.getParameter("publication-date");
         String condition = request.getParameter("condition");
@@ -44,15 +44,17 @@ public class AddingServlet extends HttpServlet
         String isbnIssn = request.getParameter("isbn/issn");
         String[] authorsText = request.getParameter("authors").split("; ");
 
+        /* Proof whether they are correct. */
         boolean goodTitle = !title.isBlank();
         boolean goodDate = !date.isBlank();
         boolean goodCondition = !condition.isEmpty();
         boolean goodType = !type.isEmpty();
-        boolean goodIsbnIssn = !isbnIssn.isEmpty();
+        boolean goodIsbnIssn = isbnIssn.length() >= 13 && isbnIssn.length() <= 16;
         boolean goodAuthors = !(authorsText.length == 1 && authorsText[0].isBlank());
 
         if (goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors)
         {
+            /* Transform the authors from textual form into objects. */
             Author[] authorsArray = new Author[authorsText.length];
             for (int a = 0; a < authorsText.length; ++a)
             {
@@ -62,46 +64,27 @@ public class AddingServlet extends HttpServlet
                 authorsArray[a] = new Author(name, surname);
             }
 
-            try (PrintWriter out = response.getWriter())
+            try
             {
                 /* --- Do the adding. --- */
-
-                out.println("<!DOCTYPE html>");
-                out.println("<HTML>");
-                out.println("<HEAD>");
-                out.println("<TITLE>Home Library &middot; Adding in Progress</TITLE>");
-                out.println("</HEAD>");
-                out.println("<BODY>");
-
-                out.println(String.format("""
-                            <P><I>Denug info...</I>
-                            title: %1$s<BR/>
-                            date: %2$s<BR/>
-                            condition: %3$s<BR/>
-                            type: %4$s<BR/>
-                            is?n: %5$s<BR/>
-                            authors:
-                            """,
-                        title,
-                        date,
-                        condition,
-                        type,
-                        isbnIssn));
-                for (var author : authorsArray)
-                {
-                    out.println("[%s:%s] ".formatted(author.name, author.surname));
-                }
-                out.println("<BR/>");
                 HttpSession session = request.getSession(false);
                 String ownerId = (session != null) ? (String) session.getAttribute("id") : null;
-                out.println(ownerId);
-                out.println("</P>");
-                out.println("</BODY>");
-                out.println("</HTML>");
 
-                //
-                /* --- Dispatch to BrowseServlet. --- */
+                /* Add the publication. */
+                Long publicationId = addPublication(title, date, condition, type, isbnIssn, ownerId);
+                Set<Long> authorIds = getAuthorIds(authorsArray);
+                addAuthorships(publicationId, authorIds);
             }
+            catch (SQLException sql)
+            {
+                request.setAttribute("error-messages", sql.toString());
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/add");
+                dispatcher.forward(request, response);
+            }
+
+            /* --- Dispatch to BrowseServlet. --- */
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/browse");
+            dispatcher.forward(request, response);
         }
         else
         {
@@ -136,80 +119,20 @@ public class AddingServlet extends HttpServlet
         }
     }
 
-    private Set<Integer> getAuthorsIds(Author[] authors) throws SQLException
-    {
-        Driver driver = new org.postgresql.Driver();
-        DriverManager.registerDriver(driver);
-
-        String dbUrl = DatabaseConnectionData.DATABASE_URL;
-        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
-        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-
-        Set<Integer> ids = new HashSet<>(authors.length);
-        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-             Statement statement = connection.createStatement())
-        {
-            for (var author : authors)
-            {
-                String query = """
-                    SELECT
-                           id
-                    FROM
-                           app.authors
-                    WHERE
-                           "name"='%s'
-                        AND
-                           "surname"='%s'
-                    """.formatted(author.name, author.surname);
-                ResultSet results = statement.executeQuery(query);
-                boolean isThereAlready = results.next();
-                if (isThereAlready)
-                {
-                    Integer id = results.getInt("id");
-                    ids.add(id);
-                }
-                else
-                {
-                    String insert = """
-                        INSERT INTO
-                                authors
-                                (
-                                    "name",
-                                    "surname"
-                                )
-                        VALUES
-                                (
-                                    '%s',
-                                    '%s'
-                                )
-                        """.formatted(author.name, author.surname);
-                    statement.executeUpdate(insert);
-                    results = statement.executeQuery(query);
-                    if (results.next())
-                    {
-                        Integer id = results.getInt("id");
-                        ids.add(id);
-                    }
-                }
-            }
-        }
-        return ids;
-    }
-    
-    private Integer addPublication(String title, String date, String condition,
-        String type, String isbnIssn, String ownerId) throws SQLException
+    private Long addPublication(String title, String date, String condition,
+                                   String type, String isbnIssn, String ownerId) throws SQLException
     {
         String isbnOrIssn = type.equals("book") ? "isbn" : "issn";
         String insert = """
                         INSERT INTO
                                 app.publications
                                 (
-                                    title,
-                                    owner_id,
-                                    publication_date,
-                                    condition,
-                                    publication_type,
-                                    %s
+                                    "title",
+                                    "owner_id",
+                                    "publication_date",
+                                    "condition",
+                                    "publication_type",
+                                    "%s"
                                 )
                         VALUES
                                 (
@@ -221,22 +144,27 @@ public class AddingServlet extends HttpServlet
                                     '%s'
                                 )
                         """.formatted(isbnOrIssn,
-                                title, ownerId, date, condition, type, isbnIssn);
+                title,
+                ownerId,
+                date,
+                condition,
+                type,
+                isbnIssn);
         
         String select = """
                         SELECT
-                                id
+                                p.id
                         FROM
-                                app.publications
+                                app.publications p
                         WHERE
                                 "title"='%s'
-                            AND "owner_id"='%s'
+                            AND "owner_id"=%s
                             AND "publication_date"='%s'
                             AND "condition"='%s'
                             AND "publication_type"='%s'
                             AND "%s"='%s'
                         """.formatted(title, ownerId, date, condition, type,
-                        isbnOrIssn, isbnIssn);
+                isbnOrIssn, isbnIssn);
         
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
@@ -244,25 +172,110 @@ public class AddingServlet extends HttpServlet
         String dbUrl = DatabaseConnectionData.DATABASE_URL;
         String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
         String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-        
-        Integer result = null;
+
+        Long result = null;
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
              Statement statement = connection.createStatement())
         {
-            statement.executeQuery(insert);
+            statement.executeUpdate(insert);
             ResultSet results = statement.executeQuery(select);
             if (results.next())
             {
-                result = results.getInt("id");
+                result = results.getLong("id");
             }
         }
-        
+
         return result;
     }
     
-    private void addAuthorships(Integer publicationId, Set<Integer> authorIds)
+    private Set<Long> getAuthorIds(Author[] authors) throws SQLException
     {
-        
+        Driver driver = new org.postgresql.Driver();
+        DriverManager.registerDriver(driver);
+
+        String dbUrl = DatabaseConnectionData.DATABASE_URL;
+        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+        Set<Long> ids = new HashSet<>(authors.length);
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
+        {
+            for (var author : authors)
+            {
+                String select = """
+                    SELECT
+                            a.id
+                    FROM
+                            app.authors a
+                    WHERE
+                            "name"='%s'
+                        AND "surname"='%s'
+                    """.formatted(author.name, author.surname);
+                ResultSet results = statement.executeQuery(select);
+                if (results.next())
+                {
+                    Long id = results.getLong("id");
+                    ids.add(id);
+                }
+                else
+                {
+                    String insert = """
+                        INSERT INTO
+                                app.authors
+                                (
+                                    "name",
+                                    "surname"
+                                )
+                        VALUES
+                                (
+                                    '%s',
+                                    '%s'
+                                )
+                        """.formatted(author.name, author.surname);
+                    statement.executeUpdate(insert);
+                    results = statement.executeQuery(select);
+                    if (results.next())
+                    {
+                        Long id = results.getLong("id");
+                        ids.add(id);
+                    }
+                }
+            }
+        }
+        return ids;
+    }
+
+    private void addAuthorships(Long publicationId, Set<Long> authorIds) throws SQLException
+    {
+        Driver driver = new org.postgresql.Driver();
+        DriverManager.registerDriver(driver);
+
+        String dbUrl = DatabaseConnectionData.DATABASE_URL;
+        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
+        {
+            for (var authorId : authorIds)
+            {
+                String insert = """
+                                INSERT INTO
+                                        app.authorships
+                                        (
+                                            author_id,
+                                            publication_id
+                                        )
+                                VALUES
+                                        (
+                                            %d,
+                                            %d
+                                        )
+                                """.formatted(authorId, publicationId);
+                statement.executeUpdate(insert);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
