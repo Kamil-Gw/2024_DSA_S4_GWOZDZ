@@ -2,6 +2,9 @@ package homelibrary.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.*;
+
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,18 +29,70 @@ public class EdittingServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EdittingServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EdittingServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        String id = request.getParameter("id");
+        String title = request.getParameter("title");
+        String date = request.getParameter("publication-date");
+        String condition = request.getParameter("condition");
+        String type = request.getParameter("publication-type");
+        String isbnIssn = request.getParameter("isbn/issn");
+        String[] authorsText = request.getParameter("authors").split("; ");
+
+        /* Proof whether they are correct. */
+        boolean goodTitle = !title.isBlank();
+        boolean goodDate = !date.isBlank();
+        boolean goodCondition = !condition.isEmpty();
+        boolean goodType = !type.isEmpty();
+        boolean goodIsbnIssn = isbnIssn.length() >= 13 && isbnIssn.length() <= 16;
+        boolean goodAuthors = !(authorsText.length == 1 && authorsText[0].isBlank());
+
+        if (goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors) {
+            Author[] authorsArray = new Author[authorsText.length];
+            for (int a = 0; a < authorsText.length; ++a)
+            {
+                int separator = authorsText[a].lastIndexOf(' ');
+                String name = authorsText[a].substring(0, separator);
+                String surname = authorsText[a].substring(separator + 1);
+                authorsArray[a] = new Author(name, surname);
+            }
+
+            try {
+                String isbnOrIssn = type.equals("book") ? "b" : "s";
+                String updateBook  = """
+                    UPDATE app.publications
+                    SET title = '%s',
+                        publication_date = '%s'
+                        condition = '%s'::app.book_condition,
+                        publication_type = '%s'::app.publication_type,
+                        is%sn      = '%s'
+                    WHERE id = %s;
+                    """.formatted(title,
+                        date,
+                        condition,
+                        type,
+                        isbnOrIssn,
+                        id);
+
+                Driver driver = new org.postgresql.Driver();
+                DriverManager.registerDriver(driver);
+
+                String dbUrl = DatabaseConnectionData.DATABASE_URL;
+                String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+                String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+                try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                     Statement statement = connection.createStatement())
+                {
+                    statement.executeUpdate(updateBook);
+                }
+            }
+            catch (SQLException sql) {
+                request.setAttribute("error-messages", sql.toString());
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/edit");
+                dispatcher.forward(request, response);
+            }
+
+//            TODO -> adding, removing authors
         }
     }
 
