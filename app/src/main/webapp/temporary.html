@@ -1,0 +1,175 @@
+<HTML>
+<HEAD>
+	<SCRIPT>
+		function fill()
+		{
+			const selection = document.getElementById('selection');
+			
+			const titleInput = document.getElementById('new-title');
+			const dateInput = document.getElementById('new-date');
+			const conditionInput = document.getElementById('new-condition');
+			const typeInput = document.getElementById('new-type');
+			const isbnIssnInput = document.getElementById('new-isbn/issn');
+			const authorsTextarea = document.getElementById('new-authors');
+			
+			const debug = document.getElementById('debug');
+			
+			const selectedId = String(selection.value);
+			
+			switch (selectedId)
+			{
+			case '1':
+				titleInput.value = 'Book I';
+				dateInput.value = '1111-11-11';
+				conditionInput.value = '';
+				break;
+			}
+			
+		}
+		var list = [];
+		function addAuthor()
+		{
+			// The textarea for showing the output values.
+			var outputField = document.getElementById('new-authors');
+
+			// The custom input.
+			const customInput1 = document.getElementById('new-name');
+			const customInput2 = document.getElementById('new-surname');
+			const customValue1 = customInput1.value.trim();
+			const customValue2 = customInput2.value.trim();
+			const customValue = customValue1.concat(' ', customValue2);
+			if (customValue1 !== '' && customValue2 !== '' && !list.includes(customValue))
+			{
+				if (outputField.value === '')
+				{
+					outputField.value = customValue;
+				}
+				else
+				{
+					outputField.value = outputField.value.concat('; ', customValue);
+				}
+				list.push(customValue);
+			}
+			customInput1.value = '';
+			customInput2.value = '';
+
+			// The dropdown list.
+			const selectionList = document.getElementById('selection');
+			const selectionValue = selectionList.value;
+
+			if (selectionValue !== '' && !list.includes(selectionValue))
+			{
+				if (outputField.value === '')
+				{
+					outputField.value = selectionValue;
+				}
+				else
+				{
+					outputField.value = outputField.value.concat('; ', selectionValue);
+				}
+				list.push(selectionValue);
+			}
+			selectionList.value = '';
+		}
+	</SCRIPT>
+</HEAD>
+<BODY>
+	
+	<TEXTAREA id="debug" style="font-family: 'Helvetica';"></TEXTAREA>
+	
+	<FORM>
+		<TABLE border="1" style="background-color: #F7F7F7;">
+			<TR>
+				<TD colspan="2" align="center">
+				
+					<!-- Select the title of the book that shall be editted -->
+					<SELECT id="selection" name="id">
+						<OPTION value=""> -- Select -- </OPTION>
+						<OPTION value="1">Title of publication with ID=1</OPTION>
+						<OPTION value="2">Title of publication with ID=2</OPTION>
+						<OPTION value="3">Title of publication with ID=3</OPTION>
+						<OPTION value="4">Title of publication with ID=4</OPTION>
+					</SELECT>
+					<BUTTON type="button" onClick="fill()">Edit</BUTTON>
+					
+				</TD>
+			</TR>
+			<TR>
+				<TH>New title:</TH>
+				<TD>
+				
+					<INPUT id="new-title" name="title" type="text"/>
+				
+				</TD>
+			</TR>
+			<TR>
+				<TH>New date of publication:</TH>
+				<TD>
+				
+					<INPUT id="new-date" name="date" type="date"/>
+				
+				</TD>
+			</TR>
+			<TR>
+				<TH>New condition:</TH>
+				<TD>
+				
+					<SELECT id="new-condition" name="condition">
+						<OPTION value="">Select</OPTION>
+						<OPTION value="like_new">Like new</OPTION>
+						<OPTION value="excellent">Excellent</OPTION>
+						<OPTION value="very_good">Very good</OPTION>
+						<OPTION value="good">Good</OPTION>
+						<OPTION value="acceptable">Acceptable</OPTION>
+						<OPTION value="poor">Poor</OPTION>
+					</SELECT>
+					
+				</TD>
+			</TR>
+			<TR>
+			
+				<TH>New publication type:</TH>
+				<TD>
+					<SELECT id="new-type" name="type">
+						<OPTION value="">Select</OPTION>
+						<OPTION value="book">Book</OPTION>
+						<OPTION value="journal">Journal</OPTION>
+					</SELECT>
+				</TD>
+				
+			</TR>
+			<TR>
+				<TH>New ISBN/ISSN:</TH>
+				<TD>
+				
+					<INPUT id="new-isbn/issn" name="isbn/issn" type="text"/>
+				
+				</TD>
+			</TR>
+			<TR>
+			
+				<TH>New Authors:</TH>
+				<TD>
+					<TEXTAREA id="new-authors" style="width: 300px; height: 100px;" readonly></TEXTAREA><BR/>
+					
+					<SELECT id="remove-author selection">
+						<OPTION value="">Select author to remove</OPTION>
+					</SELECT>
+					
+					<BUTTON type="button" onClick="removeAuthor()">Remove</BUTTON><BR/>
+					
+					<SELECT id="add-author selection">
+						<OPTION value="">Select author to add</OPTION>
+					</SELECT><BR/>
+					
+					<INPUT id="new-name" placeholder="Name to add"/>
+					<INPUT id="new-surname" placeholder="Surname to add"/><BR/>
+					
+					<BUTTON type="button" onClick="addAuthor()">Add</BUTTON>
+				
+				</TD>
+			</TR>
+		</TABLE>
+	</FORM>
+</BODY>
+</HTML>
