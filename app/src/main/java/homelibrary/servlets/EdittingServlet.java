@@ -1,7 +1,6 @@
 package homelibrary.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.*;
 
 import jakarta.servlet.RequestDispatcher;
