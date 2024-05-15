@@ -260,9 +260,9 @@ public class AddServlet extends HttpServlet
     {
         String errorMessages = (String) request.getAttribute("error-messages");
         request.removeAttribute("error-messages");
-
+        
         StringBuilder errorsHtml = new StringBuilder();
-
+        
         if (errorMessages != null)
         {
             String[] particularMessages = errorMessages.split(";");
@@ -276,7 +276,7 @@ public class AddServlet extends HttpServlet
                 errorsHtml.append("</P>");
             }
         }
-
+        
         return errorsHtml.toString();
     }
 
