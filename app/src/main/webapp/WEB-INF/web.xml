@@ -32,6 +32,10 @@
         <servlet-name>EdittingServlet</servlet-name>
         <servlet-class>homelibrary.servlets.EdittingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NotificationServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.NotificationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>EdittingServlet</servlet-name>
         <url-pattern>/editting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificationServlet</servlet-name>
+        <url-pattern>/notifications</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
