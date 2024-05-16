@@ -47,12 +47,13 @@ public class EditServlet extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         
         StringBuilder errors = new StringBuilder(extractErrors(request));
-        String switchCases = "", selectOptions = "";
+        String switchCases = "", selectOptions = "", authorsOptions = "";
         try
         {
             var books = getBookData();
             switchCases = generateJSSwitchCases(books);
             selectOptions = generateHtmlSelectOptions(books);
+            authorsOptions = generateAuthorOptionsHtml();
         }
         catch (SQLException sql)
         {
@@ -249,7 +250,7 @@ public class EditServlet extends HttpServlet
                                         <TH>New date of publication:</TH>
                                         <TD>
 
-                                            <INPUT id="new-date" name="date" type="date"/>
+                                            <INPUT id="new-date" name="publication-date" type="date"/>
 
                                         </TD>
                                     </TR>
@@ -273,7 +274,7 @@ public class EditServlet extends HttpServlet
 
                                         <TH>New publication type:</TH>
                                         <TD>
-                                            <SELECT id="new-type" name="type">
+                                            <SELECT id="new-type" name="publication-type">
                                                 <OPTION value="">Select</OPTION>
                                                 <OPTION value="book">Book</OPTION>
                                                 <OPTION value="journal">Journal</OPTION>
@@ -303,7 +304,11 @@ public class EditServlet extends HttpServlet
 
                                             <SELECT id="addition-selection">
                                                 <OPTION value="">Select author to add</OPTION>
-                                                <OPTION value="Old Author">Old Author</OPTION>
+                        
+                                                <!-- DYNAMICALLY GENERATED: -->
+                                                %4$s
+                                                <!-- /DYNAMICALLY GENERATED -->
+                        
                                             </SELECT><BR/>
 
                                             <INPUT id="new-name" placeholder="Name to add"/>
@@ -318,7 +323,7 @@ public class EditServlet extends HttpServlet
                             </FORM>
                         </BODY>
                         </HTML>
-                        """.formatted(switchCases, selectOptions, errors.toString()));
+                        """.formatted(switchCases, selectOptions, errors.toString(), authorsOptions));
         }
     }
     
@@ -377,10 +382,10 @@ public class EditServlet extends HttpServlet
     {
         StringBuilder code = new StringBuilder();
         
-        for  (var book : books)
+        for (var book : books)
         {
             String[] authorsArray = book.authors.split("; ");
-            StringBuilder authors = new StringBuilder(authorsArray[0]);
+            StringBuilder authors = new StringBuilder("'%s'".formatted(authorsArray[0]));
             for (int i = 1; i < authorsArray.length; ++i)
             {
                 authors.append(", '").append(authorsArray[i]).append("'");
@@ -444,6 +449,40 @@ public class EditServlet extends HttpServlet
         }
         
         return errorsHtml.toString();
+    }
+    
+    private String generateAuthorOptionsHtml() throws SQLException
+    {
+        Driver driver = new org.postgresql.Driver();
+        DriverManager.registerDriver(driver);
+
+        String dbUrl = DatabaseConnectionData.DATABASE_URL;
+        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+        
+        StringBuilder options = new StringBuilder();
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
+        {
+            String select = """
+                            SELECT
+                                    a."name" AS "name",
+                                    a."surname" AS "surname"
+                            FROM
+                                    app.authors a
+                            """;
+            ResultSet results = statement.executeQuery(select);
+            while (results.next())
+            {
+                String name = results.getString("name");
+                String surname = results.getString("surname");
+                options.append("""
+                               <OPTION value="%1$s %2$s">%1$s %2$s</OPTION>
+                               """.formatted(name, surname));
+            }
+        }
+        
+        return options.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

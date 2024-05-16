@@ -59,18 +59,19 @@ public class EdittingServlet extends HttpServlet
                 String isbnOrIssn = type.equals("book") ? "b" : "s";
                 String updateBook  = """
                     UPDATE app.publications
-                    SET title = '%s',
-                        publication_date = '%s'
-                        condition = '%s'::app.book_condition,
-                        publication_type = '%s'::app.publication_type,
-                        is%sn      = '%s'
-                    WHERE id = %s;
-                    """.formatted(title,
-                        date,
-                        condition,
-                        type,
-                        isbnOrIssn,
-                        id);
+                    SET title = '%1$s',
+                        publication_date = '%2$s'
+                        condition = '%3$s'::app.book_condition,
+                        publication_type = '%4$s'::app.publication_type,
+                        is%5$sn = '%6$s'
+                    WHERE id = %7$s;
+                    """.formatted(title, // 1$
+                        date, // 2$
+                        condition, // 3$
+                        type, // 4$
+                        isbnOrIssn, // 5$
+                        isbnIssn, // 6$
+                        id); // 7$
 
                 Driver driver = new org.postgresql.Driver();
                 DriverManager.registerDriver(driver);
