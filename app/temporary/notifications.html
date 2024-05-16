@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Notifications &middot; Home Library</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            .DefaultBox
+            {
+                border: 2px solid black;
+                margin: 20px;
+                padding: 20px;
+                width: 80%;
+            }
+            table {
+                width: 100%;
+                border: 1px solid;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .action-buttons {
+                display: flex;
+                justify-content: space-around;
+            }
+            .accept-button, .reject-button, .acknowledge-button {
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .accept-button {
+                background-color: #7cc27f;
+                color: white;
+            }
+            .reject-button {
+                background-color: #df6259;
+                color: white;
+            }
+            .acknowledge-button {
+                background-color: #3a9cbd;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Home Library &middot; Notifications</h1>
+        <div class="DefaultBox">
+            <table>
+                <tr>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Type</th>
+                    <th>Element (Publication)</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>You</td>
+                    <td>Request</td>
+                    <td>The Catcher in the Rye</td>
+                    <td>2024-05-16</td>
+                    <td class="action-buttons">
+                        <button class="accept-button">Accept</button>
+                        <button class="reject-button">Reject</button>
+                        <button class="acknowledge-button">Acknowledge</button>
+                    </td>
+                </tr>
+                <!-- Additional notification rows can be added here -->
+            </table>
+        </div>
+    </body>
+</html>
