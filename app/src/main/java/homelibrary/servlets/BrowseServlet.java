@@ -66,10 +66,10 @@ public class BrowseServlet extends HttpServlet
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
-    // TODO Maciek -> przygotować tabelkę
     private String getTableOfPublications(String ownerId)
     {
         StringBuilder tableHtml = new StringBuilder("<p><b>Your publications:</b></p>");
+
         try
         {
             Driver driver = new org.postgresql.Driver();
@@ -143,7 +143,6 @@ public class BrowseServlet extends HttpServlet
         {
             tableHtml.append(sql);
         }
-
         return tableHtml.toString();
     }
 
