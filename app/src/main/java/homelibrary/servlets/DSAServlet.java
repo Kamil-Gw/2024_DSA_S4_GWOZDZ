@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +26,6 @@ public class DSAServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter())
         {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -77,7 +77,24 @@ public class DSAServlet extends HttpServlet {
     @Override
     public String getServletInfo()
     {
-        return "Short description";
+        return "Short servlet description";
+    }
+
+    /**
+     * Get the owner id from the session
+     * @param request the request object
+     * @return the owner id
+     */
+    protected String getOwnerId(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession(false);
+        return (session != null) ? (String) session.getAttribute("id") : null;
+    }
+
+    protected String getNickname(HttpServletRequest request)
+    {
+        HttpSession session = request.getSession(false);
+        return (session != null) ? (String) session.getAttribute("username") : null;
     }
 
 }

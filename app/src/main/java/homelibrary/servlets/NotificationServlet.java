@@ -17,7 +17,8 @@ public class NotificationServlet extends DSAServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String userId = getOwnerId(request);
-        String tableHtml = getNotificationsTable(userId);
+        String userNickname = getNickname(request);
+        String tableHtml = getNotificationsTable(userId, userNickname);
 
         try (PrintWriter out = response.getWriter()){
             out.println("""
@@ -79,13 +80,7 @@ public class NotificationServlet extends DSAServlet {
         }
     }
 
-    private String getOwnerId(HttpServletRequest request)
-    {
-        HttpSession session = request.getSession(false);
-        return (session != null) ? (String) session.getAttribute("id") : null;
-    }
-
-    private String getNotificationsTable(String userId) {
+    private String getNotificationsTable(String userId, String userNickname) {
         StringBuilder tableHtml = new StringBuilder("");
 
         try
@@ -113,7 +108,9 @@ public class NotificationServlet extends DSAServlet {
                             INNER JOIN app.users ur on ur.id = t.receiver_id
                             INNER JOIN app.users us on us.id = t.sender_id
                         WHERE
-                            ur.id = %s OR us.id = %s;
+                             t.request_status = 'pending'::app.borrowing_record_status
+                             AND
+                             (ur.id = 1 OR us.id = 1);
                         """.formatted(userId, userId);
                 ResultSet results = statement.executeQuery(query);
                 if (results.next())
@@ -138,21 +135,52 @@ public class NotificationServlet extends DSAServlet {
                         String date = results.getString("date");
                         String id =  results.getString("id");
 
-//                        TODO -> links with notifications update
                         tableHtml.append("""
                                          <tr>
                                             <td>%s</td>
                                             <td>%s</td>
+                                            <td>%s Request</td>
                                             <td>%s</td>
                                             <td>%s</td>
-                                            <td>%s</td>
-                                            <td class="action-buttons">
-                                                <a class="accept-button">Accept&nbsp;</a>
-                                                <a class="reject-button">Reject&nbsp;</a>
-                                                <a class="acknowledge-button">Acknowledge </a>
-                                            </td>
-                                         </tr>
                                          """.formatted(sender, receiver, type, element, date));
+
+                        if (type.equals("reservation")) {
+                            if (sender.equals(userNickname)) {
+                                tableHtml.append("""
+                                                <td class="action-buttons">
+                                                    <a href="notification-management?id=%s?status=canceled" class="reject-button">Cancel</a>
+                                                </td>
+                                                """.formatted(id));
+                            } else {
+                                tableHtml.append("""
+                                                <td class="action-buttons">
+                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
+                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
+                                                </td>
+                                                """.formatted(id, id));
+                            }
+                        } else if (type.equals("borrowing")) {
+                            if (sender.equals(userNickname)) {
+                                tableHtml.append("""
+                                                <td class="action-buttons">
+                                                    <a href="notification-management?id=%s?status=canceled" class="reject-button">Cancel</a>
+                                                </td>
+                                                """.formatted(id));
+                            } else {
+                                tableHtml.append("""
+                                                <td class="action-buttons">
+                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
+                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
+                                                </td>
+                                                """.formatted(id, id));
+                            }
+                        } else {
+                            tableHtml.append("""
+                                            <td class="action-buttons">
+                                                <a href="notification-management?id=%s?status=acknowledged" class="acknowledge-button">Acknowledge</a>
+                                            </td>
+                                            """.formatted(id));
+                        }
                     }
                     while (results.next());
                     tableHtml.append("</table>");
