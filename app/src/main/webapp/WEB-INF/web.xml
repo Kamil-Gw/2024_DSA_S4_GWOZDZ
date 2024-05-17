@@ -36,6 +36,14 @@
         <servlet-name>NotificationServlet</servlet-name>
         <servlet-class>homelibrary.servlets.NotificationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.SearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPublicationServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ViewPublicationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -71,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>NotificationServlet</servlet-name>
         <url-pattern>/notifications</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPublicationServlet</servlet-name>
+        <url-pattern>/view-publication</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
