@@ -25,6 +25,7 @@ public class ViewPublicationServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
+        String publicationId = request.getParameter("id");
         try (PrintWriter out = response.getWriter())
         {
             /* TODO output your page here. You may use following sample code. */
@@ -34,7 +35,7 @@ public class ViewPublicationServlet extends HttpServlet
             out.println("<title>Servlet ViewPublicationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewPublicationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewPublicationServlet at " + publicationId + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

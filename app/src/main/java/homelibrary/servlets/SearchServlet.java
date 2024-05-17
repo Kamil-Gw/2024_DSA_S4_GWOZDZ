@@ -87,12 +87,12 @@ public class SearchServlet extends HttpServlet
                             JOIN
                                 app.authors a ON pa."author_id" = a."id"
                         WHERE
-                                UPPER(p."title") LIKE UPPER('%u%')
-                            OR  UPPER(a."name") LIKE UPPER('%u%')
-                            OR  UPPER(a."surname") LIKE UPPER('%u%')
+                                UPPER(p."title") LIKE UPPER('%%%1$s%%')
+                            OR  UPPER(a."name") LIKE UPPER('%%%1$s%%')
+                            OR  UPPER(a."surname") LIKE UPPER('%%%1$s%%')
                         GROUP BY
                                 p."id"
-                        """;
+                        """.formatted(particle);
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
 
@@ -121,7 +121,7 @@ public class SearchServlet extends HttpServlet
         StringBuilder code = new StringBuilder("""
             <TABLE border="1">
             <TR>
-                <TH>Title</TH><TH>Authors</TH><TH>Link to the book</TH>
+                <TH>Title</TH><TH>Authors</TH><TH>View</TH>
             </TR>
             """);
         for (var row : data)
