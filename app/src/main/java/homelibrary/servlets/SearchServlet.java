@@ -60,10 +60,10 @@ public class SearchServlet extends HttpServlet
             out.println("""
                         <HTML>
                         <HEAD>
-                            <TITLE>Home Library &middot; Search</TITLE>
+                            <TITLE>Home Library &middot; Reservation</TITLE>
                         </HEAD>
                         <BODY>
-                            <H1>Domowe Librarium &middot; Szukańsko</H1>
+                            <H1>Home Library &middot; Reservation</H1>
                             <P>%s</P>
                             <P>%s</P>
                         </BODY>
@@ -133,7 +133,7 @@ public class SearchServlet extends HttpServlet
                         <TR>
                             <TD>%s</TD>
                             <TD>%s</TD>
-                            <TD><A href="view-publication?id=%s">Look</A></TD>
+                            <TD><A href="reserve?id=%s">Look</A></TD>
                         </TR>
                         """.formatted(title, authors, id));
         }

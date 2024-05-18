@@ -37,20 +37,24 @@
         <servlet-class>homelibrary.servlets.NotificationServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchServlet</servlet-name>
-        <servlet-class>homelibrary.servlets.SearchServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewPublicationServlet</servlet-name>
-        <servlet-class>homelibrary.servlets.ViewPublicationServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>RemoveServlet</servlet-name>
         <servlet-class>homelibrary.servlets.RemoveServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RemovingServlet</servlet-name>
         <servlet-class>homelibrary.servlets.RemovingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.SearchServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReserveServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ReserveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReservingServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ReservingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -89,20 +93,24 @@
         <url-pattern>/notifications</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SearchServlet</servlet-name>
-        <url-pattern>/search</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewPublicationServlet</servlet-name>
-        <url-pattern>/view-publication</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RemoveServlet</servlet-name>
         <url-pattern>/remove</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RemovingServlet</servlet-name>
         <url-pattern>/removing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReserveServlet</servlet-name>
+        <url-pattern>/reserve</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReservingServlet</servlet-name>
+        <url-pattern>/reserving</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
