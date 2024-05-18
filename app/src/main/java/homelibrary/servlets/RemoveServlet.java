@@ -1,26 +1,16 @@
 package homelibrary.servlets;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
-/**
- *
- * @author Kay Jay O'Nail
- */
-public class BrowseServlet extends HttpServlet
-{
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
 
+public class RemoveServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,12 +23,9 @@ public class BrowseServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        // --------------------- Do the business logic. --------------------- //
-
         String ownerId = getOwnerId(request);
         String tableHtml = getTableOfPublications(ownerId);
-
-        // ---------------------------- Respond. ---------------------------- //
+        String errorMessages = (String) request.getAttribute("error-messages");
 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter())
@@ -52,12 +39,10 @@ public class BrowseServlet extends HttpServlet
                         <BODY>
                             <H1>Home Library &middot; Your Publications:</H1>
                             %s<BR/>
-                            <P><A href="add">Add</A> a publication.</P>
-                            <P><A href="edit">Edit</A> a publication.</P>
-                            <P><A href="remove">Remove</A> a publication.</P>
+                            <div style="color: red;">%s</div>
                         </BODY>
                         </HTML>
-                        """.formatted(tableHtml));
+                        """.formatted(tableHtml, errorMessages != null ? errorMessages : ""));
         }
     }
 
@@ -70,7 +55,6 @@ public class BrowseServlet extends HttpServlet
     private String getTableOfPublications(String ownerId)
     {
         StringBuilder tableHtml = new StringBuilder("<p><b>Your publications:</b></p>");
-
         try
         {
             Driver driver = new org.postgresql.Driver();
@@ -85,6 +69,7 @@ public class BrowseServlet extends HttpServlet
             {
                 String query = """
                 SELECT
+                    p.id,
                     p.title,
                     EXTRACT(YEAR FROM p.publication_date) AS "year",
                     p.isbn,
@@ -100,7 +85,8 @@ public class BrowseServlet extends HttpServlet
                     p.title,
                     p.publication_date,
                     p.isbn,
-                    p.issn;
+                    p.issn,
+                    p.id;
                 """.formatted(ownerId);
                 ResultSet results = statement.executeQuery(query);
                 if (results.next())
@@ -112,6 +98,7 @@ public class BrowseServlet extends HttpServlet
                                              <th>Year of publication</th>
                                              <th>ISBN/ISSN</th>
                                              <th>Authors</th>
+                                             <th>Action</th>
                                          </tr>
                                      """);
                     do
@@ -122,14 +109,19 @@ public class BrowseServlet extends HttpServlet
                         String issn = results.getString("issn");
                         String authors = results.getString("authors");
                         String isbnissn = (isbn != null) ? isbn : issn;
+                        String id = results.getString("id");
                         tableHtml.append("""
                                          <tr>
                                             <td>%s</td>
                                             <td>%s</td>
                                             <td>%s</td>
                                             <td>%s</td>
+                                            <td><form action='removing' method='get'>
+                                            <input type='hidden' name='id' value="%s">
+                                            <input type='submit' value='Remove'>
+                                            </form></td>
                                          </tr>
-                                         """.formatted(title, year, isbnissn, authors));
+                                         """.formatted(title, year, isbnissn, authors, id));
                     }
                     while (results.next());
                     tableHtml.append("</table>");
@@ -144,8 +136,10 @@ public class BrowseServlet extends HttpServlet
         {
             tableHtml.append(sql);
         }
+
         return tableHtml.toString();
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -188,5 +182,4 @@ public class BrowseServlet extends HttpServlet
     {
         return "Short description";
     }// </editor-fold>
-
 }
