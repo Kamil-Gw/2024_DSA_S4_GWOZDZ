@@ -39,6 +39,7 @@ public class RemoveServlet extends HttpServlet {
                         <BODY>
                             <H1>Home Library &middot; Your Publications:</H1>
                             %s<BR/>
+                            <P><A href="browse">Return</A> to browse.</P>
                             <div style="color: red;">%s</div>
                         </BODY>
                         </HTML>
@@ -128,7 +129,7 @@ public class RemoveServlet extends HttpServlet {
                 }
                 else
                 {
-                    tableHtml.append("<p>You do not have any books yet. How about adding some?</p>");
+                    tableHtml.append("<p>You do not have any books yet.</p>");
                 }
             }
         }

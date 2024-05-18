@@ -17,7 +17,7 @@ public class RemovingServlet extends HttpServlet {
     {
         String ownerId = getOwnerId(request);
         response.setContentType("text/html;charset=UTF-8");
-        Boolean deletion = deleteBook(request, ownerId);
+        Boolean deletion = deleteBook(request);
 
         RequestDispatcher dispatcher;
         dispatcher = request.getRequestDispatcher("/remove");
@@ -31,7 +31,7 @@ public class RemovingServlet extends HttpServlet {
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
-    private Boolean deleteBook(HttpServletRequest request, String ownerId)
+    private Boolean deleteBook(HttpServletRequest request)
     {
         String bookId = request.getParameter("id");
         try {
@@ -42,16 +42,28 @@ public class RemovingServlet extends HttpServlet {
             String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
             String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
 
-            String query = "DELETE FROM app.publications WHERE owner_id = ?";
+            String queryAuthorship = "DELETE FROM app.authorships WHERE publication_id = ?";
+            String queryPublication = "DELETE FROM app.publications WHERE id = ?";
 
-            try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                 PreparedStatement statement = connection.prepareStatement(query))
-            {
-                statement.setLong(1, Long.parseLong(ownerId));
-
-                int rowsAffected = statement.executeUpdate();
-
-                return rowsAffected > 0;
+            try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword)) {
+                try {
+                    connection.setAutoCommit(false);
+                    try (PreparedStatement statementAuthorship = connection.prepareStatement(queryAuthorship)) {
+                        statementAuthorship.setLong(1, Long.parseLong(bookId));
+                        statementAuthorship.executeUpdate();
+                    }
+                    try (PreparedStatement statementPublication = connection.prepareStatement(queryPublication)) {
+                        statementPublication.setLong(1, Long.parseLong(bookId));
+                        statementPublication.executeUpdate();
+                    }
+                    connection.commit();
+                    return true;
+                }
+                catch (SQLException sql) {
+                    connection.rollback();
+                    request.setAttribute("error-messages", sql.toString());
+                    return false;
+                }
             }
         }
         catch (SQLException sql)
