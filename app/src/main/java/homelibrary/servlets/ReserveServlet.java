@@ -23,13 +23,14 @@ class PublicationData
     String issn;
     String authors;
     String owner;
+    int ownerId;
 }
 
 /**
  *
  * @author Kay Jay O'Nail 
  */
-public class ViewPublicationServlet extends HttpServlet
+public class ReserveServlet extends HttpServlet
 {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -49,6 +50,7 @@ public class ViewPublicationServlet extends HttpServlet
         try
         {
             data = getPublicationData(publicationId);
+            error = extractErrors(request);
         }
         catch (SQLException sql)
         {
@@ -68,6 +70,14 @@ public class ViewPublicationServlet extends HttpServlet
             
             if (data != null)
             {
+                if (!error.isEmpty())
+                {
+                    out.println("""
+                                <H2>Errors:</H2>
+                                <P>%s</P>
+                                """.formatted(error));
+                }
+                
                 out.println("""
                             <H2>Data of the publication</H2>
                             <TABLE border="1">
@@ -102,8 +112,9 @@ public class ViewPublicationServlet extends HttpServlet
                             </TABLE>
                             <H2>Reservation Request</H2>
                             <P>You want to reserve this book? Send a reservation request!</P>
-                            <FORM action="reserve" method="get">
+                            <FORM action="reserving" method="get">
                                 <INPUT name="publication-id" type="hidden" value="%9$s"/>
+                                <INPUT name="owner-id" type="hidden" value="%10$s"/>
                                 <TABLE border="1">
                                     <TR>
                                         <TH>
@@ -122,7 +133,7 @@ public class ViewPublicationServlet extends HttpServlet
                                         </TD>
                                     </TR>
                                 </TABLE><BR/>
-                                <BUTTON type="submit">Request</BUTTON>
+                                <BUTTON type="submit">Request Reservation</BUTTON>
                             </FORM>
                             """
                             .formatted(
@@ -134,7 +145,8 @@ public class ViewPublicationServlet extends HttpServlet
                                 (data.isbn != null) ? data.isbn : data.issn, // 6$
                                 data.condition, // 7$
                                 data.owner, // 8$
-                                publicationId // 9$
+                                publicationId, // 9$
+                                data.ownerId // 10$
                             )
                 );
             }
@@ -162,7 +174,8 @@ public class ViewPublicationServlet extends HttpServlet
                                 p."isbn" AS "isbn",
                                 p."issn" AS "issn",
                                 p."condition" AS "condition",
-                                u."username" AS "owner"
+                                u."username" AS "owner",
+                                u."id" AS "owner_id"
                         FROM
                                 app.publications p
                             JOIN
@@ -204,10 +217,35 @@ public class ViewPublicationServlet extends HttpServlet
                 data.issn = results.getString("issn");
                 data.condition = results.getString("condition");
                 data.owner = results.getString("owner");
+                data.ownerId = results.getInt("owner_id");
             }
         }
         
         return data;
+    }
+    
+    private String extractErrors(HttpServletRequest request)
+    {
+        String errorMessages = (String) request.getAttribute("error-messages");
+        request.removeAttribute("error-messages");
+        
+        StringBuilder errorsHtml = new StringBuilder();
+        
+        if (errorMessages != null)
+        {
+            String[] particularMessages = errorMessages.split(";");
+            if (!(particularMessages.length == 1 && particularMessages[0].isBlank()))
+            {
+                errorsHtml.append("<P>");
+                for (var message : particularMessages)
+                {
+                    errorsHtml.append(message).append("<BR/>");
+                }
+                errorsHtml.append("</P>");
+            }
+        }
+        
+        return errorsHtml.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -32,7 +32,8 @@ public class EdittingServlet extends HttpServlet
         String id = request.getParameter("id");
         String title = request.getParameter("title");
         String date = request.getParameter("publication-date");
-        String condition = request.getParameter("condition");
+        String condition = request.getParameter("condition").toLowerCase().replace(' ', '_');
+        System.out.println(condition);
         String type = request.getParameter("publication-type");
         String isbnIssn = request.getParameter("isbn/issn");
         String[] authorsText = request.getParameter("authors").split("; ");
@@ -46,6 +47,7 @@ public class EdittingServlet extends HttpServlet
         boolean goodAuthors = !(authorsText.length == 1 && authorsText[0].isBlank());
 
         if (goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors) {
+            Author[] oldAuthorsArray;
             Author[] authorsArray = new Author[authorsText.length];
             for (int a = 0; a < authorsText.length; ++a)
             {
@@ -56,22 +58,26 @@ public class EdittingServlet extends HttpServlet
             }
 
             try {
+                String oldAuthorsString = """
+                SELECT y.id, y.name, y.surname
+                FROM
+                    app.authorships x
+                    INNER JOIN app.authors y ON x.author_id = y.id
+                WHERE publication_id = %s;
+                """.formatted(id);
+
                 String isbnOrIssn = type.equals("book") ? "b" : "s";
                 String updateBook  = """
                     UPDATE app.publications
-                    SET title = '%1$s',
-                        publication_date = '%2$s'
-                        condition = '%3$s'::app.book_condition,
-                        publication_type = '%4$s'::app.publication_type,
-                        is%5$sn = '%6$s'
-                    WHERE id = %7$s;
-                    """.formatted(title, // 1$
-                        date, // 2$
-                        condition, // 3$
-                        type, // 4$
-                        isbnOrIssn, // 5$
-                        isbnIssn, // 6$
-                        id); // 7$
+                    SET title = '%s',
+                        publication_date = '%s',
+                        condition = '%s'::app.book_condition,
+                        publication_type = '%s'::app.publication_type,
+                        is%sn = '%s'
+                    WHERE id = %s;
+                    """.formatted(title, date, condition, type, isbnOrIssn, isbnIssn, id);
+                System.out.println("------");
+                System.out.println(updateBook);
 
                 Driver driver = new org.postgresql.Driver();
                 DriverManager.registerDriver(driver);
@@ -83,6 +89,65 @@ public class EdittingServlet extends HttpServlet
                 try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
                      Statement statement = connection.createStatement())
                 {
+                    ResultSet authors = statement.executeQuery(oldAuthorsString);
+                    System.out.println(authors.getFetchSize() + " authors found.");
+                    int columns = authors.getMetaData().getColumnCount();
+                    while (authors.next())
+                    {
+                        for (int i = 1; i <= columns; ++i)
+                        {
+                            System.out.print(authors.getString(i) + " ");
+                        }
+                        System.out.println();
+                    }
+//                    oldAuthorsArray = new Author[authors.getFetchSize()+1];
+//                    int i = 0;
+//                    while (authors.next())
+//                    {
+//                        oldAuthorsArray[i] = new Author(authors.getString("name"), authors.getString("surname"));
+//                        ++i;
+//                    }
+//
+//                    for (Author author : authorsArray)
+//                    {
+//                        boolean found = false;
+//                        for (Author oldAuthor : oldAuthorsArray)
+//                        {
+//                            if (author.equals(oldAuthor))
+//                            {
+//                                found = true;
+//                                break;
+//                            }
+//                        }
+//                        if (!found)
+//                        {
+//                            // check if author is in the database
+//                            String checkAuthor = """
+//                            SELECT id
+//                            FROM app.authors
+//                            WHERE name = '%s' AND surname = '%s';
+//                            """.formatted(author.getName(), author.getSurname());
+//
+////                            if no author -> add it
+//                            ResultSet authorId = statement.executeQuery(checkAuthor);
+//                            if (!authorId.next())
+//                            {
+//                                String addAuthor = """
+//                                INSERT INTO app.authors (name, surname)
+//                                VALUES ('%s', '%s');
+//                                """.formatted(author.getName(), author.getSurname());
+//                                statement.executeUpdate(addAuthor);
+//                            }
+//
+//                            // add authorship
+//                            String addAuthorship = """
+//                            INSERT INTO app.authorships (publication_id, author_id)
+//                            VALUES (%s, (SELECT id FROM app.authors WHERE name = '%s' AND surname = '%s'));
+//                            """.formatted(id, author.getName(), author.getSurname());
+//                            statement.executeUpdate(addAuthorship);
+//                        }
+//                    }
+
                     statement.executeUpdate(updateBook);
                 }
             }
@@ -93,6 +158,9 @@ public class EdittingServlet extends HttpServlet
             }
 
 //            TODO -> adding, removing authors
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/edit");
+            dispatcher.forward(request, response);
         }
     }
 

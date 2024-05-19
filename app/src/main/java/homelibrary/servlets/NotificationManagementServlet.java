@@ -41,8 +41,6 @@ public class NotificationManagementServlet extends DSAServlet {
                     WHERE id = %s;
                 """.formatted(action, notificationId);
 
-        // TODO -> adding some stuff to DB enum: acknowledged, cancelled
-
         System.out.println(query);
 
         try {

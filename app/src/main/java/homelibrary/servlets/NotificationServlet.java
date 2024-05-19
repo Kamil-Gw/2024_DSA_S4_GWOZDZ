@@ -148,7 +148,7 @@ public class NotificationServlet extends DSAServlet {
                             if (sender.equals(userNickname)) {
                                 tableHtml.append("""
                                                 <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=canceled" class="reject-button">Cancel</a>
+                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
                                                 </td>
                                                 """.formatted(id));
                             } else {
@@ -163,7 +163,7 @@ public class NotificationServlet extends DSAServlet {
                             if (sender.equals(userNickname)) {
                                 tableHtml.append("""
                                                 <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=canceled" class="reject-button">Cancel</a>
+                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
                                                 </td>
                                                 """.formatted(id));
                             } else {
