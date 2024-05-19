@@ -56,6 +56,14 @@
         <servlet-name>ReservingServlet</servlet-name>
         <servlet-class>homelibrary.servlets.ReservingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookshelfServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.Bookshelf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBookToBookshelfServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.AddBookToBookshelf</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -111,6 +119,14 @@
     <servlet-mapping>
         <servlet-name>ReservingServlet</servlet-name>
         <url-pattern>/reserving</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookshelfServlet</servlet-name>
+        <url-pattern>/bookshelf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBookToBookshelfServlet</servlet-name>
+        <url-pattern>/addingtobookshelf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
