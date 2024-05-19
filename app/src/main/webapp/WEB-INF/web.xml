@@ -52,6 +52,14 @@
         <servlet-name>RemovingServlet</servlet-name>
         <servlet-class>homelibrary.servlets.RemovingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookshelfServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.Bookshelf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBookToBookshelfServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.AddBookToBookshelf</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -103,6 +111,14 @@
     <servlet-mapping>
         <servlet-name>RemovingServlet</servlet-name>
         <url-pattern>/removing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookshelfServlet</servlet-name>
+        <url-pattern>/bookshelf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBookToBookshelfServlet</servlet-name>
+        <url-pattern>/addingtobookshelf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
