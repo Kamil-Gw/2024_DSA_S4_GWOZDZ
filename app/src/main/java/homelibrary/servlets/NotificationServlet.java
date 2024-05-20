@@ -110,7 +110,7 @@ public class NotificationServlet extends DSAServlet {
                         WHERE
                              t.request_status = 'pending'::app.borrowing_record_status
                              AND
-                             (ur.id = 1 OR us.id = 1);
+                             (ur.id = %s OR us.id = %s);
                         """.formatted(userId, userId);
                 ResultSet results = statement.executeQuery(query);
                 if (results.next())

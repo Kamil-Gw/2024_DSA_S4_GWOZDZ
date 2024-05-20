@@ -55,6 +55,10 @@ public class BrowseServlet extends HttpServlet
                             <P><A href="add">Add</A> a publication.</P>
                             <P><A href="edit">Edit</A> a publication.</P>
                             <P><A href="remove">Remove</A> a publication.</P>
+                        
+                            <DIV>
+                                <P>Go back <A href="home">home</A>.</P>
+                            </DIV>
                         </BODY>
                         </HTML>
                         """.formatted(tableHtml));

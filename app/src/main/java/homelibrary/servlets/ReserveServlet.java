@@ -135,8 +135,7 @@ public class ReserveServlet extends HttpServlet
                                 </TABLE><BR/>
                                 <BUTTON type="submit">Request Reservation</BUTTON>
                             </FORM>
-                            """
-                            .formatted(
+                            """.formatted(
                                 data.title, // 1$
                                 data.authors, // 2$
                                 data.type, // 3$

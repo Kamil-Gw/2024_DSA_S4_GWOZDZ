@@ -1,5 +1,6 @@
 package homelibrary.servlets;
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -7,6 +8,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
@@ -27,13 +34,14 @@ public class ReservingServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         HttpSession session = request.getSession(false);
         assert (session != null);
         String senderId = (String) session.getAttribute("id");
         String receiverId = request.getParameter("owner-id");
-        String stringDateSince = request.getParameter("data-since");
-        String stringDateUntil = request.getParameter("data-until");
+        String publicationId = request.getParameter("publication-id");
+        String stringDateSince = request.getParameter("date-since");
+        String stringDateUntil = request.getParameter("date-until");
         String error = "";
         try
         {
@@ -53,43 +61,67 @@ public class ReservingServlet extends HttpServlet
         {
             error = e.toString();
         }
-        
+
         String insert = """
-                        INSERT INTO
-                                app.reservation_borrowing_requests
-                                (
-                                    "sender_id",
-                                    "receiver_id",
-                                    "publication_id",
-                                    "start_time",
-                                    "end_time",
-                                    "record_type",
-                                    "request_status"
-                                )
-                        VALUES
-                                (
-                                    %1$s,
-                                    %2$s,
-                                    %3$s,
-                                    '%4$s',
-                                    '%5$s',
-                                    'reservation',
-                                    'pending'
-                                )
-                        """.formatted();
-        
-        try (PrintWriter out = response.getWriter())
+                INSERT INTO
+                        app.reservation_borrowing_requests
+                        (
+                            "sender_id",
+                            "receiver_id",
+                            "publication_id",
+                            "start_time",
+                            "end_time",
+                            "record_type",
+                            "request_status"
+                        )
+                VALUES
+                        (
+                            %1$s,
+                            %2$s,
+                            %3$s,
+                            '%4$s',
+                            '%5$s',
+                            'reservation',
+                            'pending'
+                        )
+                """.formatted(
+                senderId,
+                receiverId,
+                publicationId,
+                stringDateSince,
+                stringDateUntil
+        );
+
+        try
         {
-            out.println("""
-                        <HTML>
-                        <HEAD>
-                            <TITLE>Home Library &middot; Reserving</TITLE>
-                        </HEAD>
-                        <BODY>
-                            <P></P>
-                        </BODY>
-                        </HTML>
-                        """);
+            Driver driver = new org.postgresql.Driver();
+            DriverManager.registerDriver(driver);
+
+            String dbUrl = DatabaseConnectionData.DATABASE_URL;
+            String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+            String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+            try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                 Statement statement = connection.createStatement())
+            {
+                statement.executeUpdate(insert);
+            }
+        }
+        catch (SQLException sql)
+        {
+            error = sql.getMessage();
+        }
+
+        if (!error.isEmpty())
+        {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/notifications");
+            dispatcher.forward(request, response);
+        }
+        else
+        {
+            request.setAttribute("error-messages", error);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/search");
+            dispatcher.forward(request, response);
         }
     }
 

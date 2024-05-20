@@ -206,6 +206,9 @@ public class AddServlet extends HttpServlet
                             <BUTTON type="submit">Add the publication<BR/>to your collection</BUTTON>
                         </FORM>
                     </DIV>
+                    <DIV>
+                        <P>Go back <A href="home">home</A>.</P>
+                    </DIV>
                 </BODY>
             </HTML>
             """);

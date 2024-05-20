@@ -321,6 +321,9 @@ public class EditServlet extends HttpServlet
                                 </TABLE><BR/>
                                 <BUTTON type="submit">Edit</BUTTON>
                             </FORM>
+                            <DIV>
+                                <P>Go back <A href="home">home</A>.</P>
+                            </DIV>
                         </BODY>
                         </HTML>
                         """.formatted(switchCases, selectOptions, errors.toString(), authorsOptions));

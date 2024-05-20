@@ -41,6 +41,9 @@ public class RemoveServlet extends HttpServlet {
                             %s<BR/>
                             <P><A href="browse">Return</A> to browse.</P>
                             <div style="color: red;">%s</div>
+                            <DIV>
+                                <P>Go back <A href="home">home</A>.</P>
+                            </DIV>
                         </BODY>
                         </HTML>
                         """.formatted(tableHtml, errorMessages != null ? errorMessages : ""));

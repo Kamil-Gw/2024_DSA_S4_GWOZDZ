@@ -44,10 +44,10 @@ public class HomeServlet extends HttpServlet
         {
             out.println("""
             <!DOCTYPE html>
-            <html>
-                <head>
-                    <title>Home Library &middot; Homepage</title>
-                    <style>
+            <HTML>
+                <HEAD>
+                    <TITLE>Home Library &middot; Homepage</TITLE>
+                    <STYLE>
                         .DefaultBox
                         {
                             border: 2px solid black;
@@ -55,26 +55,26 @@ public class HomeServlet extends HttpServlet
                             padding: 20px;
                             width: 40%%;
                         }
-                    </style>
-                </head>
-                <body>
-                    <h1>Home</h1>
-                    <h2>Hello, %s!</h2>
-                    <div>
-                        <form action="search">
+                    </STYLE>
+                </HEAD>
+                <BODY>
+                    <H1>Home Library &middot; Homepage</H1>
+                    <H2>Hello, %s!</H2>
+                    <DIV>
+                        <FORM action="search">
                             <input name="search" type="text" placeholder="Search"/>
                             <input type="submit" value="Search"/>
-                        </form>
-                    </div>
-                    <div class="DefaultBox">
-                        <p><a href="browse">Click</a> to browse your collection.</p>
-                        <p><a href="notifications">Click</a> to view your notifications.</p>
-                        <p><a href="bookshelf">Click</a> to open your bookshelf settings.</p>
-                        <p><a href="account">Click</a> to go to account settings.</p>
-                        <p><a href="addingtobookshelf">Click</a> to add a book to your bookshelf.</p>
-                    </div>
-                </body
-            </html>
+                        </FORM>
+                    </DIV>
+                    <DIV class="DefaultBox">
+                        <P><A href="browse">Click</A> to browse your collection.</P>
+                        <P><A href="notifications">Click</A> to view your notifications.</P>
+                        <P><A href="bookshelf">Click</A> to open your bookshelf settings.</P>
+                        <P><A href="account">Click</A> to go to account settings.</P>
+                        <P><A href="addingtobookshelf">Click</A> to add a book to your bookshelf.</P>
+                    </DIV>
+                </BODY>
+            </HTML>
             """.formatted(getUsername(request)));
         }
     }

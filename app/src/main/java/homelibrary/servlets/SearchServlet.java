@@ -54,7 +54,7 @@ public class SearchServlet extends HttpServlet
         {
             error = sql.toString();
         }
-        
+
         try (PrintWriter out = response.getWriter())
         {
             out.println("""
@@ -66,12 +66,15 @@ public class SearchServlet extends HttpServlet
                             <H1>Home Library &middot; Reservation</H1>
                             <P>%s</P>
                             <P>%s</P>
+                            <DIV>
+                                <P>Go back <A href="home">home</A>.</P>
+                            </DIV>
                         </BODY>
                         </HTML>
                         """.formatted(error, table));
         }
     }
-    
+
     private List<SearchingResult> search(String particle) throws SQLException
     {
         List<SearchingResult> list = new ArrayList<>();
@@ -115,30 +118,37 @@ public class SearchServlet extends HttpServlet
         }
         return list;
     }
-    
+
     private String generateTableHtml(List<SearchingResult> data)
     {
-        StringBuilder code = new StringBuilder("""
+        if (!data.isEmpty())
+        {
+            StringBuilder code = new StringBuilder("""
             <TABLE border="1">
             <TR>
                 <TH>Title</TH><TH>Authors</TH><TH>View</TH>
             </TR>
             """);
-        for (var row : data)
-        {
-            int id = row.id;
-            String title = row.title;
-            String authors = row.authors;
-            code.append("""
+            for (var row : data)
+            {
+                int id = row.id;
+                String title = row.title;
+                String authors = row.authors;
+                code.append("""
                         <TR>
                             <TD>%s</TD>
                             <TD>%s</TD>
                             <TD><A href="reserve?id=%s">Look</A></TD>
                         </TR>
                         """.formatted(title, authors, id));
+            }
+            code.append("</TABLE>");
+            return code.toString();
         }
-        code.append("</TABLE>");
-        return code.toString();
+        else
+        {
+            return "<P>No results.</P>";
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
