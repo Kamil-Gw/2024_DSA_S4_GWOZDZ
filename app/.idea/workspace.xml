@@ -11,10 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/DSAServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/DSAServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +105,8 @@
       <workItem from="1715874488604" duration="385000" />
       <workItem from="1715874897091" duration="5780000" />
       <workItem from="1716122418405" duration="1512000" />
-      <workItem from="1716129183914" duration="7319000" />
+      <workItem from="1716129183914" duration="7665000" />
+      <workItem from="1716194316945" duration="3823000" />
     </task>
     <servers />
   </component>

@@ -53,18 +53,5 @@ public class NotificationManagementServlet extends DSAServlet {
         return true;
     }
 
-    private void executeUpdate(String query) throws SQLException {
-        Driver driver = new org.postgresql.Driver();
-        DriverManager.registerDriver(driver);
 
-        String dbUrl = DatabaseConnectionData.DATABASE_URL;
-        String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
-        String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-
-        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-             Statement statement = connection.createStatement())
-        {
-            statement.executeUpdate(query);
-        }
-    }
 }
