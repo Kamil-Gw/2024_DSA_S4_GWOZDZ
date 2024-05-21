@@ -96,6 +96,7 @@ public class SearchServlet extends HttpServlet
                         GROUP BY
                                 p."id"
                         """.formatted(particle);
+        
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
 

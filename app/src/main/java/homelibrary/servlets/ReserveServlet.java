@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -28,12 +29,13 @@ class PublicationData
 
 /**
  *
- * @author Kay Jay O'Nail 
+ * @author Kay Jay O'Nail
  */
 public class ReserveServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -47,6 +49,7 @@ public class ReserveServlet extends HttpServlet
         String publicationId = request.getParameter("id");
         PublicationData data = null;
         String error = "";
+        
         try
         {
             data = getPublicationData(publicationId);
@@ -56,20 +59,28 @@ public class ReserveServlet extends HttpServlet
         {
             error = sql.toString();
         }
-        
+
         try (PrintWriter out = response.getWriter())
         {
             out.println("""
                         <HTML>
                         <HEAD>
-                            <TITLE>Home Library &middot; View Publication</TITLE>
+                            <TITLE>Home Library &middot; Reserve</TITLE>
                         </HEAD>
                         <BODY>
-                            <H1>Home Library &middot; View Publication</H1>
+                            <H1>Home Library &middot; Reserve</H1>
                         """);
-            
+
             if (data != null)
             {
+                HttpSession session = request.getSession(false);
+                String userId = (String) session.getAttribute("id");
+                
+                if (userId.equals(String.valueOf(data.ownerId)))
+                {
+                    data.owner = data.owner.concat(" (you)");
+                }
+
                 if (!error.isEmpty())
                 {
                     out.println("""
@@ -77,7 +88,7 @@ public class ReserveServlet extends HttpServlet
                                 <P>%s</P>
                                 """.formatted(error));
                 }
-                
+
                 out.println("""
                             <H2>Data of the publication</H2>
                             <TABLE border="1">
@@ -111,10 +122,25 @@ public class ReserveServlet extends HttpServlet
                                 </TR>
                             </TABLE>
                             <H2>Reservation Request</H2>
+                            """.formatted(
+                                data.title, // 1$
+                                data.authors, // 2$
+                                data.type, // 3$
+                                data.date, // 4$
+                                (data.isbn != null) ? "ISBN" : "ISSN", // 5$
+                                (data.isbn != null) ? data.isbn : data.issn, // 6$
+                                data.condition, // 7$
+                                data.owner // 8$
+                            )
+                );
+
+                if (!userId.equals(String.valueOf(data.ownerId)))
+                {
+                    out.println("""
                             <P>You want to reserve this book? Send a reservation request!</P>
                             <FORM action="reserving" method="get">
-                                <INPUT name="publication-id" type="hidden" value="%9$s"/>
-                                <INPUT name="owner-id" type="hidden" value="%10$s"/>
+                                <INPUT name="publication-id" type="hidden" value="%1$s"/>
+                                <INPUT name="owner-id" type="hidden" value="%2$s"/>
                                 <TABLE border="1">
                                     <TR>
                                         <TH>
@@ -136,32 +162,31 @@ public class ReserveServlet extends HttpServlet
                                 <BUTTON type="submit">Request Reservation</BUTTON>
                             </FORM>
                             """.formatted(
-                                data.title, // 1$
-                                data.authors, // 2$
-                                data.type, // 3$
-                                data.date, // 4$
-                                (data.isbn != null) ? "ISBN" : "ISSN", // 5$
-                                (data.isbn != null) ? data.isbn : data.issn, // 6$
-                                data.condition, // 7$
-                                data.owner, // 8$
-                                publicationId, // 9$
-                                data.ownerId // 10$
-                            )
-                );
+                            publicationId, // 1$
+                            data.ownerId // 2$
+                    )
+                    );
+                }
+                else
+                {
+                    out.println("""
+                        <P>(This book is <EM>yours</EM>. You can't reserve it.)</P>
+                        """);
+                }
             }
             else
             {
-                out.println("<P>%s</P>".formatted(error));
+                out.println("<P>Error: %s</P>".formatted(error));
             }
-            
+
             out.println("""
                         </BODY>
                         </HTML>
                         """);
-            
+
         }
     }
-    
+
     private PublicationData getPublicationData(String id) throws SQLException
     {
         String select = """
@@ -191,16 +216,16 @@ public class ReserveServlet extends HttpServlet
                                 u."id",
                                 u."username"
                         """.formatted(id);
-        
+
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
 
         String dbUrl = DatabaseConnectionData.DATABASE_URL;
         String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
         String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-        
+
         PublicationData data = null;
-        
+
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
              Statement statement = connection.createStatement())
         {
@@ -219,17 +244,17 @@ public class ReserveServlet extends HttpServlet
                 data.ownerId = results.getInt("owner_id");
             }
         }
-        
+
         return data;
     }
-    
+
     private String extractErrors(HttpServletRequest request)
     {
         String errorMessages = (String) request.getAttribute("error-messages");
         request.removeAttribute("error-messages");
-        
+
         StringBuilder errorsHtml = new StringBuilder();
-        
+
         if (errorMessages != null)
         {
             String[] particularMessages = errorMessages.split(";");
@@ -243,7 +268,7 @@ public class ReserveServlet extends HttpServlet
                 errorsHtml.append("</P>");
             }
         }
-        
+
         return errorsHtml.toString();
     }
 
