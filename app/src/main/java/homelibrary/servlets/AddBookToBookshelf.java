@@ -18,6 +18,15 @@ public class AddBookToBookshelf extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
+        String nextServlet = request.getParameter("previousServlet");
+        if(nextServlet != null)
+        {
+            nextServlet = "bookshelf";
+        }
+        else {
+            nextServlet = "home";
+        }
+
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\">");
         out.println("<head>");
@@ -31,11 +40,15 @@ public class AddBookToBookshelf extends HttpServlet {
         out.println("    label { font-weight: bold; margin-bottom: 5px; display: block; }");
         out.println("    select, input[type=\"text\"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; }");
         out.println("    select:focus, input[type=\"text\"]:focus { outline: none; border-color: #2980b9; }");
+        out.println("    .button-container { display: flex; gap: 10px; }");
         out.println("    .submit-button { background-color: #3498db; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }");
         out.println("    .submit-button:hover { background-color: #2980b9; }");
+        out.println("    .back-button { background-color: #e74c3c; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }");
+        out.println("    .back-button:hover { background-color: #c0392b; }");
         out.println("</style>");
         out.println("</head>");
         out.println("<body>");
+        out.println("<H1>Home Library &middot; Add Book to Bookshelf:</H1>");
         out.println("<div class=\"container\">");
         out.println("    <form method=\"post\">");
         out.println("        <div class=\"form-section\">");
@@ -50,10 +63,18 @@ public class AddBookToBookshelf extends HttpServlet {
         out.println(getBookTitles(Long.parseLong(getOwnerId(request))));
         out.println("            </select>");
         out.println("        </div>");
-        out.println("        <button type=\"submit\" class=\"submit-button\">Add Book</button>");
+        out.println("        <div class=\"button-container\">");
+        out.println("            <button type=\"submit\" class=\"submit-button\">Add Book</button>");
+        out.println("            <button type=\"button\" class=\"back-button\" onclick=\"goBack();\">Back</button>");
+        out.println("        </div>");
         out.println("    </form>");
         out.println("</div>");
         out.println("</body>");
+        out.println("<script>");
+        out.println("function goBack() {");
+        out.println("window.location.href = '%s';".formatted(nextServlet));
+        out.println("}");
+        out.println("</script>");
         out.println("</html>");
     }
 
@@ -203,6 +224,8 @@ public class AddBookToBookshelf extends HttpServlet {
         String shelf = request.getParameter("shelf");
         addBookBookshelfToDatabase(shelf, title, getOwnerId(request));
         processRequest(request, response);
+
+
     }
 
     /**

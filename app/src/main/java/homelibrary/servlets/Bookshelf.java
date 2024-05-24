@@ -42,14 +42,23 @@ public class Bookshelf extends HttpServlet {
                 + "        .book:hover { background-color: #732d91; }"
                 + "        .title { font-size: 14px; font-weight: bold; }"
                 + "        .author { font-size: 12px; }"
-                + "        .add-shelf-button { background-color: #3498db; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }"
-                + "        .add-shelf-button:hover { background-color: #2980b9; }"
+                + "        .button-container { display: flex; gap: 10px; margin: 20px 0; }"
+                + "        .add-shelf-button, .delete-shelf-button, .add-book-to-shelf-button { background-color: #3498db; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }"
+                + "        .back-button { background-color: #e74c3c; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;}"
+                + "        .add-shelf-button:hover, .delete-shelf-button:hover, .add-book-to-shelf-button:hover { background-color: #2980b9; }"
+                + "        .back-button:hover { background-color: #c0392b; }"
                 + "    </style>"
                 + "</head>"
                 + "<body>"
+                + "<H1>Home Library &middot; Your Bookshelf:</H1>"
                 + "    <div class=\"bookshelf\">"
                 + getShelves(Long.parseLong(getOwnerId(request)))
-                + "        <button id=\"addShelfButton\" class=\"add-shelf-button\" onclick=\"addShelf()\">Add Shelf</button>"
+                + "        <div class=\"button-container\">"
+                + "            <button id=\"addShelfButton\" class=\"add-shelf-button\" onclick=\"addShelf()\">Add Shelf</button>"
+                + "            <button id=\"deleteShelfButton\" class=\"delete-shelf-button\" onclick=\"deleteShelf()\">Delete Shelf</button>"
+                + "            <button id=\"addBookshelfButton\" class=\"add-book-to-shelf-button\" onclick=\"addBookToShelf()\">Add Book</button>"
+                + "            <button id=\"backButton\" class=\"back-button\" onclick=\"goBack()\">Back</button>"
+                + "        </div>"
                 + "    </div>"
                 + "</body>"
                 + "<script>\n" +
@@ -76,6 +85,32 @@ public class Bookshelf extends HttpServlet {
                 "            };\n" +
                 "            xhr.send(\"action=addShelf&shelfName=\" + encodeURIComponent(shelfName));\n" +
                 "        }\n" +
+                "    }\n" +
+                "    function deleteShelf() {\n" +
+                "        var shelfToDelete = prompt('Enter the name of the shelf to delete:');\n" +
+                "        if (shelfToDelete) {\n" +
+                "            var xhr = new XMLHttpRequest();\n" +
+                "            xhr.open(\"POST\", \"bookshelf\", true);\n" +
+                "            xhr.setRequestHeader(\"Content-Type\", \"application/x-www-form-urlencoded\");\n" +
+                "            xhr.onreadystatechange = function () {\n" +
+                "                if (xhr.readyState === 4 && xhr.status === 200) {\n" +
+                "                    var shelves = document.querySelectorAll('.shelf');\n" +
+                "                    shelves.forEach(function(shelf) {\n" +
+                "                        if (shelf.querySelector('.shelf-name').textContent === shelfToDelete) {\n" +
+                "                            shelf.remove();\n" +
+                "                        }\n" +
+                "                    });\n" +
+                "                }\n" +
+                "            };\n" +
+                "            xhr.send(\"action=deleteShelf&shelfToDelete=\" + encodeURIComponent(shelfToDelete));\n" +
+                "        }\n" +
+                "    }\n" +
+                "    function goBack() {\n" +
+                "        window.location.href = 'home';\n" +
+                "    }\n" +
+                "    function addBookToShelf() {\n" +
+                "        var value = 'bookshelf';\n" +
+                "        window.location.href = 'addingtobookshelf?previousServlet=' + encodeURIComponent(value);\n" +
                 "    }\n" +
                 "</script>"
                 + "</html>";
@@ -192,6 +227,76 @@ public class Bookshelf extends HttpServlet {
     return true;
     }
 
+    private void handleDeleteShelf(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String shelfName = request.getParameter("shelfToDelete");
+
+        if (shelfName != null && !shelfName.isEmpty()) {
+            boolean success = deleteShelfFromDatabase(shelfName, getOwnerId(request), request);
+
+            if (success) {
+                response.getWriter().write("Shelf deleted successfully!");
+            } else {
+                response.getWriter().write("Failed to delete shelf from the database.");
+            }
+        } else {
+            response.getWriter().write("Shelf name cannot be empty.");
+        }
+    }
+
+    private boolean deleteShelfFromDatabase(String shelfName, String owner_id, HttpServletRequest request)
+    {
+        try {
+            Driver driver = new org.postgresql.Driver();
+            DriverManager.registerDriver(driver);
+
+            String dbUrl = DatabaseConnectionData.DATABASE_URL;
+            String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
+            String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
+
+            String queryShelfId = "Select app.bookshelves.id from app.bookshelves where"
+                    + " app.bookshelves.owner_id = ? and app.bookshelves.name = ?";
+            String queryBooksUpdate = "UPDATE app.publications SET shelf_id = NULL WHERE owner_id = ? AND shelf_id = ?";
+            String queryDelete = "DELETE FROM app.bookshelves WHERE name = ? and owner_id = ?";
+
+            try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword))
+            {
+                try(PreparedStatement statementShelfId = connection.prepareStatement(queryShelfId);
+                    PreparedStatement statementBooksUpdate = connection.prepareStatement(queryBooksUpdate);
+                    PreparedStatement statementDelete = connection.prepareStatement(queryDelete))
+                {
+                    connection.setAutoCommit(false);
+                    statementShelfId.setLong(1, Long.parseLong(owner_id));
+                    statementShelfId.setString(2, shelfName);
+                    ResultSet results = statementShelfId.executeQuery();
+                    if(results.next())
+                    {
+                        statementBooksUpdate.setLong(1, Long.parseLong(owner_id));
+                        statementBooksUpdate.setLong(2, results.getLong("id"));
+                        int rowsAffected = statementBooksUpdate.executeUpdate();
+                        System.out.println(rowsAffected + " rows updated successfully.");
+
+                        statementDelete.setString(1, shelfName);
+                        statementDelete.setLong(2, Long.parseLong(owner_id));
+                        statementDelete.executeUpdate();
+                        connection.commit();
+                    }
+                }
+                catch (SQLException sql) {
+                    connection.rollback();
+                    System.out.println(sql.toString());
+                    return false;
+                }
+            }
+        }
+        catch (SQLException sql)
+        {
+            System.out.println(sql.toString());
+            return false;
+        }
+        return true;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -224,6 +329,10 @@ public class Bookshelf extends HttpServlet {
 
         if ("addShelf".equals(action)) {
             handleAddShelf(request, response);
+        }
+        if("deleteShelf".equals(action))
+        {
+            handleDeleteShelf(request, response);
         }
     }
 
