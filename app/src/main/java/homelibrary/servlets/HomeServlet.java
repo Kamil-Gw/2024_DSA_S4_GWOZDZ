@@ -35,7 +35,10 @@ public class HomeServlet extends HttpServlet
     {
         // --------------------- Do the business logic. --------------------- //
 
-        addIdAsAttribute(request);
+        if (request.getAttribute("id") == null)
+        {
+            addIdAsAttribute(request);
+        }
 
         // ---------------------------- Respond. ---------------------------- //
         
@@ -60,6 +63,7 @@ public class HomeServlet extends HttpServlet
                 <BODY>
                     <H1>Home Library &middot; Homepage</H1>
                     <H2>Hello, %s!</H2>
+                    %s
                     <DIV>
                         <FORM action="search">
                             <input name="search" type="text" placeholder="Search"/>
@@ -75,7 +79,7 @@ public class HomeServlet extends HttpServlet
                     </DIV>
                 </BODY>
             </HTML>
-            """.formatted(getUsername(request)));
+            """.formatted(getUsername(request), extractErrors(request)));
         }
     }
 
@@ -124,6 +128,30 @@ public class HomeServlet extends HttpServlet
         {
 
         }
+    }
+    
+    private String extractErrors(HttpServletRequest request)
+    {
+        String errorMessages = (String) request.getAttribute("error-messages");
+        request.removeAttribute("error-messages");
+        
+        StringBuilder errorsHtml = new StringBuilder();
+        
+        if (errorMessages != null)
+        {
+            String[] particularMessages = errorMessages.split(";");
+            if (!(particularMessages.length == 1 && particularMessages[0].isBlank()))
+            {
+                errorsHtml.append("<P>");
+                for (var message : particularMessages)
+                {
+                    errorsHtml.append(message).append("<BR/>");
+                }
+                errorsHtml.append("</P>");
+            }
+        }
+        
+        return errorsHtml.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -20,6 +20,7 @@ class SearchingResult
     public int id;
     public String title;
     public String authors;
+    public String owner;
 }
 
 /**
@@ -82,6 +83,7 @@ public class SearchServlet extends HttpServlet
                         SELECT
                                 p."id" AS "id",
                                 p."title" AS "title",
+                                u."username" AS "owner",
                                 STRING_AGG(a."name" || ' ' || a."surname", '; ') AS "authors"
                         FROM
                                 app.publications p
@@ -89,12 +91,15 @@ public class SearchServlet extends HttpServlet
                                 app.authorships pa ON p."id" = pa."publication_id"
                             JOIN
                                 app.authors a ON pa."author_id" = a."id"
+                            JOIN
+                                app.users u ON u."id" = p."owner_id"
                         WHERE
                                 UPPER(p."title") LIKE UPPER('%%%1$s%%')
                             OR  UPPER(a."name") LIKE UPPER('%%%1$s%%')
                             OR  UPPER(a."surname") LIKE UPPER('%%%1$s%%')
                         GROUP BY
-                                p."id"
+                                p."id",
+                                u."username"
                         """.formatted(particle);
         
         Driver driver = new org.postgresql.Driver();
@@ -114,6 +119,7 @@ public class SearchServlet extends HttpServlet
                 result.id = results.getInt("id");
                 result.title = results.getString("title");
                 result.authors = results.getString("authors");
+                result.owner = results.getString("owner");
                 list.add(result);
             }
         }
@@ -127,7 +133,7 @@ public class SearchServlet extends HttpServlet
             StringBuilder code = new StringBuilder("""
             <TABLE border="1">
             <TR>
-                <TH>Title</TH><TH>Authors</TH><TH>View</TH>
+                <TH>Title</TH><TH>Authors</TH><TH>Owner</TH><TH>View</TH>
             </TR>
             """);
             for (var row : data)
@@ -135,13 +141,15 @@ public class SearchServlet extends HttpServlet
                 int id = row.id;
                 String title = row.title;
                 String authors = row.authors;
+                String owner = row.owner;
                 code.append("""
                         <TR>
                             <TD>%s</TD>
                             <TD>%s</TD>
+                            <TD>%s</TD>
                             <TD><A href="reserve?id=%s">Look</A></TD>
                         </TR>
-                        """.formatted(title, authors, id));
+                        """.formatted(title, authors, owner, id));
             }
             code.append("</TABLE>");
             return code.toString();

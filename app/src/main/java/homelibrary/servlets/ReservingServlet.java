@@ -38,59 +38,13 @@ public class ReservingServlet extends HttpServlet
         HttpSession session = request.getSession(false);
         assert (session != null);
         String senderId = (String) session.getAttribute("id");
-        String receiverId = request.getParameter("owner-id");
-        String publicationId = request.getParameter("publication-id");
-        String stringDateSince = request.getParameter("date-since");
-        String stringDateUntil = request.getParameter("date-until");
-        String error = "";
-        try
-        {
-            LocalDate dateToday = LocalDate.now();
-            LocalDate dateSince = LocalDate.parse(stringDateSince);
-            LocalDate dateUntil = LocalDate.parse(stringDateUntil);
-            if (dateToday.compareTo(dateSince) > 0)
-            {
-                error = "The beginning date does not belong to future.";
-            }
-            else if (dateSince.compareTo(dateUntil) >= 0)
-            {
-                error = "The ending date is not after the beginning date.";
-            }
-        }
-        catch (Exception e)
-        {
-            error = e.toString();
-        }
 
-        String insert = """
-                INSERT INTO
-                        app.reservation_borrowing_requests
-                        (
-                            "sender_id",
-                            "receiver_id",
-                            "publication_id",
-                            "start_time",
-                            "end_time",
-                            "record_type",
-                            "request_status"
-                        )
-                VALUES
-                        (
-                            %1$s,
-                            %2$s,
-                            %3$s,
-                            '%4$s',
-                            '%5$s',
-                            'reservation',
-                            'pending'
-                        )
-                """.formatted(
-                senderId,
-                receiverId,
-                publicationId,
-                stringDateSince,
-                stringDateUntil
-        );
+        String publicationId = request.getParameter("publication-id");
+
+        LocalDate dateSince = LocalDate.now();
+        LocalDate dateUntil = dateSince.plusDays(14);
+
+        String error = "";
 
         try
         {
@@ -104,14 +58,63 @@ public class ReservingServlet extends HttpServlet
             try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
                  Statement statement = connection.createStatement())
             {
-                statement.executeUpdate(insert);
+                String select = """
+                        SELECT
+                                p."owner_id" AS "owner"
+                        FROM
+                                app.publications p
+                        WHERE
+                                p."id" = %s
+                        """.formatted(publicationId);
+
+                ResultSet results = statement.executeQuery(select);
+                if (results.next())
+                {
+                    String receiverId = String.valueOf(results.getInt("owner"));
+
+                    String insert = """
+                            INSERT INTO
+                                    app.reservation_borrowing_requests
+                                    (
+                                        "sender_id",
+                                        "receiver_id",
+                                        "publication_id",
+                                        "start_time",
+                                        "end_time",
+                                        "record_type",
+                                        "request_status"
+                                    )
+                            VALUES
+                                    (
+                                        %1$s,
+                                        %2$s,
+                                        %3$s,
+                                        '%4$s',
+                                        '%5$s',
+                                        'reservation',
+                                        'pending'
+                                    )
+                            """.formatted(
+                            senderId,
+                            receiverId,
+                            publicationId,
+                            dateSince,
+                            dateUntil
+                    );
+                    
+                    statement.executeUpdate(insert);
+                }
+                else
+                {
+                    error = "Error at query execution.";
+                }
             }
         }
         catch (SQLException sql)
         {
             error = sql.getMessage();
         }
-
+        
         if (!error.isEmpty())
         {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/notifications");
@@ -120,7 +123,7 @@ public class ReservingServlet extends HttpServlet
         else
         {
             request.setAttribute("error-messages", error);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/search");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
             dispatcher.forward(request, response);
         }
     }
