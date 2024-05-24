@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -50,7 +51,9 @@ public class EditServlet extends HttpServlet
         String switchCases = "", selectOptions = "", authorsOptions = "";
         try
         {
-            var books = getBookData();
+            HttpSession session = request.getSession(false);
+            String userId = (session != null) ? (String) session.getAttribute("id") : "0";
+            var books = getBookData(userId);
             switchCases = generateJSSwitchCases(books);
             selectOptions = generateHtmlSelectOptions(books);
             authorsOptions = generateAuthorOptionsHtml();
@@ -330,7 +333,7 @@ public class EditServlet extends HttpServlet
         }
     }
     
-    private List<BookData> getBookData() throws SQLException
+    private List<BookData> getBookData(String userId) throws SQLException
     {
         List<BookData> list = new ArrayList<>();
         String select = """
@@ -349,9 +352,11 @@ public class EditServlet extends HttpServlet
                                 app.authorships pa ON p."id" = pa."publication_id"
                             JOIN
                                 app.authors a ON pa."author_id" = a."id"
+                        WHERE
+                                p."owner_id" = %s
                         GROUP BY
                         	p."id"
-                        """;
+                        """.formatted(userId);
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
 

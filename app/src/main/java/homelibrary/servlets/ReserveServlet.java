@@ -80,7 +80,7 @@ public class ReserveServlet extends HttpServlet
                 {
                     data.owner = data.owner.concat(" (you)");
                 }
-
+                
                 if (!error.isEmpty())
                 {
                     out.println("""
@@ -137,40 +137,13 @@ public class ReserveServlet extends HttpServlet
                 if (!userId.equals(String.valueOf(data.ownerId)))
                 {
                     out.println("""
-                            <P>You want to reserve this book? Send a reservation request!</P>
-                            <FORM action="reserving" method="get">
-                                <INPUT name="publication-id" type="hidden" value="%1$s"/>
-                                <INPUT name="owner-id" type="hidden" value="%2$s"/>
-                                <TABLE border="1">
-                                    <TR>
-                                        <TH>
-                                            Since when?
-                                        </TH>
-                                        <TD>
-                                            <INPUT name="date-since" type="date"/>
-                                        </TD>
-                                    </TR>
-                                    <TR>
-                                        <TH>
-                                            Until when?
-                                        </TH>
-                                        <TD>
-                                            <INPUT name="date-until" type="date"/>
-                                        </TD>
-                                    </TR>
-                                </TABLE><BR/>
-                                <BUTTON type="submit">Request Reservation</BUTTON>
-                            </FORM>
-                            """.formatted(
-                            publicationId, // 1$
-                            data.ownerId // 2$
-                    )
-                    );
+                        <P>You want to reserve this book? <A href="reserving?publication-id=%s">Send</A> a reservation request!</P>
+                        """.formatted(publicationId));
                 }
                 else
                 {
                     out.println("""
-                        <P>(This book is <EM>yours</EM>. You can't reserve it.)</P>
+                        <P>(This book is yours. You can't reserve it.)</P>
                         """);
                 }
             }
