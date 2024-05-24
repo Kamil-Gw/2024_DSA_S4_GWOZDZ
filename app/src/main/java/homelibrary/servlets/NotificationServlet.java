@@ -1,5 +1,6 @@
 package homelibrary.servlets;
 
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,28 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 public class NotificationServlet extends DSAServlet {
+
+    private String createActionButton(String id, String type, String status, String buttonText) {
+        String buttonClass;
+        switch (status) {
+            case "accepted":
+                buttonClass = "accept-button";
+                break;
+            case "rejected":
+                buttonClass = "reject-button";
+                break;
+            case "cancelled":
+                buttonClass = "reject-button";
+                break;
+            default:
+                buttonClass = "acknowledge-button";
+        }
+
+        String actionButton = """
+                <a href="notification-management?id=%s?type=%s?status=%s" class="%s">%s</a>
+                """.formatted(id, type, status, buttonClass, buttonText);
+        return actionButton;
+    }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -101,14 +124,17 @@ public class NotificationServlet extends DSAServlet {
                             t.record_type AS "type",
                             p.title,
                             t.start_time AS "date",
-                            t.id
+                            t.id,
+                            t.request_status AS "status"
                         FROM
                             app.reservation_borrowing_requests t
                             INNER JOIN app.publications p on p.id = t.publication_id
                             INNER JOIN app.users ur on ur.id = t.receiver_id
                             INNER JOIN app.users us on us.id = t.sender_id
                         WHERE
-                             t.request_status = 'pending'::app.borrowing_record_status
+                             t.request_status != 'acknowledged'::app.borrowing_record_status
+                             AND
+                             t.request_status != 'cancelled'::app.borrowing_record_status
                              AND
                              (ur.id = %s OR us.id = %s);
                         """.formatted(userId, userId);
@@ -123,6 +149,7 @@ public class NotificationServlet extends DSAServlet {
                                             <th>Type</th>
                                             <th>Element (Publication)</th>
                                             <th>Date</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                      """);
@@ -134,6 +161,7 @@ public class NotificationServlet extends DSAServlet {
                         String element = results.getString("title");
                         String date = results.getString("date");
                         String id =  results.getString("id");
+                        String status = results.getString("status");
 
                         tableHtml.append("""
                                          <tr>
@@ -142,45 +170,91 @@ public class NotificationServlet extends DSAServlet {
                                             <td>%s Request</td>
                                             <td>%s</td>
                                             <td>%s</td>
-                                         """.formatted(sender, receiver, type, element, date));
+                                            <td>%s</td>
+                                         """.formatted(sender, receiver, type, element, status.substring(0,1).toUpperCase() + status.substring(1), date));
 
-                        if (type.equals("reservation")) {
-                            if (sender.equals(userNickname)) {
-                                tableHtml.append("""
-                                                <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
-                                                </td>
-                                                """.formatted(id));
-                            } else {
-                                tableHtml.append("""
-                                                <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
-                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
-                                                </td>
-                                                """.formatted(id, id));
-                            }
-                        } else if (type.equals("borrowing")) {
-                            if (sender.equals(userNickname)) {
-                                tableHtml.append("""
-                                                <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
-                                                </td>
-                                                """.formatted(id));
-                            } else {
-                                tableHtml.append("""
-                                                <td class="action-buttons">
-                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
-                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
-                                                </td>
-                                                """.formatted(id, id));
-                            }
-                        } else {
-                            tableHtml.append("""
-                                            <td class="action-buttons">
-                                                <a href="notification-management?id=%s?status=acknowledged" class="acknowledge-button">Acknowledge</a>
-                                            </td>
-                                            """.formatted(id));
+//                        if (type.equals("reservation")) {
+//                            if (sender.equals(userNickname)) {
+//                                tableHtml.append("""
+//                                                <td class="action-buttons">
+//                                                    <a href="notification-management?id=%s?type=reservation?status=cancelled" class="reject-button">Cancel</a>
+//                                                </td>
+//                                                """.formatted(id));
+//                            } else {
+//                                tableHtml.append("""
+//                                                <td class="action-buttons">
+//                                                    <a href="notification-management?id=%s?type=borrowing?status=accepted" class="accept-button">Accept</a>
+//                                                    <a href="notification-management?id=%s?type=reservation?status=rejected" class="reject-button">Reject</a>
+//                                                </td>
+//                                                """.formatted(id, id));
+//                            }
+//                        } else if (type.equals("borrowing")) {
+//                            if (sender.equals(userNickname)) {
+//                                tableHtml.append("""
+//                                                <td class="action-buttons">
+//                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
+//                                                </td>
+//                                                """.formatted(id));
+//                            } else {
+//                                tableHtml.append("""
+//                                                <td class="action-buttons">
+//                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
+//                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
+//                                                </td>
+//                                                """.formatted(id, id));
+//                            }
+//                        } else {
+//                            tableHtml.append("""
+//                                            <td class="action-buttons">
+//                                                <a href="notification-management?id=%s?status=acknowledged" class="acknowledge-button">Acknowledge</a>
+//                                            </td>
+//                                            """.formatted(id));
+//                        }
+
+                        tableHtml.append("""
+                                <td class="action-buttons">
+                                """);
+
+                        switch (status) {
+                            case "pending":
+                                if (sender.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "reservation", "cancelled", "Cancel"));
+                                } else {
+                                    tableHtml.append(createActionButton(id, "borrowing", "accepted", "Accept"));
+                                    tableHtml.append(createActionButton(id, "reservation", "rejected", "Reject"));
+                                }
+                                break;
+                            case "accepted":
+                                if (sender.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Confirm Borrowing"));
+                                } else {
+                                    tableHtml.append("<i>Marked as Accepted</i>");
+                                }
+                                break;
+                            case "rejected":
+                                tableHtml.append(createActionButton(id, "reservation", "acknowledged", "Acknowledge"));
+                                break;
+                            case "taken":
+                                if (sender.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "returned", "Confirm Return"));
+                                    tableHtml.append(createActionButton(id, "renewal", "pending", "Request Renewal"));
+                                } else {
+                                    tableHtml.append("<i>Marked as Taken</i>");
+                                }
+                                break;
+                            case "returned":
+                                if (sender.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "acknowledged", "Acknowledge"));
+                                } else {
+                                    tableHtml.append("<i>Marked as Returned</i>");
+                                }
+                                break;
                         }
+
+                        tableHtml.append("""
+                                </td>
+                                </tr>
+                                """);
                     }
                     while (results.next());
                     tableHtml.append("</table>");
@@ -189,7 +263,7 @@ public class NotificationServlet extends DSAServlet {
                 }
             }
 
-            }  catch (SQLException sql) {
+        }  catch (SQLException sql) {
             tableHtml.append(sql);
         }
 
@@ -197,4 +271,8 @@ public class NotificationServlet extends DSAServlet {
     }
 
 
+
 }
+
+
+

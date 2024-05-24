@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.*;
 
 @WebServlet(name = "NotificationManagementServlet", urlPatterns = {"/notification-management"})
 public class NotificationManagementServlet extends DSAServlet {
@@ -20,26 +19,40 @@ public class NotificationManagementServlet extends DSAServlet {
         // Split the query string by the question mark (?)
         String[] params = queryString.split("\\?");
 
-        // Get the value of the "id" parameter
-        String id = params[0].split("=")[1];
+        String id = null;
+        String type = null;
+        String status = null;
 
-        // Get the value of the "status" parameter (without the "status=" prefix)
-        String status = params[1].split("=")[1];
+        for (String param : params) {
+            String[] keyValue = param.split("=");
+            if (keyValue[0].equals("id")) {
+                id = keyValue[1];
+            } else if (keyValue[0].equals("type")) {
+                type = keyValue[1];
+            } else if (keyValue[0].equals("status")) {
+                status = keyValue[1];
+            }
+        }
 
-        // update notification status method
-        updateNotificationStatus(id, status);
+//        System.out.println("id: " + id);
+//        System.out.println("type: " + type);
+//        System.out.println("status: " + status);
+
+        updateNotificationStatus(id, type , status);
 
         // redirect to notification page
         response.sendRedirect("notifications");
     }
 
 
-    private boolean updateNotificationStatus(String notificationId, String action) {
+    private boolean updateNotificationStatus(String notificationId, String recordType, String requestStatus) {
+        // TODO -> renewal request considerations
         String query = """
                     UPDATE app.reservation_borrowing_requests
-                    SET request_status = '%s'::app.borrowing_record_status
+                    SET record_type    = '%s'::app.record_type,
+                        request_status = '%s'::app.borrowing_record_status
                     WHERE id = %s;
-                """.formatted(action, notificationId);
+                """.formatted(recordType, requestStatus, notificationId);
 
         System.out.println(query);
 
