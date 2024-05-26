@@ -147,7 +147,7 @@ public class NotificationServlet extends DSAServlet {
                                             <th>Sender</th>
                                             <th>Receiver</th>
                                             <th>Type</th>
-                                            <th>Element (Publication)</th>
+                                            <th>Publication</th>
                                             <th>Date</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -171,83 +171,78 @@ public class NotificationServlet extends DSAServlet {
                                             <td>%s</td>
                                             <td>%s</td>
                                             <td>%s</td>
-                                         """.formatted(sender, receiver, type, element, status.substring(0,1).toUpperCase() + status.substring(1), date));
-
-//                        if (type.equals("reservation")) {
-//                            if (sender.equals(userNickname)) {
-//                                tableHtml.append("""
-//                                                <td class="action-buttons">
-//                                                    <a href="notification-management?id=%s?type=reservation?status=cancelled" class="reject-button">Cancel</a>
-//                                                </td>
-//                                                """.formatted(id));
-//                            } else {
-//                                tableHtml.append("""
-//                                                <td class="action-buttons">
-//                                                    <a href="notification-management?id=%s?type=borrowing?status=accepted" class="accept-button">Accept</a>
-//                                                    <a href="notification-management?id=%s?type=reservation?status=rejected" class="reject-button">Reject</a>
-//                                                </td>
-//                                                """.formatted(id, id));
-//                            }
-//                        } else if (type.equals("borrowing")) {
-//                            if (sender.equals(userNickname)) {
-//                                tableHtml.append("""
-//                                                <td class="action-buttons">
-//                                                    <a href="notification-management?id=%s?status=cancelled" class="reject-button">Cancel</a>
-//                                                </td>
-//                                                """.formatted(id));
-//                            } else {
-//                                tableHtml.append("""
-//                                                <td class="action-buttons">
-//                                                    <a href="notification-management?id=%s?status=accepted" class="accept-button">Accept</a>
-//                                                    <a href="notification-management?id=%s?status=rejected" class="reject-button">Reject</a>
-//                                                </td>
-//                                                """.formatted(id, id));
-//                            }
-//                        } else {
-//                            tableHtml.append("""
-//                                            <td class="action-buttons">
-//                                                <a href="notification-management?id=%s?status=acknowledged" class="acknowledge-button">Acknowledge</a>
-//                                            </td>
-//                                            """.formatted(id));
-//                        }
+                                         """.formatted(sender, receiver, type, element, date, status.substring(0,1).toUpperCase() + status.substring(1)));
+                        // TODO -> some date formatting would be nice
 
                         tableHtml.append("""
                                 <td class="action-buttons">
                                 """);
 
-                        switch (status) {
-                            case "pending":
+                        String combined = type + "-" + status;
+
+                        switch (combined) {
+                            case "reservation-pending":
                                 if (sender.equals(userNickname)) {
                                     tableHtml.append(createActionButton(id, "reservation", "cancelled", "Cancel"));
                                 } else {
-                                    tableHtml.append(createActionButton(id, "borrowing", "accepted", "Accept"));
+                                    tableHtml.append(createActionButton(id, "borrowing", "pending", "Accept"));
                                     tableHtml.append(createActionButton(id, "reservation", "rejected", "Reject"));
                                 }
                                 break;
-                            case "accepted":
-                                if (sender.equals(userNickname)) {
-                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Confirm Borrowing"));
+                            case "reservation-rejected":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append("<i>Not acknowledged</i>");
                                 } else {
-                                    tableHtml.append("<i>Marked as Accepted</i>");
+                                    tableHtml.append(createActionButton(id, "reservation", "acknowledged", "Acknowledge"));
                                 }
                                 break;
-                            case "rejected":
-                                tableHtml.append(createActionButton(id, "reservation", "acknowledged", "Acknowledge"));
-                                break;
-                            case "taken":
-                                if (sender.equals(userNickname)) {
-                                    tableHtml.append(createActionButton(id, "borrowing", "returned", "Confirm Return"));
-                                    tableHtml.append(createActionButton(id, "renewal", "pending", "Request Renewal"));
+                            case "reservation-accepted":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Confirm Borrow"));
                                 } else {
-                                    tableHtml.append("<i>Marked as Taken</i>");
+                                    tableHtml.append("<i>Waiting for confirmation</i>");
                                 }
                                 break;
-                            case "returned":
-                                if (sender.equals(userNickname)) {
+                            case "borrowing-pending":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append("<i>Waiting for receiver to borrow</i>");
+                                } else {
+                                    tableHtml.append(createActionButton(id, "borrowing", "cancelled", "Cancel"));
+                                    tableHtml.append(createActionButton(id, "borrowing", "accepted", "Borrow"));
+                                }
+                                break;
+                            case "borrowing-accepted":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Confirm Borrow"));
+                                } else {
+                                    tableHtml.append("<i>Waiting for confirmation</i>");
+                                }
+                                break;
+                            case "borrowing-taken":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append("<i>Waiting for return</i>");
+                                } else {
+                                    tableHtml.append(createActionButton(id, "borrowing", "returned", "Return"));
+                                    tableHtml.append(createActionButton(id, "renewal", "pending", "Renew"));
+                                }
+                                break;
+                            case "borrowing-returned":
+                                if (receiver.equals(userNickname)) {
                                     tableHtml.append(createActionButton(id, "borrowing", "acknowledged", "Acknowledge"));
                                 } else {
-                                    tableHtml.append("<i>Marked as Returned</i>");
+                                    tableHtml.append("<i>Not acknowledged</i>");
                                 }
+                                break;
+                            case "renewal-pending":
+                                if (receiver.equals(userNickname)) {
+                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Reject"));
+                                    tableHtml.append(createActionButton(id, "renewal", "accepted", "Confirm"));
+                                } else {
+                                    tableHtml.append(createActionButton(id, "borrowing", "taken", "Cancel"));
+                                }
+                                break;
+                            default:
+                                tableHtml.append("<i>Unknown action</i>");
                                 break;
                         }
 

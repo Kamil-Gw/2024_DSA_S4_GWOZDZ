@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 @WebServlet(name = "NotificationManagementServlet", urlPatterns = {"/notification-management"})
 public class NotificationManagementServlet extends DSAServlet {
@@ -38,7 +39,7 @@ public class NotificationManagementServlet extends DSAServlet {
 //        System.out.println("type: " + type);
 //        System.out.println("status: " + status);
 
-        updateNotificationStatus(id, type , status);
+        updateNotificationStatus(id, type, status);
 
         // redirect to notification page
         response.sendRedirect("notifications");
@@ -46,21 +47,58 @@ public class NotificationManagementServlet extends DSAServlet {
 
 
     private boolean updateNotificationStatus(String notificationId, String recordType, String requestStatus) {
-        // TODO -> renewal request considerations
-        String query = """
-                    UPDATE app.reservation_borrowing_requests
-                    SET record_type    = '%s'::app.record_type,
-                        request_status = '%s'::app.borrowing_record_status
-                    WHERE id = %s;
-                """.formatted(recordType, requestStatus, notificationId);
+        // renewal accepted -> update record_type to borrowing, request_status to taken + get end time and update (add 2 weeks)
 
-        System.out.println(query);
+        if (recordType.equals("renewal") && requestStatus.equals("accepted")) {
+            // get date of end time
+            String query1 = """
+                        SELECT end_time
+                        FROM app.reservation_borrowing_requests
+                        WHERE id = %s;
+                    """.formatted(notificationId);
 
-        try {
-            executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            try {
+                ResultSet rs = executeQuery(query1);
+                rs.next();
+                String endTime = rs.getString("end_time");
+                System.out.println("End time: " + endTime);
+
+                String query2 = """
+                            UPDATE app.reservation_borrowing_requests
+                            SET end_time = '%s'::timestamp + interval '2 weeks',
+                                record_type = 'borrowing'::app.record_type,
+                                request_status = 'taken'::app.borrowing_record_status
+                            WHERE id = %s;
+                        """.formatted(endTime, notificationId);
+                System.out.println(query2);
+
+                try {
+                    executeUpdate(query2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            String query = """
+                        UPDATE app.reservation_borrowing_requests
+                        SET record_type    = '%s'::app.record_type,
+                            request_status = '%s'::app.borrowing_record_status
+                        WHERE id = %s;
+                    """.formatted(recordType, requestStatus, notificationId);
+
+            System.out.println(query);
+
+            try {
+                executeUpdate(query);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         return true;

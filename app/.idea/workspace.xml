@@ -11,6 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AccountServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AccountServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" afterDir="false" />
     </list>
@@ -108,7 +109,8 @@
       <workItem from="1716194316945" duration="3823000" />
       <workItem from="1716562087583" duration="3274000" />
       <workItem from="1716566332416" duration="882000" />
-      <workItem from="1716567236653" duration="1531000" />
+      <workItem from="1716567236653" duration="2042000" />
+      <workItem from="1716719359794" duration="5450000" />
     </task>
     <servers />
   </component>
