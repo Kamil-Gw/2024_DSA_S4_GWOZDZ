@@ -74,7 +74,7 @@ public class HomeServlet extends HttpServlet
                         <P><A href="browse">Click</A> to browse your collection.</P>
                         <P><A href="notifications">Click</A> to view your notifications.</P>
                         <P><A href="bookshelf">Click</A> to open your bookshelf settings.</P>
-                        <P><A href="account">Click</A> to go to account settings.</P>
+                        <P><A href="change-settings">Click</A> to go to account settings.</P>
                         <P><A href="addingtobookshelf">Click</A> to add a book to your bookshelf.</P>
                     </DIV>
                 </BODY>

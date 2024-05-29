@@ -65,8 +65,12 @@
         <servlet-class>homelibrary.servlets.AddBookToBookshelf</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AccountServlet</servlet-name>
-        <servlet-class>homelibrary.servlets.AccountServlet</servlet-class>
+        <servlet-name>ChangeAccountSettingsServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ChangeAccountSettingsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangingAccountSettingsServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ChangingAccountSettingsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -133,8 +137,12 @@
         <url-pattern>/addingtobookshelf</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AccountServlet</servlet-name>
-        <url-pattern>/account</url-pattern>
+        <servlet-name>ChangeAccountSettingsServlet</servlet-name>
+        <url-pattern>/change-settings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangingAccountSettingsServlet</servlet-name>
+        <url-pattern>/changing-settings</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

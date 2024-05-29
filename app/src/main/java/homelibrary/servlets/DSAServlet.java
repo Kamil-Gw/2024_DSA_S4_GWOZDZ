@@ -121,8 +121,12 @@ public class DSAServlet extends HttpServlet {
         String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
         String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
 
-        Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(query);
+        ResultSet results = null;
+        try(Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            Statement statement = connection.createStatement())
+        {
+            results = statement.executeQuery(query);
+        }
+        return results;
     }
 }
