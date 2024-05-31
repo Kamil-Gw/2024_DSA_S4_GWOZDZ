@@ -40,7 +40,7 @@ public class ChangeAccountSettingsServlet extends HttpServlet
     {
         HttpSession session = request.getSession(false);
         String id = (String) session.getAttribute("id");
-        String error = "";
+        String error = extractErrors(request);
         Data data = null;
         try
         {
@@ -48,7 +48,7 @@ public class ChangeAccountSettingsServlet extends HttpServlet
         }
         catch (SQLException sql)
         {
-            error = sql.toString();
+            error = error.isEmpty() ? sql.toString() : error.concat("<P>").concat(sql.toString()).concat("</P>");
         }
         
         response.setContentType("text/html;charset=UTF-8");
@@ -57,8 +57,6 @@ public class ChangeAccountSettingsServlet extends HttpServlet
             String username = (data != null) ? data.username : "error";
             String emailAddress = (data != null) ? data.emailAddress : "error";
             String status = (data != null) ? data.status : "error";
-            
-            
             
             out.println("""
             <HTML>
@@ -103,6 +101,9 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                         <INPUT type="password" name="current-password"/>
                         <BUTTON type="submit">Save Changes</BUTTON>
                     </FORM>
+                    <DIV>
+                        <P>Go back <A href="home">home</A>.</P>
+                    </DIV>
                 </BODY>
             </HTML>
             """.formatted(username, emailAddress, status,
@@ -147,6 +148,30 @@ public class ChangeAccountSettingsServlet extends HttpServlet
         }
         
         return data;
+    }
+    
+    private String extractErrors(HttpServletRequest request)
+    {
+        String errorMessages = (String) request.getAttribute("error-messages");
+        request.removeAttribute("error-messages");
+        
+        StringBuilder errorsHtml = new StringBuilder();
+        
+        if (errorMessages != null)
+        {
+            String[] particularMessages = errorMessages.split(";");
+            if (!(particularMessages.length == 1 && particularMessages[0].isBlank()))
+            {
+                errorsHtml.append("<P>");
+                for (var message : particularMessages)
+                {
+                    errorsHtml.append(message).append("<BR/>");
+                }
+                errorsHtml.append("</P>");
+            }
+        }
+        
+        return errorsHtml.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
