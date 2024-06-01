@@ -151,7 +151,7 @@ public class ChangeAccountSettingsServlet extends HttpServlet
     }
     
     private String extractErrors(HttpServletRequest request)
-    {
+    {   
         String errorMessages = (String) request.getAttribute("error-messages");
         request.removeAttribute("error-messages");
         
@@ -169,6 +169,10 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                 }
                 errorsHtml.append("</P>");
             }
+        }
+        else
+        {
+            errorsHtml.append("NULL");
         }
         
         return errorsHtml.toString();

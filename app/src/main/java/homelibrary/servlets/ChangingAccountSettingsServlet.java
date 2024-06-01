@@ -2,12 +2,12 @@ package homelibrary.servlets;
 
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,11 +43,8 @@ public class ChangingAccountSettingsServlet extends HttpServlet
         List<String> errors = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-             Statement statement = connection.createStatement();
-             PrintWriter out = response.getWriter())
+             Statement statement = connection.createStatement())
         {
-            out.println("<HTML><BODY>");
-
             /* ----- Proof whether the password was correct ----- */
             String password = request.getParameter("current-password");
             String select = String.format("""
@@ -64,8 +61,6 @@ public class ChangingAccountSettingsServlet extends HttpServlet
 
             if (results.next())
             {
-                out.println("<P>The password is correct.</P>");
-
                 /* ----- Fetch the current values of the data ----- */
                 String selectCurrent = String.format("""
                         SELECT
@@ -85,9 +80,6 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                 String currentEmail = currentData.getString("email");
                 String currentStatus = currentData.getString("status");
 
-                out.println("<P>Current: username = %s, password = %s, email = %s, status = %s</P>"
-                        .formatted(currentUsername, currentPassword, currentEmail, currentStatus));
-
                 /* ----- Fetch the new values of the data -----  */
                 String newUsername = request.getParameter("new-username");
                 String newPassword1 = request.getParameter("new-password-1");
@@ -95,18 +87,10 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                 String newEmail = request.getParameter("new-email");
                 String newStatus = request.getParameter("new-status");
 
-                out.println("<P>Proposed: username = %s, password = %s/%s, email = %s, status = %s</P>"
-                        .formatted(newUsername, newPassword1, newPassword2, newEmail, newStatus));
-
                 /* ----- Update the username ----- */
                 if (!newUsername.equals(currentUsername))
                 {
-                    out.println("<P>About to update the username...</P>");
-
                     boolean isAvailable = !proofIfUsernameIsUsed(newUsername);
-
-                    out.println("<P>The proposed username is available!</P>");
-
                     if (isAvailable)
                     {
                         String updateUsername = String.format("""
@@ -118,34 +102,22 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                         "id" = %s
                                 """, newUsername, userId);
                         statement.executeUpdate(updateUsername);
-
-                        out.println("<P>The username was updated!</P>");
                     }
                     else
                     {
                         errors.add("Proposed username is already in use.");
-
-                        out.println("<P>Proposed username is already in use.</P>");
                     }
                 }
 
                 /* ----- Update the password ----- */
                 if (!newPassword1.isEmpty() && !newPassword2.isEmpty())
                 {
-                    out.println("<P>About to update the password...</P>");
-
                     if (!newPassword1.equals(currentPassword))
                     {
-                        out.println("<P>The proposed password is indeed different than the current.</P>");
-
                         if (isCorrectPassword(newPassword1))
                         {
-                            out.println("<P>The proposed password has correct format.</P>");
-
                             if (newPassword1.equals(newPassword2))
                             {
-                                out.println("<P>The proposed password is correctly confirmed.</P>");
-
                                 String updatePassword = String.format("""
                                         UPDATE
                                                 app.users
@@ -155,14 +127,10 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                                 "id" = %s
                                         """, newPassword1, userId);
                                 statement.executeUpdate(updatePassword);
-
-                                out.println("<P>The password was updated!</P>");
                             }
                             else
                             {
                                 errors.add("Proposed passwords do not match.");
-
-                                out.println("<P>Proposed passwords do not match.</P>");
                             }
                         }
                         else
@@ -171,8 +139,6 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                        + " least 8 characters, at least one of the"
                                        + " following: small letter, big letter, digit,"
                                        + " special character).");
-
-                            out.println("<P>The proposed password has incorrect format.</P>");
                         }
                     }
                 }
@@ -180,12 +146,7 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                 /* ----- Update the email ----- */
                 if (!newEmail.equals(currentEmail))
                 {
-                    out.println("<P>About to update the email address.</P>");
-
                     boolean isAvailable = !proofIfEmailIsUSed(newEmail);
-
-                    out.println("<P>The proposed email address is available.</P>");
-
                     if (isAvailable)
                     {
                         String updateEmail = String.format("""
@@ -197,16 +158,16 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                         "id" = %s
                                 """, newEmail, userId);
                         statement.executeUpdate(updateEmail);
-
-                        out.println("<P>The email was updated.</P>");
+                    }
+                    else
+                    {
+                        errors.add("Proposed email address is already in use.");
                     }
                 }
 
                 /* ----- Update the status ----- */
                 if (!newStatus.equals(currentStatus))
                 {
-                    out.println("<P>About to update the status...</P>");
-
                     String updateStatus = String.format("""
                             UPDATE
                                     app.users
@@ -216,11 +177,12 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                     "id" = %s
                             """, newStatus, userId);
                     statement.executeUpdate(updateStatus);
-                    
-                    out.println("<P>The status was updated.</P>");
                 }
             }
-            out.println("</BODY></HTML>");
+            else
+            {
+                errors.add("Confirmation failed: incorrect password.");
+            }
         }
         catch (SQLException sql)
         {
@@ -229,23 +191,21 @@ public class ChangingAccountSettingsServlet extends HttpServlet
 
         if (errors.isEmpty())
         {
-//            RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
-//            dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+            dispatcher.forward(request, response);
         }
         else
         {
-            StringBuilder errorsHtml = new StringBuilder();
-            errorsHtml.append("<P>");
-            for (var error : errors)
+            StringBuilder errorMessages = new StringBuilder(errors.getFirst());
+            for (int i = 1; i < errors.size(); ++i)
             {
-                errorsHtml.append(error).append("<BR/>");
+                errorMessages.append(";").append(errors.get(i));
             }
-            errorsHtml.append("</P>");
-
-            session.setAttribute("error-messaes", errorsHtml.toString());
-
-//            RequestDispatcher dispatcher = request.getRequestDispatcher("/change-settings");
-//            dispatcher.forward(request, response);
+            
+            request.setAttribute("error-messages", errorMessages.toString());
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/change-settings");
+            dispatcher.forward(request, response);
         }
     }
 
