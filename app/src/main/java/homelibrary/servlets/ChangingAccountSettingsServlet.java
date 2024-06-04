@@ -102,6 +102,10 @@ public class ChangingAccountSettingsServlet extends HttpServlet
                                         "id" = %s
                                 """, newUsername, userId);
                         statement.executeUpdate(updateUsername);
+                        if (session != null)
+                        {
+                            session.setAttribute("username", newUsername);
+                        }
                     }
                     else
                     {

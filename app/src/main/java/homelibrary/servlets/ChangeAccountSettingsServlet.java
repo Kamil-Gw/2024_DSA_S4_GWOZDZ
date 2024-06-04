@@ -170,10 +170,6 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                 errorsHtml.append("</P>");
             }
         }
-        else
-        {
-            errorsHtml.append("NULL");
-        }
         
         return errorsHtml.toString();
     }
