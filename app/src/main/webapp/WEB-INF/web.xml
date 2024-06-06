@@ -72,6 +72,10 @@
         <servlet-name>ChangingAccountSettingsServlet</servlet-name>
         <servlet-class>homelibrary.servlets.ChangingAccountSettingsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>homelibrary.servlets.ImageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>ChangingAccountSettingsServlet</servlet-name>
         <url-pattern>/changing-settings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/ImageServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
