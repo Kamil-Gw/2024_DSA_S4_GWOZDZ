@@ -104,6 +104,7 @@ public class LoginServlet extends HttpServlet
                                 <input type="submit" value="Submit"/>
                             </form><br>
                             <p>If you do not have an account yet, <a href="register.html">register</a>.</p>
+                            <p>See <a href="help.html">help</a>.</p>
                         </div>
                     </body>
                 </html>

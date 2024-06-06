@@ -77,6 +77,7 @@ public class HomeServlet extends HttpServlet
                         <P><A href="change-settings">Click</A> to go to account settings.</P>
                         <P><A href="addingtobookshelf">Click</A> to add a book to your bookshelf.</P>
                     </DIV>
+                    <P>See <A href="help.html">help</A>.</P>
                 </BODY>
             </HTML>
             """.formatted(getUsername(request), extractErrors(request)));
