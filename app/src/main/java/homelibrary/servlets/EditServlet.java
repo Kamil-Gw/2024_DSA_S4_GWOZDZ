@@ -16,26 +16,58 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-class BookData
+/**
+ * Data of the publication.
+ * 
+ * @author Kay Jay O'Nail
+ */
+class PublicationData
 {
+    /**
+     * ID of the publication.
+     */
     public int id;
+    
+    /**
+     * Title of the publication.
+     */
     public String title;
+    
+    /**
+     * Date of publication of the publication.
+     */
     public String date;
+    
+    /**
+     * Condition of the publication.
+     */
     public String condition;
+    
+    /**
+     * Type of the publication.
+     */
     public String type;
+    
+    /**
+     * ISBN or ISSN.
+     */
     public String isbnIssn;
+    
+    /**
+     * Authors of the publication.
+     */
     public String authors;
 }
 
 /**
- *
+ * The servlet that writes page for editting a publication.
+ * 
  * @author Kay Jay O'Nail
  */
 public class EditServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Prints the page for editting a publication.
      *
      * @param request servlet request
      * @param response servlet response
@@ -53,7 +85,7 @@ public class EditServlet extends HttpServlet
         {
             HttpSession session = request.getSession(false);
             String userId = (session != null) ? (String) session.getAttribute("id") : "0";
-            var books = getBookData(userId);
+            var books = getPublicationData(userId);
             switchCases = generateJSSwitchCases(books);
             selectOptions = generateHtmlSelectOptions(books);
             authorsOptions = generateAuthorOptionsHtml();
@@ -333,9 +365,16 @@ public class EditServlet extends HttpServlet
         }
     }
     
-    private List<BookData> getBookData(String userId) throws SQLException
+    /**
+     * Fetches data of the publications owned by the user.
+     * 
+     * @param userId ID of the user
+     * @return list of data of the publications owned by the user
+     * @throws SQLException 
+     */
+    private List<PublicationData> getPublicationData(String userId) throws SQLException
     {
-        List<BookData> list = new ArrayList<>();
+        List<PublicationData> list = new ArrayList<>();
         String select = """
                         SELECT
                                 p."id" AS "id",
@@ -370,7 +409,7 @@ public class EditServlet extends HttpServlet
             ResultSet results = statement.executeQuery(select);
             while (results.next())
             {
-                BookData book = new BookData();
+                PublicationData book = new PublicationData();
                 book.id = results.getInt("id");
                 book.title = results.getString("title");
                 book.date = results.getString("date");
@@ -386,11 +425,17 @@ public class EditServlet extends HttpServlet
         return list;
     }
     
-    private String generateJSSwitchCases(List<BookData> books)
+    /**
+     * Generates JavaScript code for switch cases.
+     * 
+     * @param publications list of the publications data
+     * @return JavaScript code containing the switch cases
+     */
+    private String generateJSSwitchCases(List<PublicationData> publications)
     {
         StringBuilder code = new StringBuilder();
         
-        for (var book : books)
+        for (var book : publications)
         {
             String[] authorsArray = book.authors.split("; ");
             StringBuilder authors = new StringBuilder("'%s'".formatted(authorsArray[0]));
@@ -423,18 +468,30 @@ public class EditServlet extends HttpServlet
         return code.toString();
     }
     
-    private String generateHtmlSelectOptions(List<BookData> books)
+    /**
+     * Generates the HTML code with options for SELECT element.
+     * 
+     * @param publications list of publication data
+     * @return HTML code containing the options
+     */
+    private String generateHtmlSelectOptions(List<PublicationData> publications)
     {
         StringBuilder code = new StringBuilder();
-        for (var book : books)
+        for (var publication : publications)
         {
             code.append("""
                         <OPTION value="%1$s">%2$s</OPTION>
-                        """.formatted(book.id, book.title));
+                        """.formatted(publication.id, publication.title));
         }
         return code.toString();
     }
     
+    /**
+     * Proofs whether attribute "error-messages" was assigned to the servlet request.
+     * 
+     * @param request servlet request
+     * @return HTML description of the errors
+     */
     private String extractErrors(HttpServletRequest request)
     {
         String errorMessages = (String) request.getAttribute("error-messages");
@@ -459,6 +516,13 @@ public class EditServlet extends HttpServlet
         return errorsHtml.toString();
     }
     
+    /**
+     * Fetches the authors' names and surnames from the database and prepares HTML options
+     * for a SELECT element.
+     * 
+     * @return HTML code describing the options
+     * @throws SQLException 
+     */
     private String generateAuthorOptionsHtml() throws SQLException
     {
         Driver driver = new org.postgresql.Driver();
@@ -485,8 +549,8 @@ public class EditServlet extends HttpServlet
                 String name = results.getString("name");
                 String surname = results.getString("surname");
                 options.append("""
-                               <OPTION value="%1$s %2$s">%1$s %2$s</OPTION>
-                               """.formatted(name, surname));
+                        <OPTION value="%1$s %2$s">%1$s %2$s</OPTION>
+                        """.formatted(name, surname));
             }
         }
         

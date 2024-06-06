@@ -15,15 +15,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
+ * Servlet that prints the homepage.
+ * 
  * @author Kay Jay O'Nail
  */
 public class HomeServlet extends HttpServlet
 {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Prints the homepage.
      *
      * @param request servlet request
      * @param response servlet response
@@ -84,12 +84,23 @@ public class HomeServlet extends HttpServlet
         }
     }
 
+    /**
+     * Reads the "username" attribute from the request.
+     * 
+     * @param request HTTP request to the servlet
+     * @return username if the attribute was set, null otherwise
+     */
     private String getUsername(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("username") : null;
     }
 
+    /**
+     * Adds the user's ID as session attribute.
+     * 
+     * @param request HTTP request to the servlet
+     */
     private void addIdAsAttribute(HttpServletRequest request)
     {
         try
@@ -131,6 +142,13 @@ public class HomeServlet extends HttpServlet
         }
     }
     
+    /**
+     * Proofs whether attribute "error-messages" was set to the request and prepares
+     * HTML description of the errors.
+     * 
+     * @param request HTTP request to the servlet
+     * @return HTTP code describing the errors
+     */
     private String extractErrors(HttpServletRequest request)
     {
         String errorMessages = (String) request.getAttribute("error-messages");

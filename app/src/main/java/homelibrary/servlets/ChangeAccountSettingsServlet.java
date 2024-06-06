@@ -14,21 +14,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class representing the user's account data that are required to be printed in the form.
+ *
+ * @author Kay Jay O'Nail
+ */
 class Data
 {
+    /**
+     * Username.
+     */
     String username;
+
+    /**
+     * Email address.
+     */
     String emailAddress;
+
+    /**
+     * Status.
+     */
     String status;
 }
 
 /**
+ * Servlet that prepares the page for changing settings of the user's account.
  *
  * @author Kay Jay O'Nail
  */
 public class ChangeAccountSettingsServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Writes the page for changing account settings.
      *
      * @param request servlet request
      * @param response servlet response
@@ -50,14 +67,14 @@ public class ChangeAccountSettingsServlet extends HttpServlet
         {
             error = error.isEmpty() ? sql.toString() : error.concat("<P>").concat(sql.toString()).concat("</P>");
         }
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter())
         {
             String username = (data != null) ? data.username : "error";
             String emailAddress = (data != null) ? data.emailAddress : "error";
             String status = (data != null) ? data.status : "error";
-            
+
             out.println("""
             <HTML>
                 <HEAD>
@@ -111,20 +128,27 @@ public class ChangeAccountSettingsServlet extends HttpServlet
             );
         }
     }
-    
+
+    /**
+     * Fetches data of the user's account that will be written to the form.
+     *
+     * @param userId ID number of the user
+     * @return data of the user
+     * @throws SQLException if an SQL error occurs
+     */
     private Data getData(String userId) throws SQLException
     {
         Data data = new Data();
-        
+
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
 
         String dbUrl = DatabaseConnectionData.DATABASE_URL;
         String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
         String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-        
-        try(Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            Statement statement = connection.createStatement())
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             Statement statement = connection.createStatement())
         {
             String select = """
                             SELECT
@@ -136,9 +160,9 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                             WHERE
                                     u."id" = %s
                             """.formatted(userId);
-            
+
             ResultSet results = statement.executeQuery(select);
-            
+
             if (results.next())
             {
                 data.username = results.getString("username");
@@ -146,17 +170,24 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                 data.status = results.getString("status");
             }
         }
-        
+
         return data;
     }
-    
+
+    /**
+     * Proofs whether the attribute "error-messages" was set to the request and prepares
+     * an HTML description of the errors.
+     *
+     * @param request HTTP request from the servlet
+     * @return HTML description of the errors or an empty string
+     */
     private String extractErrors(HttpServletRequest request)
-    {   
+    {
         String errorMessages = (String) request.getAttribute("error-messages");
         request.removeAttribute("error-messages");
-        
+
         StringBuilder errorsHtml = new StringBuilder();
-        
+
         if (errorMessages != null)
         {
             String[] particularMessages = errorMessages.split(";");
@@ -170,7 +201,7 @@ public class ChangeAccountSettingsServlet extends HttpServlet
                 errorsHtml.append("</P>");
             }
         }
-        
+
         return errorsHtml.toString();
     }
 

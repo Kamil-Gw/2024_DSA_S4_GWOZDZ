@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,13 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Servlet that executes the change of the user's account settings.
+ * 
  * @author Kay Jay O'Nail
  */
 public class ChangingAccountSettingsServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Connects with the database and updates the data that are required to be changed.
      *
      * @param request servlet request
      * @param response servlet response
@@ -213,6 +213,13 @@ public class ChangingAccountSettingsServlet extends HttpServlet
         }
     }
 
+    /**
+     * Proofs whether the username is already used in the database.
+     * 
+     * @param username candidate username to be proofed
+     * @return true if and only if the username is already used
+     * @throws SQLException 
+     */
     private boolean proofIfUsernameIsUsed(String username) throws SQLException
     {
         String dbUrl = DatabaseConnectionData.DATABASE_URL;
@@ -237,6 +244,12 @@ public class ChangingAccountSettingsServlet extends HttpServlet
         return isInUse;
     }
 
+    /**
+     * Proofs whether the password is correct.
+     * 
+     * @param password candidate password to be proofed
+     * @return true if and only if the password is correct
+     */
     private boolean isCorrectPassword(String password)
     {
         boolean correct;
@@ -279,6 +292,13 @@ public class ChangingAccountSettingsServlet extends HttpServlet
         return correct;
     }
 
+    /**
+     * Proofs whether the email is already used in the database.
+     * 
+     * @param email candidate email
+     * @return true if and only if the email is already used
+     * @throws SQLException if an SQL exception is used
+     */
     private boolean proofIfEmailIsUSed(String email) throws SQLException
     {
         String dbUrl = DatabaseConnectionData.DATABASE_URL;

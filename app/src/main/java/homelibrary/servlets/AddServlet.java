@@ -22,7 +22,14 @@ import java.util.List;
  */
 enum PublicationType
 {
+    /**
+     * Book.
+     */
     BOOK,
+    
+    /**
+     * Journal.
+     */
     JOURNAL;
 }
 
