@@ -42,6 +42,7 @@ public class EdittingServlet extends DSAServlet
         }
 
         /* Proof whether they are correct. */
+        boolean goodId = (bookId != null);
         boolean goodTitle = !title.isBlank();
         boolean goodDate = !date.isBlank();
         boolean goodCondition = !condition.isEmpty();
@@ -49,7 +50,7 @@ public class EdittingServlet extends DSAServlet
         boolean goodIsbnIssn = isbnIssn.length() >= 13 && isbnIssn.length() <= 16;
         boolean goodAuthors = !(authorsText.length == 1 && authorsText[0].isBlank());
 
-        if (goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors)
+        if (goodId && goodTitle && goodDate && goodCondition && goodType && goodIsbnIssn && goodAuthors)
         {
 
             try
@@ -80,6 +81,12 @@ public class EdittingServlet extends DSAServlet
             }
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/browse");
+            dispatcher.forward(request, response);
+        }
+        else
+        {
+            request.setAttribute("error-messages", "Incorrect input data.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/edit");
             dispatcher.forward(request, response);
         }
     }

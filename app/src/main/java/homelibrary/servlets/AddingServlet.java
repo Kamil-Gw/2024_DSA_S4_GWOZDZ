@@ -17,14 +17,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * The servlet executing addition of a book, in response to the site printed by AddServlet.
+ * 
  * @author Kay Jay O'Nail
  */
 public class AddingServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Adds a book to the database. In case of success, redirects to BrowseServlet.
+     * Otherwise, adds errors as request attribute and redirects back to AddServlet.
      *
      * @param request servlet request
      * @param response servlet response
@@ -119,6 +120,18 @@ public class AddingServlet extends HttpServlet
         }
     }
 
+    /**
+     * Adds the publication to the database and returns its ID.
+     * 
+     * @param title title of the publication
+     * @param date publication date of the publication
+     * @param condition condition of the publication
+     * @param type type of the publication
+     * @param isbnIssn ISBN or ISSN
+     * @param ownerId the owner's ID
+     * @return ID of the newly added publication
+     * @throws SQLException if an SQL error occurs
+     */
     private Long addPublication(String title, String date, String condition,
                                    String type, String isbnIssn, String ownerId) throws SQLException
     {
@@ -188,6 +201,13 @@ public class AddingServlet extends HttpServlet
         return result;
     }
     
+    /**
+     * Fetches IDs of the authors.
+     * 
+     * @param authors array of the authors to find the IDs
+     * @return list of IDs
+     * @throws SQLException if an SQL error occurs
+     */
     private Set<Long> getAuthorIds(Author[] authors) throws SQLException
     {
         Driver driver = new org.postgresql.Driver();
@@ -246,6 +266,14 @@ public class AddingServlet extends HttpServlet
         return ids;
     }
 
+    /**
+     * Adds authorship records to the database. Each author from given set is recorded of
+     * given publication.
+     * 
+     * @param publicationId ID of the publciation
+     * @param authorIds IDs of the authors
+     * @throws SQLException if an SQL error occurs
+     */
     private void addAuthorships(Long publicationId, Set<Long> authorIds) throws SQLException
     {
         Driver driver = new org.postgresql.Driver();

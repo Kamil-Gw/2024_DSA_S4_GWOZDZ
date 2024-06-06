@@ -146,6 +146,10 @@ public class ReserveServlet extends HttpServlet
                         <P>(This book is yours. You can't reserve it.)</P>
                         """);
                 }
+                
+                out.println("""
+                        <P>Go back <A href="home">home</A>.</P>
+                            """);
             }
             else
             {

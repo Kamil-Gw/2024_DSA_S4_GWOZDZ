@@ -15,15 +15,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
+ * Servlet that prints the site with the collection of the user's publications and
+ * provides links to other pages.
+ * 
  * @author Kay Jay O'Nail
  */
 public class BrowseServlet extends HttpServlet
 {
-
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Prints the site with the collection of the user's publications and provides links
+     * to other pages.
      *
      * @param request servlet request
      * @param response servlet response
@@ -65,12 +66,25 @@ public class BrowseServlet extends HttpServlet
         }
     }
 
+    /**
+     * Accesses ID of the currently logged user.
+     * 
+     * @param request HTTP request
+     * @return currenlty logged user's ID
+     */
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Fetches data of the currently logged user's publications from the database and
+     * prepares and HTML table containing this data.
+     * 
+     * @param ownerId ID of the currently logged user
+     * @return HTML table describing the user's publications
+     */
     private String getTableOfPublications(String ownerId)
     {
         StringBuilder tableHtml = new StringBuilder("<p><b>Your publications:</b></p>");

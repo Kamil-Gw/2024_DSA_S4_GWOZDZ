@@ -15,6 +15,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Enumeration type representing type of publication.
+ * 
+ * @author Kay Jay O'Nail
+ */
 enum PublicationType
 {
     BOOK,
@@ -22,14 +27,14 @@ enum PublicationType
 }
 
 /**
- *
+ * Servlet responsible for preparing the site with form for adding a book.
+ * 
  * @author Kay Jay O'Nail
  */
 public class AddServlet extends HttpServlet
 {
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Writes the HMTL site to the response. The site contains a form for adding a book.
      *
      * @param request servlet request
      * @param response servlet response
@@ -215,6 +220,12 @@ public class AddServlet extends HttpServlet
         }
     }
 
+    /**
+     * Fetches authors from the database.
+     * 
+     * @return list of authors
+     * @throws SQLException if an SQL error occurs
+     */
     private List<Author> getAuthors() throws SQLException
     {
         Driver driver = new org.postgresql.Driver();
@@ -247,6 +258,13 @@ public class AddServlet extends HttpServlet
         return authors;
     }
 
+    /**
+     * Generates a piece of HTML code that contains the authors as options for a SELECT
+     * element.
+     * 
+     * @param authors list of authors
+     * @return the HTML code
+     */
     private String authorsAsOptionsHtml(List<Author> authors)
     {
         StringBuilder optionsHtml = new StringBuilder();
@@ -259,6 +277,13 @@ public class AddServlet extends HttpServlet
         return optionsHtml.toString();
     }
 
+    /**
+     * Proofs whether the previous servlet has set attribute with errors. If yes, extracts
+     * the errors.
+     * 
+     * @param request the HTTP request that might contain information about errors
+     * @return information about errors in form of HTML paragraph, or an empty string
+     */
     private String extractErrors(HttpServletRequest request)
     {
         String errorMessages = (String) request.getAttribute("error-messages");
