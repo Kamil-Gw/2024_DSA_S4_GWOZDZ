@@ -122,6 +122,12 @@ public class NotificationServlet extends DSAServlet {
         }
     }
 
+    /**
+     * Method to get the notifications table for the user
+     * @param userId the id of the user
+     * @param userNickname the nickname of the user
+     * @return the HTML for the notifications table
+     */
     private String getNotificationsTable(String userId, String userNickname) {
         StringBuilder tableHtml = new StringBuilder("");
 
