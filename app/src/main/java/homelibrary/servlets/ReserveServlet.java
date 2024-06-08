@@ -14,22 +14,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Servlet for reserving a publication
+ */
 class PublicationData
 {
-    String title;
-    String date;
-    String type;
-    String condition;
-    String isbn;
-    String issn;
-    String authors;
-    String owner;
+    String title; // Publication title
+    String date; // Date of publication
+    String type; // Type of publication
+    String condition; // Condition of the publication
+    String isbn; // ISBN of the publication
+    String issn; // ISSN of the publication
+    String authors; // Authors of the publication
+    String owner; // Owner of the publication
     int ownerId;
 }
 
 /**
- *
- * @author Kay Jay O'Nail
+ * Servlet for reserving a publication
  */
 public class ReserveServlet extends HttpServlet
 {
@@ -164,6 +166,13 @@ public class ReserveServlet extends HttpServlet
         }
     }
 
+    /**
+     * Retrieves the data of a publication
+     *
+     * @param id the ID of the publication
+     * @return the data of the publication
+     * @throws SQLException if an error occurs while accessing the database
+     */
     private PublicationData getPublicationData(String id) throws SQLException
     {
         String select = """
@@ -225,6 +234,12 @@ public class ReserveServlet extends HttpServlet
         return data;
     }
 
+    /**
+     * Extracts error messages from the request
+     *
+     * @param request the request
+     * @return the error messages
+     */
     private String extractErrors(HttpServletRequest request)
     {
         String errorMessages = (String) request.getAttribute("error-messages");

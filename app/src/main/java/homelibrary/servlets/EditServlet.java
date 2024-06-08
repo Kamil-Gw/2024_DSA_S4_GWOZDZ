@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Data of the publication.
  * 
- * @author Kay Jay O'Nail
  */
 class PublicationData
 {
@@ -62,7 +61,6 @@ class PublicationData
 /**
  * The servlet that writes page for editting a publication.
  * 
- * @author Kay Jay O'Nail
  */
 public class EditServlet extends HttpServlet
 {

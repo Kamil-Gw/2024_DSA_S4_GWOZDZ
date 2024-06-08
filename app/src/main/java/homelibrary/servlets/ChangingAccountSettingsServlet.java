@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * Servlet that executes the change of the user's account settings.
  * 
- * @author Kay Jay O'Nail
  */
 public class ChangingAccountSettingsServlet extends HttpServlet
 {

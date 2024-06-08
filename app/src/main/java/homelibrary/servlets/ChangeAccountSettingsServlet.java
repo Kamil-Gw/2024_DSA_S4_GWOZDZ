@@ -17,7 +17,6 @@ import java.sql.Statement;
 /**
  * Class representing the user's account data that are required to be printed in the form.
  *
- * @author Kay Jay O'Nail
  */
 class Data
 {
@@ -40,7 +39,6 @@ class Data
 /**
  * Servlet that prepares the page for changing settings of the user's account.
  *
- * @author Kay Jay O'Nail
  */
 public class ChangeAccountSettingsServlet extends HttpServlet
 {

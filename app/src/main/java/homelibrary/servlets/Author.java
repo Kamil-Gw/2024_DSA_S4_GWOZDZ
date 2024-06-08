@@ -3,7 +3,6 @@ package homelibrary.servlets;
 /**
  * Class representing an author.
  *
- * @author Kay Jay O'Nail
  */
 public class Author
 {

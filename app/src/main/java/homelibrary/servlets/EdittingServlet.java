@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet for editing a book in the database
+ * Servlet for executing the editting of a book.
  */
 public class EdittingServlet extends DSAServlet
 {

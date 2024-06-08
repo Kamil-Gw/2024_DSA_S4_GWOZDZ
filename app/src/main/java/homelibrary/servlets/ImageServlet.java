@@ -15,8 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- *
- * @author Kay Jay O'Nail
+ * Servlet for handling user's avatar image.
  */
 public class ImageServlet extends HttpServlet
 {
@@ -65,6 +64,13 @@ public class ImageServlet extends HttpServlet
         }
     }
 
+    /**
+     * Retrieves the user's avatar image from the database.
+     *
+     * @param userId ID of the user.
+     * @return Avatar image.
+     * @throws SQLException
+     */
     private byte[] getImage(String userId) throws SQLException
     {
         byte[] image = null;

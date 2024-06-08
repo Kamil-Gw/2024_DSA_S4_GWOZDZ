@@ -19,7 +19,6 @@ import java.util.Set;
 /**
  * The servlet executing addition of a book, in response to the site printed by AddServlet.
  * 
- * @author Kay Jay O'Nail
  */
 public class AddingServlet extends HttpServlet
 {

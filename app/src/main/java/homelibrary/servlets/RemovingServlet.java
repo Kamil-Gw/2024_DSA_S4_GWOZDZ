@@ -10,8 +10,20 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Servlet for executing the removal of a book.
+ */
 public class RemovingServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
@@ -25,12 +37,24 @@ public class RemovingServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    /**
+     * Returns the owner ID of the user who is currently logged in.
+     *
+     * @param request servlet request
+     * @return the owner ID of the user who is currently logged in
+     */
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Deletes a book from the database.
+     *
+     * @param request servlet request
+     * @return true if the book was deleted successfully, false otherwise
+     */
     private Boolean deleteBook(HttpServletRequest request)
     {
         String bookId = request.getParameter("id");

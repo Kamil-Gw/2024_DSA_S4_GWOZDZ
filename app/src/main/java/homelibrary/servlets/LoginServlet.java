@@ -18,7 +18,6 @@ import java.sql.Statement;
 /**
  * Servlet that 
  * 
- * @author Kay Jay O'Nail
  */
 public class LoginServlet extends HttpServlet
 {

@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Servlet for handling the bookshelf.
+ */
 public class Bookshelf extends HttpServlet {
 
     /**
@@ -117,12 +120,24 @@ public class Bookshelf extends HttpServlet {
         response.getWriter().write(htmlResponse);
     }
 
+    /**
+     * Retrieves the owner ID from the session.
+     *
+     * @param request servlet request
+     * @return owner ID
+     */
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Retrieves the shelves from the database.
+     *
+     * @param ownerId owner ID
+     * @return shelves
+     */
     private String getShelves(Long ownerId)
     {
         StringBuilder tableHtml = new StringBuilder();
@@ -181,6 +196,14 @@ public class Bookshelf extends HttpServlet {
         return tableHtml.toString();
     }
 
+    /**
+     * Handles the addition of a shelf.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     private void handleAddShelf(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String shelfName = request.getParameter("shelfName");
@@ -198,6 +221,14 @@ public class Bookshelf extends HttpServlet {
         }
     }
 
+    /**
+     * Adds a shelf to the database.
+     *
+     * @param shelfName shelf name
+     * @param owner_id owner ID
+     * @param request servlet request
+     * @return true if the shelf was added successfully, false otherwise
+     */
     private boolean addShelfToDatabase(String shelfName, String owner_id, HttpServletRequest request) {
         try {
             Driver driver = new org.postgresql.Driver();
@@ -227,6 +258,14 @@ public class Bookshelf extends HttpServlet {
     return true;
     }
 
+    /**
+     * Handles the deletion of a shelf.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     private void handleDeleteShelf(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String shelfName = request.getParameter("shelfToDelete");
@@ -244,6 +283,14 @@ public class Bookshelf extends HttpServlet {
         }
     }
 
+    /**
+     * Deletes a shelf from the database.
+     *
+     * @param shelfName shelf name
+     * @param owner_id owner ID
+     * @param request servlet request
+     * @return true if the shelf was deleted successfully, false otherwise
+     */
     private boolean deleteShelfFromDatabase(String shelfName, String owner_id, HttpServletRequest request)
     {
         try {

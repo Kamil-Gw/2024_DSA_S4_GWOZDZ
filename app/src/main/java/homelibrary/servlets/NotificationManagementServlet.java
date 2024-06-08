@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 
 /**
- * Servlet for managing notifications
+ * Servlet for executing the management of a notification.
  */
 @WebServlet(name = "NotificationManagementServlet", urlPatterns = {"/notification-management"})
 public class NotificationManagementServlet extends DSAServlet {

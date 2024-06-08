@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Kay Jay O'Nail
+ * Servlet for registering a new user
  */
 public class RegisterServlet extends HttpServlet
 {
@@ -202,6 +201,12 @@ public class RegisterServlet extends HttpServlet
         }
     }
 
+    /**
+     * Checks if the password is correct
+     *
+     * @param password the password to check
+     * @return true if the password is correct, false otherwise
+     */
     private boolean isCorrectPassword(String password)
     {
         boolean correct;
@@ -244,6 +249,13 @@ public class RegisterServlet extends HttpServlet
         return correct;
     }
 
+    /**
+     * Checks if the username is unique
+     *
+     * @param username the username to check
+     * @return true if the username is unique, false otherwise
+     * @throws SQLException
+     */
     private boolean isUniqueUsername(String username) throws SQLException
     {
         boolean success;
@@ -271,6 +283,13 @@ public class RegisterServlet extends HttpServlet
         return success;
     }
 
+    /**
+     * Checks if the email is unique
+     *
+     * @param email the email to check
+     * @return true if the email is unique, false otherwise
+     * @throws SQLException
+     */
     private boolean isUniqueEmail(String email) throws SQLException
     {
         boolean success = false;
@@ -298,6 +317,15 @@ public class RegisterServlet extends HttpServlet
         return success;
     }
 
+    /**
+     * Registers a new user
+     *
+     * @param username the username of the user
+     * @param email the email of the user
+     * @param password the password of the user
+     * @return true if the user was registered successfully, false otherwise
+     * @throws SQLException
+     */
     private boolean registerUser(String username, String email, String password) throws SQLException
     {
         boolean success = false;

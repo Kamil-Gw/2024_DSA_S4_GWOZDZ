@@ -18,7 +18,6 @@ import java.util.List;
 /**
  * Enumeration type representing type of publication.
  * 
- * @author Kay Jay O'Nail
  */
 enum PublicationType
 {

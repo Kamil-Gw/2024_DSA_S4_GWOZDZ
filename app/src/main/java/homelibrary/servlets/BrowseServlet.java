@@ -18,7 +18,6 @@ import java.sql.Statement;
  * Servlet that prints the site with the collection of the user's publications and
  * provides links to other pages.
  * 
- * @author Kay Jay O'Nail
  */
 public class BrowseServlet extends HttpServlet
 {

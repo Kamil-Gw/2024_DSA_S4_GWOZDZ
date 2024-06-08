@@ -17,8 +17,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 /**
- *
- * @author Kay Jay O'Nail
+ * Servlet for executing the reserving of a publication.
  */
 public class ReservingServlet extends HttpServlet
 {

@@ -10,8 +10,18 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Servlet for adding a book to a bookshelf.
+ */
 public class AddBookToBookshelf extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP GET and POST methods.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
@@ -78,12 +88,18 @@ public class AddBookToBookshelf extends HttpServlet {
         out.println("</html>");
     }
 
+    /**
+     * Get the owner ID from the session.
+     */
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Get the names of the shelves from the database.
+     */
     private String getShelvesNames(Long ownerId)
     {
         StringBuilder tableHtml = new StringBuilder();
@@ -118,6 +134,9 @@ public class AddBookToBookshelf extends HttpServlet {
         return tableHtml.toString();
     }
 
+    /**
+     * Get the titles of the books from the database.
+     */
     private String getBookTitles(Long ownerId)
     {
         StringBuilder tableHtml = new StringBuilder();
@@ -152,6 +171,9 @@ public class AddBookToBookshelf extends HttpServlet {
         return tableHtml.toString();
     }
 
+    /**
+     * Add a book to a bookshelf in the database.
+     */
     private boolean addBookBookshelfToDatabase(String shelfName, String title, String ownerId)
     {
         try {

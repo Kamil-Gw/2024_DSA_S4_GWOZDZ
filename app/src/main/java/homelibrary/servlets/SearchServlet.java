@@ -15,17 +15,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Searching results class.
+ */
 class SearchingResult
 {
-    public int id;
-    public String title;
-    public String authors;
-    public String owner;
+    public int id; // Publication id
+    public String title; // Publication title
+    public String authors; // Authors of the publication
+    public String owner; // Owner of the publication
 }
 
 /**
- *
- * @author Kay Jay O'Nail
+ * Servlet for searching publications.
  */
 public class SearchServlet extends HttpServlet
 {
@@ -76,6 +78,13 @@ public class SearchServlet extends HttpServlet
         }
     }
 
+    /**
+     * Searches for publications in the database.
+     *
+     * @param particle the phrase to search for
+     * @return a list of searching results
+     * @throws SQLException if an SQL error occurs
+     */
     private List<SearchingResult> search(String particle) throws SQLException
     {
         List<SearchingResult> list = new ArrayList<>();
@@ -126,6 +135,12 @@ public class SearchServlet extends HttpServlet
         return list;
     }
 
+    /**
+     * Generates HTML code for a table with searching results.
+     *
+     * @param data the list of searching results
+     * @return the HTML code
+     */
     private String generateTableHtml(List<SearchingResult> data)
     {
         if (!data.isEmpty())

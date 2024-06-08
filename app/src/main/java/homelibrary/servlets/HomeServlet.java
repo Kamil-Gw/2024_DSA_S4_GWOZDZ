@@ -17,7 +17,6 @@ import java.sql.Statement;
 /**
  * Servlet that prints the homepage.
  * 
- * @author Kay Jay O'Nail
  */
 public class HomeServlet extends HttpServlet
 {

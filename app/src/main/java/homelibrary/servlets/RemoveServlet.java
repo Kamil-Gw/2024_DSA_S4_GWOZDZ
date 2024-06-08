@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
+/**
+ * Servlet for removing a book from the database
+ */
 public class RemoveServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,12 +53,24 @@ public class RemoveServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Returns the owner ID of the user who is currently logged in.
+     *
+     * @param request servlet request
+     * @return the owner ID of the user who is currently logged in
+     */
     private String getOwnerId(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Returns the HTML code of the table of publications of the user with the given owner ID.
+     *
+     * @param ownerId the owner ID of the user
+     * @return the HTML code of the table of publications of the user with the given owner ID
+     */
     private String getTableOfPublications(String ownerId)
     {
         StringBuilder tableHtml = new StringBuilder("<p><b>Your publications:</b></p>");
