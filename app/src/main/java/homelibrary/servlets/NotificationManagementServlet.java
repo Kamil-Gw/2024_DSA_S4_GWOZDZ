@@ -8,9 +8,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.ResultSet;
 
+/**
+ * Servlet for managing notifications
+ */
 @WebServlet(name = "NotificationManagementServlet", urlPatterns = {"/notification-management"})
 public class NotificationManagementServlet extends DSAServlet {
 
+    /**
+     * Processes requests for both HTTP GET and POST methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,6 +57,14 @@ public class NotificationManagementServlet extends DSAServlet {
     }
 
 
+    /**
+     * Updates the status of a notification
+     *
+     * @param notificationId the ID of the notification
+     * @param recordType     the type of the record
+     * @param requestStatus  the status of the request
+     * @return true if the status was updated successfully, false otherwise
+     */
     private boolean updateNotificationStatus(String notificationId, String recordType, String requestStatus) {
         // renewal accepted -> update record_type to borrowing, request_status to taken + get end time and update (add 2 weeks)
 

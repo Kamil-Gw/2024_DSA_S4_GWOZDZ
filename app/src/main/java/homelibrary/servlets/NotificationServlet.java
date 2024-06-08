@@ -10,8 +10,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
+/**
+ * Servlet for managing notifications
+ */
 public class NotificationServlet extends DSAServlet {
 
+    /**
+     * Method to create an action button for the notification
+     * @param id the id of the notification
+     * @param type the type of the notification
+     * @param status the status of the notification
+     * @param buttonText the text to display on the button
+     * @return the HTML for the action button
+     */
     private String createActionButton(String id, String type, String status, String buttonText) {
         String buttonClass;
         switch (status) {
@@ -34,6 +45,14 @@ public class NotificationServlet extends DSAServlet {
         return actionButton;
     }
 
+    /**
+     * Processes requests for both HTTP GET and POST methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * @author Kay Jay O'Nail
+ * Servlet for editing a book in the database
  */
 public class EdittingServlet extends DSAServlet
 {
@@ -91,6 +91,11 @@ public class EdittingServlet extends DSAServlet
         }
     }
 
+    /**
+     * Method to add authorship to the database
+     * @param bookId the id of the book
+     * @param authorId the id of the author
+     */
     private void addAuthorship(String bookId, long authorId)
     {
         String query = """
@@ -108,6 +113,16 @@ public class EdittingServlet extends DSAServlet
         }
     }
 
+    /**
+     * Method to update a book in the database
+     * @param title the title of the book
+     * @param date the publication date
+     * @param condition the condition of the book
+     * @param type the type of the book
+     * @param isbnIssn the isbn or issn of the book
+     * @param id the id of the book
+     * @return the query to update the book
+     */
     private String updateBook(String title, String date, String condition, String type, String isbnIssn, String id)
     {
         String isbnOrIssn = type.equals("book") ? "b" : "s";
@@ -123,6 +138,11 @@ public class EdittingServlet extends DSAServlet
                 """.formatted(title, date, condition, type, isbnOrIssn, isbnIssn, id);
     }
 
+    /**
+     * Method to delete old authorships
+     * @param id the id of the book
+     * @return the query to delete old authorships
+     */
     private String deleteOldAuthorships(String id)
     {
         return """
@@ -131,6 +151,11 @@ public class EdittingServlet extends DSAServlet
                 """.formatted(id);
     }
 
+    /**
+     * Method to parse the name and surname of the author
+     * @param author the author
+     * @return the name and surname of the author
+     */
     private String[] parseNameAndSurname(String author)
     {
         String[] nameAndSurname = author.split(" ");
@@ -142,6 +167,12 @@ public class EdittingServlet extends DSAServlet
         };
     }
 
+    /**
+     * Method to return the author id
+     * @param name the name of the author
+     * @param surname the surname of the author
+     * @return the id of the author
+     */
     private long returnAuthorId(String name, String surname)
     {
         String query = """

@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
+/**
+ * Base class for servlets in the application
+ */
 public class DSAServlet extends HttpServlet {
 
     /**
@@ -92,12 +95,22 @@ public class DSAServlet extends HttpServlet {
         return (session != null) ? (String) session.getAttribute("id") : null;
     }
 
+    /**
+     * Get the nickname from the session
+     * @param request the request object
+     * @return the nickname
+     */
     protected String getNickname(HttpServletRequest request)
     {
         HttpSession session = request.getSession(false);
         return (session != null) ? (String) session.getAttribute("username") : null;
     }
 
+    /**
+     * Execute an update query
+     * @param query the query to execute
+     * @throws SQLException if an error occurs
+     */
     protected void executeUpdate(String query) throws SQLException {
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);
@@ -113,6 +126,12 @@ public class DSAServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Execute a query and return the result set
+     * @param query the query to execute
+     * @return the result set
+     * @throws SQLException if an error occurs
+     */
     protected ResultSet executeQuery(String query) throws SQLException {
         Driver driver = new org.postgresql.Driver();
         DriverManager.registerDriver(driver);

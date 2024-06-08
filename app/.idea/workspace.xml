@@ -9,12 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AccountServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AccountServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" afterDir="false" />
-    </list>
+    <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
