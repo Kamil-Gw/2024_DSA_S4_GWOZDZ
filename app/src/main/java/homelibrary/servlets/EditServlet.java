@@ -17,53 +17,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data of the publication.
- * 
- */
-class PublicationData
-{
-    /**
-     * ID of the publication.
-     */
-    public int id;
-    
-    /**
-     * Title of the publication.
-     */
-    public String title;
-    
-    /**
-     * Date of publication of the publication.
-     */
-    public String date;
-    
-    /**
-     * Condition of the publication.
-     */
-    public String condition;
-    
-    /**
-     * Type of the publication.
-     */
-    public String type;
-    
-    /**
-     * ISBN or ISSN.
-     */
-    public String isbnIssn;
-    
-    /**
-     * Authors of the publication.
-     */
-    public String authors;
-}
-
-/**
  * The servlet that writes page for editting a publication.
- * 
+ *
  */
 public class EditServlet extends HttpServlet
 {
+    /**
+     * Data of the publication.
+     *
+     */
+    class PublicationData
+    {
+        /**
+         * ID of the publication.
+         */
+        public int id;
+
+        /**
+         * Title of the publication.
+         */
+        public String title;
+
+        /**
+         * Date of publication of the publication.
+         */
+        public String date;
+
+        /**
+         * Condition of the publication.
+         */
+        public String condition;
+
+        /**
+         * Type of the publication.
+         */
+        public String type;
+
+        /**
+         * ISBN or ISSN.
+         */
+        public String isbnIssn;
+
+        /**
+         * Authors of the publication.
+         */
+        public String authors;
+    }
+
     /**
      * Prints the page for editting a publication.
      *
@@ -76,7 +76,7 @@ public class EditServlet extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         StringBuilder errors = new StringBuilder(extractErrors(request));
         String switchCases = "", selectOptions = "", authorsOptions = "";
         try
@@ -92,7 +92,7 @@ public class EditServlet extends HttpServlet
         {
             errors.append("<P>").append(sql.toString()).append("</P>");
         }
-        
+
         try (PrintWriter out = response.getWriter())
         {
             out.println("""
@@ -362,13 +362,13 @@ public class EditServlet extends HttpServlet
                         """.formatted(switchCases, selectOptions, errors.toString(), authorsOptions));
         }
     }
-    
+
     /**
      * Fetches data of the publications owned by the user.
-     * 
+     *
      * @param userId ID of the user
      * @return list of data of the publications owned by the user
-     * @throws SQLException 
+     * @throws SQLException
      */
     private List<PublicationData> getPublicationData(String userId) throws SQLException
     {
@@ -400,7 +400,7 @@ public class EditServlet extends HttpServlet
         String dbUrl = DatabaseConnectionData.DATABASE_URL;
         String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
         String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
-        
+
         try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
              Statement statement = connection.createStatement())
         {
@@ -422,7 +422,7 @@ public class EditServlet extends HttpServlet
         }
         return list;
     }
-    
+
     /**
      * Generates JavaScript code for switch cases.
      * 

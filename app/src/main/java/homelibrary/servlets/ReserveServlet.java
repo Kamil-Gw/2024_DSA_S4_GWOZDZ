@@ -17,24 +17,24 @@ import java.sql.Statement;
 /**
  * Servlet for reserving a publication
  */
-class PublicationData
-{
-    String title; // Publication title
-    String date; // Date of publication
-    String type; // Type of publication
-    String condition; // Condition of the publication
-    String isbn; // ISBN of the publication
-    String issn; // ISSN of the publication
-    String authors; // Authors of the publication
-    String owner; // Owner of the publication
-    int ownerId;
-}
-
-/**
- * Servlet for reserving a publication
- */
 public class ReserveServlet extends HttpServlet
 {
+    /**
+     * Data container for publication data
+     */
+    class PublicationData
+    {
+        String title; // Publication title
+        String date; // Date of publication
+        String type; // Type of publication
+        String condition; // Condition of the publication
+        String isbn; // ISBN of the publication
+        String issn; // ISSN of the publication
+        String authors; // Authors of the publication
+        String owner; // Owner of the publication
+        int ownerId;
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
