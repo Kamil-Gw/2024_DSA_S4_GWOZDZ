@@ -11,8 +11,23 @@
   <component name="ChangeListManager">
     <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddBookToBookshelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddBookToBookshelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/BrowseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/BrowseServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangeAccountSettingsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangeAccountSettingsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangingAccountSettingsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangingAccountSettingsServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EditServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EditServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/HomeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ImageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ImageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RegisterServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReserveServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReserveServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReservingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReservingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/SearchServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/SearchServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/help.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,30 +71,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Maven.DSA-Project [clean,install].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Tomcat Server.Tomcat 10.1.23 | Windows.executor": "Run",
-    "Tomcat Server.Tomcat 10.1.23.executor": "Run",
-    "git-widget-placeholder": "Prototype",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/user/Git/2024_DSA_S4_GWOZDZ/app",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "project.propCompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Maven.DSA-Project [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.23 | Windows.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.23.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Prototype&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Git/2024_DSA_S4_GWOZDZ/app&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
@@ -116,7 +131,7 @@
       <workItem from="1716566332416" duration="882000" />
       <workItem from="1716567236653" duration="2042000" />
       <workItem from="1716719359794" duration="5450000" />
-      <workItem from="1717932101590" duration="255000" />
+      <workItem from="1717932101590" duration="2696000" />
     </task>
     <servers />
   </component>

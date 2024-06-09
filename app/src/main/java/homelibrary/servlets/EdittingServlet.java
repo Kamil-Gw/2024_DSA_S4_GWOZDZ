@@ -1,12 +1,13 @@
 package homelibrary.servlets;
 
-import java.io.IOException;
-import java.sql.*;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Servlet for executing the editting of a book.

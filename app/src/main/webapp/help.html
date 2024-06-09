@@ -86,7 +86,108 @@
 
         <H2>Notifications</H2>
 
-### Maciek ###
+        <P>
+            The Notification Page allows users to manage the requests they send or receive related to reservations,
+            borrowing, and renewals of publications. Each type of request has various statuses and actions that can
+            be taken. The diagram below outlines the flow of these requests and their possible states.
+        </P>
+
+        <IMG src="notifications.png" alt="Notifications Flow Diagram">
+
+        <H3>
+            Reservation Requests
+        </H3>
+        <UL>
+            <LI>
+                <P>
+                    <B>Pending</B> - A reservation request is awaiting action.
+                <UL>
+                    <LI>
+                        <B>Reject</B> - The reservation is rejected and moves to the <B>Rejected</B> state.
+                    </LI>
+                    <LI>
+                        <B>Cancel</B> - The reservation is cancelled and moves to the <B>Cancelled</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+            <LI>
+                <P>
+                    <B>Rejected</B> - A rejected reservation that can be acknowledged.
+                <UL>
+                    <LI>
+                        <B>Acknowledge</B> - Marks the reservation as acknowledged, moving to the <B>Acknowledged</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+        </UL>
+        <H3>
+            Borrowing Requests
+        </H3>
+        <UL>
+            <LI>
+                <P>
+                    <B>Pending</B> - A borrowing request is awaiting action.
+                <UL>
+                    <LI>
+                        <B>Accept</B> - The borrowing request is accepted, moving to the <B>Accepted</B> state.
+                    </LI>
+                    <LI>
+                        <B>Reject</B> - The borrowing request is rejected, moving to the <B>Rejected</B> state.
+                    </LI>
+                    <LI>
+                        <B>Cancel</B> - The borrowing request is cancelled, moving to the <B>Cancelled</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+            <LI>
+                <P>
+                    <B>Accepted</B> - A borrowing request that has been accepted.
+                <UL>
+                    <LI>
+                        <B>Confirm</B> - Confirms the borrowing, moving to the <B>Taken</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+            <LI>
+                <P>
+                    <B>Taken</B> - The item has been borrowed.
+                <UL>
+                    <LI>
+                        <B>Return</B> - The item is returned, moving to the <B>Returned</B> state.
+                    </LI>
+                    <LI>
+                        <B>Renew</B> - A renewal request is initiated, moving to the <B>Renewal Pending</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+        </UL>
+        <H3>
+            Renewal Requests
+        </H3>
+        <UL>
+            <LI>
+                <P>
+                    <B>Pending</B> - A renewal request is awaiting action.
+                <UL>
+                    <LI>
+                        <B>Reject</B> - The renewal is rejected, and the item remains in the <B>Taken</B> state.
+                    </LI>
+                    <LI>
+                        <B>Cancel</B> - The renewal is cancelled, and the item remains in the <B>Taken</B> state.
+                    </LI>
+                    <LI>
+                        <B>Accept</B> - The renewal is accepted, and the item remains in the <B>Taken</B> state.
+                    </LI>
+                </UL>
+                </P>
+            </LI>
+        </UL>
+
 
         <H2>Bookshelves</H2>
 
