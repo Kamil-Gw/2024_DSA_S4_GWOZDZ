@@ -191,7 +191,7 @@ public class Bookshelf extends HttpServlet {
         }
         catch (SQLException sql)
         {
-            System.out.println(sql.toString());
+            System.out.println(sql);
         }
         return tableHtml.toString();
     }
@@ -252,7 +252,7 @@ public class Bookshelf extends HttpServlet {
         }
         catch (SQLException sql)
         {
-            System.out.println(sql.toString());
+            System.out.println(sql);
             return false;
         }
     return true;
@@ -331,14 +331,14 @@ public class Bookshelf extends HttpServlet {
                 }
                 catch (SQLException sql) {
                     connection.rollback();
-                    System.out.println(sql.toString());
+                    System.out.println(sql);
                     return false;
                 }
             }
         }
         catch (SQLException sql)
         {
-            System.out.println(sql.toString());
+            System.out.println(sql);
             return false;
         }
         return true;

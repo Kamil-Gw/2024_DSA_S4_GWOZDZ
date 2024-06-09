@@ -86,7 +86,7 @@ public class EditServlet extends HttpServlet
         }
         catch (SQLException sql)
         {
-            errors.append("<P>").append(sql.toString()).append("</P>");
+            errors.append("<P>").append(sql).append("</P>");
         }
 
         try (PrintWriter out = response.getWriter())

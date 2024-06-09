@@ -25,7 +25,7 @@ enum PublicationType
     /**
      * Journal.
      */
-    JOURNAL;
+    JOURNAL
 }
 
 /**

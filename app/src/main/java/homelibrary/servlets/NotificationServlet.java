@@ -128,7 +128,7 @@ public class NotificationServlet extends DSAServlet {
      * @return the HTML for the notifications table
      */
     private String getNotificationsTable(String userId, String userNickname) {
-        StringBuilder tableHtml = new StringBuilder("");
+        StringBuilder tableHtml = new StringBuilder();
 
         try
         {
