@@ -50,6 +50,8 @@ public class Bookshelf extends HttpServlet {
                 + "        .back-button { background-color: #e74c3c; color: #fff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;}"
                 + "        .add-shelf-button:hover, .delete-shelf-button:hover, .add-book-to-shelf-button:hover { background-color: #2980b9; }"
                 + "        .back-button:hover { background-color: #c0392b; }"
+                + "        .book[title] { position: relative; cursor: pointer;}"
+                + "        .book[title]:hover::after { content: attr(title); position: absolute; background: #333; color: #fff;  padding: 5px 10px; border-radius: 5px; white-space: nowrap; z-index: 10; top: 120%; left: 50%; transform: translateX(-50%); opacity: 0.9; }"
                 + "    </style>"
                 + "</head>"
                 + "<body>"
@@ -138,8 +140,7 @@ public class Bookshelf extends HttpServlet {
      * @param ownerId owner ID
      * @return shelves
      */
-    private String getShelves(Long ownerId)
-    {
+    private String getShelves(Long ownerId) {
         StringBuilder tableHtml = new StringBuilder();
         try {
             Driver driver = new org.postgresql.Driver();
@@ -155,45 +156,69 @@ public class Bookshelf extends HttpServlet {
                     + "app.publications.owner_id = ? and app.publications.shelf_id = ?";
 
             try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves))
-            {
+                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves)) {
                 preparedStatement.setLong(1, ownerId);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next())
-                {
-                    tableHtml.append("""
-                        <div class="shelf">
-                        <div class="shelf-name">%s</div>
-                        <div class="books">
-                """.formatted(resultSet.getString("name")));
+                while (resultSet.next()) {
+                    tableHtml.append(String.format("""
+                    <div class="shelf">
+                    <div class="shelf-name">%s</div>
+                    <div class="books">
+                """, resultSet.getString("name")));
 
                     try (PreparedStatement bookStmt = connection.prepareStatement(queryBooks)) {
                         bookStmt.setLong(1, ownerId);
                         bookStmt.setLong(2, resultSet.getLong("id"));
                         ResultSet resultBooks = bookStmt.executeQuery();
-                        while(resultBooks.next())
-                        {
-                            tableHtml.append("""
-                                    <div class="book">
-                                    <div>
-                                    <div class="title">%s</div>
-                                    </div>
-                                    </div>
-                                    """.formatted(resultBooks.getString("title")));
+                        while(resultBooks.next()) {
+                            String fullTitle = resultBooks.getString("title");
+                            String truncatedTitle = truncateTitle(fullTitle);
+                            tableHtml.append(String.format("""
+                                <div class="book" title="%s">
+                                <div>
+                                <div class="title">%s</div>
+                                </div>
+                                </div>
+                                """, fullTitle, truncatedTitle));
                         }
                     }
                     tableHtml.append("""
-                                        </div>
-                                        </div>
-                                        """);
+                                    </div>
+                                    </div>
+                                    """);
                 }
             }
-        }
-        catch (SQLException sql)
-        {
+        } catch (SQLException sql) {
             System.out.println(sql);
         }
         return tableHtml.toString();
+    }
+
+    /**
+     * Handles truncating a title.
+     *
+     * @param title Book title
+     * @return truncatedTitle
+     */
+    private String truncateTitle(String title) {
+        StringBuilder truncatedTitle = new StringBuilder();
+        String[] words = title.split(" ");
+
+        int wordLimit = Math.min(words.length, 6);
+        for (int i = 0; i < wordLimit; i++) {
+            String word = words[i];
+            if (word.length() > 6) {
+                truncatedTitle.append(word.substring(0, 5)).append(". ");
+            } else {
+                truncatedTitle.append(word).append(" ");
+            }
+        }
+
+        if (words.length > 6) {
+            truncatedTitle.append("...");
+        }
+
+        return truncatedTitle.toString().trim();
     }
 
     /**
@@ -212,8 +237,10 @@ public class Bookshelf extends HttpServlet {
             boolean success = addShelfToDatabase(shelfName, getOwnerId(request), request);
 
             if (success) {
+                System.out.println("success");
                 response.getWriter().write("Shelf added successfully!");
             } else {
+                System.out.println("fail");
                 response.getWriter().write("Failed to add shelf to the database.");
             }
         } else {

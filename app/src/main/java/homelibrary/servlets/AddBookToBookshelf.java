@@ -111,24 +111,19 @@ public class AddBookToBookshelf extends HttpServlet {
             String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
             String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
 
-            String queryShelves = "Select app.bookshelves.name from app.bookshelves where"
-                    + " app.bookshelves.owner_id = ?";
+            String queryShelves = "Select app.bookshelves.name from app.bookshelves where app.bookshelves.owner_id = ?";
 
             try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves))
-            {
+                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves)) {
                 preparedStatement.setLong(1, ownerId);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next())
-                {
-                    tableHtml.append("""
-                            <option value=%s>%s</option>""".formatted(resultSet.getString("name"),
-                            resultSet.getString("name")));
+                while (resultSet.next()) {
+                    String shelf_name = resultSet.getString("name");
+                    System.out.println(shelf_name);
+                    tableHtml.append("<option value=\"%s\">%s</option>".formatted(shelf_name, shelf_name));
                 }
             }
-        }
-        catch (SQLException sql)
-        {
+        } catch (SQLException sql) {
             System.out.println(sql);
         }
         return tableHtml.toString();
@@ -148,24 +143,17 @@ public class AddBookToBookshelf extends HttpServlet {
             String dbUsername = DatabaseConnectionData.DATABASE_USERNAME;
             String dbPassword = DatabaseConnectionData.DATABASE_PASSWORD;
 
-            String queryShelves = "Select app.publications.title from app.publications where"
-                    + " app.publications.owner_id = ?";
+            String queryShelves = "Select app.publications.title from app.publications where app.publications.owner_id = ?";
 
             try (Connection connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves))
-            {
+                 PreparedStatement preparedStatement = connection.prepareStatement(queryShelves)) {
                 preparedStatement.setLong(1, ownerId);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next())
-                {
-                    tableHtml.append("""
-                            <option value=%s>%s</option>""".formatted(resultSet.getString("title"),
-                            resultSet.getString("title")));
+                while (resultSet.next()) {
+                    tableHtml.append("<option value=\"%s\">%s</option>".formatted(resultSet.getString("title"), resultSet.getString("title")));
                 }
             }
-        }
-        catch (SQLException sql)
-        {
+        } catch (SQLException sql) {
             System.out.println(sql);
         }
         return tableHtml.toString();
