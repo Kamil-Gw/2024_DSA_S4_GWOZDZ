@@ -13,6 +13,12 @@ import java.sql.*;
  * Servlet for managing notifications
  */
 public class NotificationServlet extends DSAServlet {
+    /**
+     * Default constructor.
+     */
+    public NotificationServlet() {
+        super();
+    }
 
     /**
      * Method to create an action button for the notification

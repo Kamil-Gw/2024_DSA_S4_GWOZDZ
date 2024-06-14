@@ -19,6 +19,14 @@ import java.util.List;
 public class EditServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public EditServlet()
+    {
+        super();
+    }
+
+    /**
      * Data of the publication.
      *
      */
@@ -58,6 +66,20 @@ public class EditServlet extends HttpServlet
          * Authors of the publication.
          */
         public String authors;
+
+        /**
+         * Default constructor.
+         */
+        public PublicationData()
+        {
+            id = 0;
+            title = "";
+            date = "";
+            condition = "";
+            type = "";
+            isbnIssn = "";
+            authors = "";
+        }
     }
 
     /**
@@ -364,7 +386,7 @@ public class EditServlet extends HttpServlet
      *
      * @param userId ID of the user
      * @return list of data of the publications owned by the user
-     * @throws SQLException
+     * @throws SQLException if an error occurs while accessing the database
      */
     private List<PublicationData> getPublicationData(String userId) throws SQLException
     {
@@ -515,7 +537,7 @@ public class EditServlet extends HttpServlet
      * for a SELECT element.
      * 
      * @return HTML code describing the options
-     * @throws SQLException 
+     * @throws SQLException if an error occurs while accessing the database
      */
     private String generateAuthorOptionsHtml() throws SQLException
     {

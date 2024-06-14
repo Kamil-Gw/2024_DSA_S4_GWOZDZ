@@ -14,19 +14,50 @@ import java.util.List;
 /**
  * Searching results class.
  */
-class SearchingResult
-{
-    public int id; // Publication id
-    public String title; // Publication title
-    public String authors; // Authors of the publication
-    public String owner; // Owner of the publication
+class SearchingResult {
+    /**
+     * Publication id
+     */
+    public int id;
+
+    /**
+     * Publication title
+     */
+    public String title;
+
+    /**
+     * Authors of the publication
+     */
+    public String authors;
+
+    /**
+     * Owner of the publication
+     */
+    public String owner;
+
+    /**
+     * Default constructor.
+     */
+    public SearchingResult() {
+        this.id = 0;
+        this.title = "";
+        this.authors = "";
+        this.owner = "";
+    }
 }
+
 
 /**
  * Servlet for searching publications.
  */
 public class SearchServlet extends HttpServlet
 {
+    /**
+     * Default constructor.
+     */
+    public SearchServlet() {
+        super();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

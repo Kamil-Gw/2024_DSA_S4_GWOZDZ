@@ -15,6 +15,13 @@ import java.sql.ResultSet;
 public class NotificationManagementServlet extends DSAServlet {
 
     /**
+     * Default constructor.
+     */
+    public NotificationManagementServlet() {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP GET and POST methods.
      *
      * @param request servlet request

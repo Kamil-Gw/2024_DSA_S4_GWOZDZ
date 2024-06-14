@@ -18,6 +18,14 @@ import java.sql.*;
 public class BrowseServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public BrowseServlet()
+    {
+        super();
+    }
+
+    /**
      * Prints the site with the collection of the user's publications and provides links
      * to other pages.
      *

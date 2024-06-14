@@ -19,6 +19,14 @@ import java.util.List;
 public class ChangingAccountSettingsServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public ChangingAccountSettingsServlet()
+    {
+        super();
+    }
+
+    /**
      * Connects with the database and updates the data that are required to be changed.
      *
      * @param request servlet request
@@ -214,7 +222,7 @@ public class ChangingAccountSettingsServlet extends HttpServlet
      * 
      * @param username candidate username to be proofed
      * @return true if and only if the username is already used
-     * @throws SQLException 
+     * @throws SQLException if an SQL exception is used
      */
     private boolean proofIfUsernameIsUsed(String username) throws SQLException
     {

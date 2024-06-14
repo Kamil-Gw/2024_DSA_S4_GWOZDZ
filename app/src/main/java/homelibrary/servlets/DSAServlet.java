@@ -16,6 +16,13 @@ import java.sql.*;
 public class DSAServlet extends HttpServlet {
 
     /**
+     * Default constructor.
+     */
+    public DSAServlet() {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *

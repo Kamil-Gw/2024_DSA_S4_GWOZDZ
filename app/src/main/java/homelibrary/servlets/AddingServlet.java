@@ -19,6 +19,14 @@ import java.util.Set;
 public class AddingServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public AddingServlet()
+    {
+        super();
+    }
+
+    /**
      * Adds a book to the database. In case of success, redirects to BrowseServlet.
      * Otherwise, adds errors as request attribute and redirects back to AddServlet.
      *

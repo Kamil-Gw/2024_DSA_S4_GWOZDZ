@@ -15,6 +15,13 @@ import java.sql.*;
  */
 public class RemoveServlet extends HttpServlet {
     /**
+     * Default constructor.
+     */
+    public RemoveServlet() {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *

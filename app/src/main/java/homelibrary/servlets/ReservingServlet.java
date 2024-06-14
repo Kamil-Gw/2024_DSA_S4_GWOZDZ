@@ -17,6 +17,14 @@ import java.time.LocalDate;
 public class ReservingServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public ReservingServlet()
+    {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request

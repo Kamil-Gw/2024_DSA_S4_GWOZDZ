@@ -17,10 +17,19 @@ public class Author
     public final String surname;
 
     /**
+     * Default constructor.
+     */
+    Author()
+    {
+        name = "";
+        surname = "";
+    }
+
+    /**
      * Constructor. Assigns the final values to the properties.
      *
-     * @param name
-     * @param surname
+     * @param name Name of the author.
+     * @param surname Surname of the author.
      */
     public Author(String name, String surname)
     {

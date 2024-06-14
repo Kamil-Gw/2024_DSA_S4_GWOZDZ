@@ -13,6 +13,12 @@ import java.sql.*;
  * Servlet for handling the bookshelf.
  */
 public class Bookshelf extends HttpServlet {
+    /**
+     * Default constructor.
+     */
+    public Bookshelf() {
+        super();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -208,7 +214,7 @@ public class Bookshelf extends HttpServlet {
         for (int i = 0; i < wordLimit; i++) {
             String word = words[i];
             if (word.length() > 6) {
-                truncatedTitle.append(word.substring(0, 5)).append(". ");
+                truncatedTitle.append(word, 0, 5).append(". ");
             } else {
                 truncatedTitle.append(word).append(" ");
             }

@@ -12,6 +12,30 @@
     <list default="true" id="4911ce8e-b6de-4d96-9562-d6090d9494e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/main/JakartaRestConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/main/JakartaRestConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/main/resources/JakartaEE10Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/main/resources/JakartaEE10Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddBookToBookshelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddBookToBookshelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/AddingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Bookshelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/Bookshelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/BrowseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/BrowseServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangeAccountSettingsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangeAccountSettingsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangingAccountSettingsServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ChangingAccountSettingsServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/DSAServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/DSAServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EditServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EditServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/HomeServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/HomeServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ImageServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ImageServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationManagementServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/NotificationServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RegisterServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RegisterServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RemoveServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RemoveServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RemovingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/RemovingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReserveServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReserveServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReservingServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/ReservingServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/SearchServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/homelibrary/servlets/SearchServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +143,7 @@
       <workItem from="1716719359794" duration="5450000" />
       <workItem from="1717932101590" duration="7265000" />
       <workItem from="1718018911035" duration="399000" />
+      <workItem from="1718378556201" duration="1411000" />
     </task>
     <servers />
   </component>
@@ -130,7 +155,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/homelibrary/servlets/EdittingServlet.java</url>
-          <line>165</line>
+          <line>172</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

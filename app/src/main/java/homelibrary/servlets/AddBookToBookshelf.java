@@ -14,6 +14,13 @@ import java.sql.*;
  * Servlet for adding a book to a bookshelf.
  */
 public class AddBookToBookshelf extends HttpServlet {
+    /**
+     * Default constructor.
+     */
+    public AddBookToBookshelf() {
+        super();
+    }
+
 
     /**
      * Processes requests for both HTTP GET and POST methods.
@@ -90,6 +97,8 @@ public class AddBookToBookshelf extends HttpServlet {
 
     /**
      * Get the owner ID from the session.
+     * @param request the request
+     * @return the owner ID
      */
     private String getOwnerId(HttpServletRequest request)
     {
@@ -99,6 +108,8 @@ public class AddBookToBookshelf extends HttpServlet {
 
     /**
      * Get the names of the shelves from the database.
+     * @param ownerId the owner ID
+     * @return the names of the shelves
      */
     private String getShelvesNames(Long ownerId)
     {
@@ -131,6 +142,9 @@ public class AddBookToBookshelf extends HttpServlet {
 
     /**
      * Get the titles of the books from the database.
+     *
+     * @param ownerId the owner ID
+     * @return the titles of the books
      */
     private String getBookTitles(Long ownerId)
     {
@@ -161,6 +175,10 @@ public class AddBookToBookshelf extends HttpServlet {
 
     /**
      * Add a book to a bookshelf in the database.
+     * @param shelfName the name of the shelf
+     * @param title the title of the book
+     * @param ownerId the owner id
+     * @return true if the book was added successfully, false otherwise
      */
     private boolean addBookBookshelfToDatabase(String shelfName, String title, String ownerId)
     {

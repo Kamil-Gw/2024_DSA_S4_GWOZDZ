@@ -30,6 +30,16 @@ class Data
      * Status.
      */
     String status;
+
+    /**
+     * Default constructor.
+     */
+    Data()
+    {
+        username = "";
+        emailAddress = "";
+        status = "";
+    }
 }
 
 /**
@@ -38,6 +48,14 @@ class Data
  */
 public class ChangeAccountSettingsServlet extends HttpServlet
 {
+    /**
+     * Default constructor.
+     */
+    public ChangeAccountSettingsServlet()
+    {
+        super();
+    }
+
     /**
      * Writes the page for changing account settings.
      *

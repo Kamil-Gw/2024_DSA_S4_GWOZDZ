@@ -16,20 +16,79 @@ import java.sql.*;
 public class ReserveServlet extends HttpServlet
 {
     /**
-     * Data container for publication data
+     * Default constructor.
      */
-    class PublicationData
+    public ReserveServlet()
     {
-        String title; // Publication title
-        String date; // Date of publication
-        String type; // Type of publication
-        String condition; // Condition of the publication
-        String isbn; // ISBN of the publication
-        String issn; // ISSN of the publication
-        String authors; // Authors of the publication
-        String owner; // Owner of the publication
-        int ownerId;
+        super();
     }
+
+    /**
+     * Represents data for a publication.
+     */
+    class PublicationData {
+        /**
+         * The title of the publication.
+         */
+        String title;
+
+        /**
+         * The date of publication.
+         */
+        String date;
+
+        /**
+         * The type of publication (e.g., book, magazine, journal).
+         */
+        String type;
+
+        /**
+         * The condition of the publication (e.g., new, used, good, fair, poor).
+         */
+        String condition;
+
+        /**
+         * The International Standard Book Number (ISBN) of the publication.
+         */
+        String isbn;
+
+        /**
+         * The International Standard Serial Number (ISSN) of the publication.
+         */
+        String issn;
+
+        /**
+         * The authors of the publication.
+         */
+        String authors;
+
+        /**
+         * The owner of the publication.
+         */
+        String owner;
+
+        /**
+         * The unique identifier of the owner.
+         */
+        int ownerId;
+
+        /**
+         * Default constructor.
+         */
+        public PublicationData()
+        {
+            this.title = "";
+            this.date = "";
+            this.type = "";
+            this.condition = "";
+            this.isbn = "";
+            this.issn = "";
+            this.authors = "";
+            this.owner = "";
+            this.ownerId = 0;
+        }
+    }
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

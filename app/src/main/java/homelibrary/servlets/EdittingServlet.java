@@ -14,6 +14,13 @@ import java.sql.SQLException;
  */
 public class EdittingServlet extends DSAServlet {
     /**
+     * Default constructor.
+     */
+    public EdittingServlet() {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request  servlet request

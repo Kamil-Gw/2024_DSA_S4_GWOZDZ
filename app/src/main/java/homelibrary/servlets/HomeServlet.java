@@ -16,6 +16,13 @@ import java.sql.*;
  */
 public class HomeServlet extends HttpServlet
 {
+    /**
+     * Default constructor.
+     */
+    public HomeServlet()
+    {
+        super();
+    }
 
     /**
      * Prints the homepage.

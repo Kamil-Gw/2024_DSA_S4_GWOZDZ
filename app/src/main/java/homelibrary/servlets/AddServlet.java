@@ -36,6 +36,14 @@ enum PublicationType
 public class AddServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public AddServlet()
+    {
+        super();
+    }
+
+    /**
      * Writes the HMTL site to the response. The site contains a form for adding a book.
      *
      * @param request servlet request

@@ -16,6 +16,14 @@ import java.sql.*;
 public class ImageServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public ImageServlet()
+    {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
@@ -65,7 +73,7 @@ public class ImageServlet extends HttpServlet
      *
      * @param userId ID of the user.
      * @return Avatar image.
-     * @throws SQLException
+     * @throws SQLException If an SQL exception occurs.
      */
     private byte[] getImage(String userId) throws SQLException
     {

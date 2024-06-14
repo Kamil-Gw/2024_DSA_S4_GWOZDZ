@@ -18,7 +18,15 @@ import java.sql.*;
 public class LoginServlet extends HttpServlet
 {
     /**
-     * 
+     * Default constructor.
+     */
+    public LoginServlet()
+    {
+        super();
+    }
+
+    /**
+     * Processes requests for both HTTP GET and POST methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -109,6 +117,14 @@ public class LoginServlet extends HttpServlet
 
     }
 
+    /**
+     * Checks if the login data are correct.
+     *
+     * @param login the login
+     * @param password the password
+     * @return true if the login data are correct, false otherwise
+     * @throws SQLException if an SQL error occurs
+     */
     private boolean checkLoginData(String login, String password) throws SQLException
     {
         boolean success;

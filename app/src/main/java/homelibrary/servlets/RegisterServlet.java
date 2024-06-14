@@ -19,6 +19,14 @@ import java.util.List;
 public class RegisterServlet extends HttpServlet
 {
     /**
+     * Default constructor.
+     */
+    public RegisterServlet()
+    {
+        super();
+    }
+
+    /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -250,7 +258,7 @@ public class RegisterServlet extends HttpServlet
      *
      * @param username the username to check
      * @return true if the username is unique, false otherwise
-     * @throws SQLException
+     * @throws SQLException if an SQL error occurs
      */
     private boolean isUniqueUsername(String username) throws SQLException
     {
@@ -284,7 +292,7 @@ public class RegisterServlet extends HttpServlet
      *
      * @param email the email to check
      * @return true if the email is unique, false otherwise
-     * @throws SQLException
+     * @throws SQLException if an SQL error occurs
      */
     private boolean isUniqueEmail(String email) throws SQLException
     {
@@ -320,7 +328,7 @@ public class RegisterServlet extends HttpServlet
      * @param email the email of the user
      * @param password the password of the user
      * @return true if the user was registered successfully, false otherwise
-     * @throws SQLException
+     * @throws SQLException if an SQL error occurs
      */
     private boolean registerUser(String username, String email, String password) throws SQLException
     {

@@ -14,6 +14,12 @@ import java.sql.*;
  * Servlet for executing the removal of a book.
  */
 public class RemovingServlet extends HttpServlet {
+    /**
+     * Default constructor.
+     */
+    public RemovingServlet() {
+        super();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
